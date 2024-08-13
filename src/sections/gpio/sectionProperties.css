@@ -1,0 +1,10 @@
+@import url("./index.css");
+
+.section-property-row {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 0.1em;
+}

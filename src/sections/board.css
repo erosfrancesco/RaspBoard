@@ -1,0 +1,13 @@
+@import url("../App.css");
+
+.board-connections {
+  display: flex;
+  flex-direction: column;
+}
+
+.flexible {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1em;
+  align-items: flex-end;
+}

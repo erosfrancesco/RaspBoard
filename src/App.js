@@ -1,23 +1,15 @@
-import logo from './logo.svg';
+import { AppTitle } from 'components/typography';
 import './App.css';
+import Board from 'sections/board';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className="app app-wrapper">
+      <header className="app app-header">
+        <AppTitle>Raspberry PI Socket GPIO</AppTitle>
       </header>
+
+      <Board className="app app-body" />
     </div>
   );
 }
