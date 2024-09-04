@@ -1,17 +1,13 @@
-/**
- * Last Data: {} - data - time
- * Request data - Request data with interval - interval time
- */
-
 import { useEffect, useState } from 'react';
 import './sectionRead.css'
 import { useGpioStore } from 'store/gpio.store';
 
 import { TextNormal } from 'components/typography';
-import Button from 'components/button';
+import Button from 'components/input/button';
 import SectionWrapper from './section';
-import { Input } from 'components/input';
-import Select, { Option } from 'components/select';
+import { Input } from 'components/input/input';
+import Select, { Option } from 'components/input/select';
+import { events, socket } from 'store/socket.store';
 
 const availableDateFormats = {
     date: "date",
@@ -23,7 +19,7 @@ function ReadSection({ pin, disabled }) {
     const [dataInterval, setDataInterval] = useState(1);
     const [timestampFormat, setTimestampFormat] = useState(availableDateFormats.hours);
     const [timestamp, setTimestamp] = useState();
-    const { socket, requestPinRead } = useGpioStore();
+    const { requestPinRead } = useGpioStore();
 
     const readPinData = () => {
         requestPinRead(pin);
@@ -46,7 +42,7 @@ function ReadSection({ pin, disabled }) {
         setTimestamp(new Date());
         /** */
 
-        socket.on('pin-success-read-' + pin, (data) => {
+        socket.on(events.PIN_READ.SUCCESS(pin), (data) => {
             setData(data);
             setTimestamp(new Date());
         })

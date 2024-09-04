@@ -1,6 +1,0 @@
-@import url("../App.css");
-
-.app-list {
-  display: flex;
-  flex-direction: column;
-}

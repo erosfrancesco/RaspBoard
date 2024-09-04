@@ -1,0 +1,14 @@
+@import url("../../App.css");
+
+.app-widget-cmd {
+  display: flex;
+  flex-direction: column;
+  width: 21.25em;
+  height: 8em;
+}
+
+.app-widget-ouput-wrapper {
+  padding-bottom: 0.25em;
+  overflow: auto;
+  background-color: var(--bg-primary);
+}

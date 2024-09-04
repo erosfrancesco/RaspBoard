@@ -1,0 +1,116 @@
+@import url("../../App.css");
+
+.app-widget-board-content {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5em;
+  width: 24em;
+}
+
+.app-widget-board-pinout {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  width: 50%;
+  flex-grow: 1;
+}
+
+.app-widget-board-i2c {
+  background: var(--bg-primary);
+  width: 50%;
+  flex-grow: 1;
+  padding: 0.25em;
+  padding-top: 0;
+}
+
+.app-widget-board-config-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+.app-widget-board-pin {
+  display: flex;
+  flex-direction: column;
+  border-inline-start: 0.25em solid var(--bg-danger);
+  padding-left: 0.25em;
+}
+
+.app-widget-board-pin-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+
+  padding-left: 0.5em;
+}
+
+.app-widget-board-pin-status {
+  color: var(--bg-danger);
+
+  &.isReady {
+    color: var(--bg-save);
+  }
+
+  &.isWaiting {
+    color: var(--bg-config);
+  }
+}
+
+.app-widget-board-pin-pwm-input {
+  max-width: 4em;
+}
+
+.app-widget-board-hexadecimal-input {
+  width: 2.4em;
+}
+
+/* CONFIG */
+.app-widget-board-config-section {
+  display: flex;
+  flex-direction: column;
+
+  gap: 0.5em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
+.app-widget-board-pin-config-wrapper {
+  display: flex;
+  gap: 0.5em;
+}
+
+.dontShow {
+  display: none;
+}
+
+.app-widget-board-pin-delete {
+  width: 1em;
+  height: 1em;
+}
+
+.app-widget-board-pin-title-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.app-widget-board-config-i2c {
+  display: flex;
+  gap: 0.5em;
+}
+
+.app-widget-i2c-datamap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+.app-widget-i2c-datamap-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  gap: 0.5em;
+  margin-left: 0.5em;
+  padding-left: 0.5em;
+  border-inline-start: 0.25em solid var(--bg-danger);
+}

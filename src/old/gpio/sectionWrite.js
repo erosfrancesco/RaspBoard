@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import './sectionWrite.css'
 import { useGpioStore, writeModes } from 'store/gpio.store';
-import Select, { Option } from 'components/select';
-import Input from 'components/input';
+import Select, { Option } from 'components/input/select';
+import Input from 'components/input/input';
 import SectionWrapper from './section';
 
 function SendDataSection({ pin, disabled }) {

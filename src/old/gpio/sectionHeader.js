@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 import './sectionHeader.css'
 import { useGpioStore, statuses } from 'store/gpio.store';
 import { SectionTitle, TextNormal } from 'components/typography';
-import Button from 'components/button';
+import Button from 'components/input/button';
 import SectionWrapper from './section';
+import { events, socket } from 'store/socket.store';
 
 function HeaderSection({ pin, disabled }) {
-  const { removePin, socket, pinout, setPinProperty, toggle } = useGpioStore();
+  const { removePin, pinout, setPinProperty, toggle } = useGpioStore();
 
   const [status, setStatus] = useState(statuses.WAITING);
   const [color, setColor] = useState('orange');
@@ -30,12 +31,14 @@ function HeaderSection({ pin, disabled }) {
     if (status === statuses.WAITING) {
       setColor('orange');
     }
+    // eslint-disable-next-line
   }, [status]);
 
   useEffect(() => {
-    socket.on('pin-success-open-' + pin, () => {
+    socket.on(events.PIN_OPEN.SUCCESS(pin), () => {
       setPinProperty(pin, 'status', statuses.CONNECTED);
     });
+    // eslint-disable-next-line
   }, [pin]);
 
   useEffect(() => {
@@ -48,6 +51,7 @@ function HeaderSection({ pin, disabled }) {
     if (status) {
       setStatus(status)
     }
+    // eslint-disable-next-line
   }, [toggle]);
 
 

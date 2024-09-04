@@ -2,8 +2,8 @@
 import { useEffect, useState } from 'react';
 import './board.css';
 
-import Input from 'components/input';
-import Button from 'components/button';
+import Input from 'components/input/input';
+import Button from 'components/input/button';
 import { useGpioStore } from 'store/gpio.store';
 import Gpio from './gpio';
 import Container from 'components/container';

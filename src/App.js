@@ -1,15 +1,20 @@
 import { AppTitle } from 'components/typography';
 import './App.css';
-import Board from 'sections/board';
+import Dashboard from 'dashboard';
+import Alert from 'components/alert';
+
 
 function App() {
   return (
     <div className="app app-wrapper">
-      <header className="app app-header">
+      {/*}
+      <div className="app app-header">
         <AppTitle>Raspberry PI Socket GPIO</AppTitle>
-      </header>
+      </div>
+      {/** */}
 
-      <Board className="app app-body" />
+      <Dashboard className="app app-body" />
+      <Alert />
     </div>
   );
 }

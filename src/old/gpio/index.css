@@ -7,13 +7,13 @@
 
 /**/
 .gpio-action-warning {
-  background-color: crimson;
+  background-color: var(--bg-danger);
   color: white;
   box-shadow: none;
 }
 
 .gpio-action-success {
-  background-color: teal;
+  background-color: var(--bg-save);
   color: white;
   box-shadow: none;
 }

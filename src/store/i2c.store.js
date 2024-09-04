@@ -1,92 +1,88 @@
 import { create } from "zustand";
-import { WSBasePath } from "config";
+import { events, socket } from "./socket.store";
 
-import io from "socket.io-client";
-
-const socket = io.connect(WSBasePath);
-const pinout = {
+const initialState = {
+    address: null,
+    readEvery: 0,
     /** */
-    4: {
-        "name": "LED",
-        "mode": "out"
-    }
+    dataMap: {},
+    dataParameters: {},
+    /** */
+    /*
+    dataMap: {
+        'accelX': '3B',	     // Accelerometer registers
+        'accelY': '3D',	     //
+        'accelZ': '3F',	     //
+        'temp': '41',	     //	Temperature registers
+        'gyroX': '43',	     // Gyroscope registers
+        'gyroY': '45',	     //
+        'gyroZ': '47', 	     //
+    },
+    dataParameters: {
+        'accelX': {},
+        'accelY': { precision: 2, scale: 1000 },
+        'accelZ': {},
+        'temp': { offset: 340, precision: 2 },
+        'gyroX': {},
+        'gyroY': {},
+        'gyroZ': {},
+    },
     /** */
 };
-const initialState = { pinout, socket, toggle: false };
-export const statuses = {
-    WAITING: 'WAITING',
-    CONNECTED: 'CONNECTED',
-    CLOSED: 'CLOSED'
-};
-
-export const writeModes = {
-    DIGITAL: "Digital",
-    PWM: "PWM"
-}
-
-const createSocketConnection = (pin, { onOpen = () => { }, onRead = () => { } }) => {
-    socket.emit('pin-open', { pin });
-    socket.on('pin-success-read-' + pin, onRead);
-    socket.on('pin-success-open-' + pin, onOpen);
-}
 
 //
-export const useGpioStore = create((set, get) => ({
+export const useI2CStore = create((set, get) => ({
     ...initialState,
 
-    subscribeToPin: (pin, options) => {
-        const state = get();
-        const sub = state.pinout[pin];
-
-        if (sub) {
-            return sub;
+    setDeviceAddress: (address) => {
+        if (address) {
+            console.log('Setup address', address);
+            socket.emit(events.I2C_OPEN.EVENT(), { address });
         }
-
-        createSocketConnection(pin, options);
-        const { pinout } = state;
-        pinout[pin] = {
-            name: 'GPIO ' + pin,
-            status: statuses.WAITING
-        };
-        set(() => ({ ...state, pinout }));
-
-        return pinout[pin];
+        set((state) => ({ ...state, address }));
     },
 
-    requestPinRead: (pin) => {
-        socket.emit('pin-read-' + pin);
+    setDataMap: (dataMap = {}) => {
+        set((state) => ({ ...state, dataMap }));
     },
 
-    writeToPin: (pin, value, onWriteSuccess = () => { }) => {
-        socket.emit('pin-write-' + pin, value);
-        socket.on('pin-success-write-' + pin, onWriteSuccess)
+    setDataParameters: (name, { scale, offset, precision } = {}) => {
+        set(({ dataParameters, ...state }) => {
+            dataParameters[name] = dataParameters[name] || {}
+            const updatedScale = scale || dataParameters[name].scale || 1;
+            const updatedOffset = offset || dataParameters[name].offset || 0;
+            const updatedPrecision = precision || dataParameters[name].precision || 0;
+
+            dataParameters[name] = {
+                scale: updatedScale,
+                offset: updatedOffset,
+                precision: updatedPrecision
+            };
+
+            return { ...state, dataParameters }
+        });
     },
 
-    writePWMToPin: (pin, value, onWriteSuccess = () => { }) => {
-        socket.emit('pin-pwm-' + pin, value);
-        socket.on('pin-success-pwm-' + pin, onWriteSuccess)
+    removeDataParameters: (name) => {
+        set(({ dataParameters, ...state }) => {
+            delete dataParameters[name]
+
+            return { ...state, dataParameters }
+        });
     },
 
-    removePin: (pin) => {
-        socket.off('pin-write-' + pin);
-        socket.off('pin-success-write-' + pin);
-        socket.off('pin-read-' + pin);
-        socket.off('pin-success-read-' + pin);
+    setReadInterval: (readEvery) => {
+        set((state) => {
+            if (readEvery) {
+                // set read
+                const { dataMap } = state;
+                socket.emit(events.I2C.SETTING(), { dataMap, readEvery });
+            } else {
+                // stop read
+                socket.off(events.I2C.DATA());
+            }
 
-        const state = get();
-        const { [pin]: ws, ...other } = state.pinout;
-        set((state) => ({ ...state, pinout: other }))
+            return { ...state, readEvery }
+        });
     },
-
-    setPinProperty: (pin, name, value) => {
-        const state = get();
-        const { pinout, toggle } = state;
-        const opts = pinout[pin] || {};
-        const updatedToggle = toggle + 1;
-
-        opts[name] = value;
-        pinout[pin] = opts;
-
-        set(() => ({ ...state, toggle: updatedToggle, pinout }));
-    }
 }));

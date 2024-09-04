@@ -1,18 +1,20 @@
 import { create } from "zustand";
-import { WSBasePath } from "config";
+import { events, socket } from "./socket.store";
 
-import io from "socket.io-client";
-
-const socket = io.connect(WSBasePath);
+const connections = {
+    4: 'CONNECTED'
+};
 const pinout = {
-    /** */
+    /** 
     4: {
-        "name": "LED",
-        "mode": "out"
+    },
+    /*
+    18: {
     }
     /** */
 };
-const initialState = { pinout, socket, toggle: false };
+const initialState = { connections, pinout, toggle: false };
+
 export const statuses = {
     WAITING: 'WAITING',
     CONNECTED: 'CONNECTED',
@@ -25,18 +27,69 @@ export const writeModes = {
 }
 
 const createSocketConnection = (pin, { onOpen = () => { }, onRead = () => { } }) => {
-    socket.emit('pin-open', { pin });
-    socket.on('pin-success-read-' + pin, onRead);
-    socket.on('pin-success-open-' + pin, onOpen);
+    socket.emit(events.PIN_OPEN.EVENT(), { pin });
+    socket.on(events.PIN_READ.SUCCESS(pin), onRead);
+    socket.on(events.PIN_OPEN.SUCCESS(pin), onOpen);
 }
 
-//
+/**
+ * @param {*} subscribeToPin (pin, { onOpen, onRead }) => void -> Setup pin ws
+ * @param {*}
+ */
 export const useGpioStore = create((set, get) => ({
     ...initialState,
 
+    setupBoardPinout: (pinout) => {
+        set((state) => ({ ...state, pinout }))
+    },
+
+    /**
+     * 
+     * @param {*} pin 
+     * @param {*} onRead 
+     * @param {*} onRead 
+     * @returns 
+     */
+    setupPin: (pin, onRead, onOpen) => {
+        const { connections } = get();
+
+        if (onRead) {
+            socket.on(events.PIN_READ.SUCCESS(pin), onRead);
+        }
+
+        socket.on(events.PIN_OPEN.SUCCESS(pin), () => {
+            connections[pin] = statuses.CONNECTED;
+            set((state) => ({ ...state, connections }));
+
+            if (onOpen) {
+                onOpen(pin);
+            }
+        });
+
+
+        if (connections[pin]) {
+            return;
+        }
+
+        connections[pin] = statuses.WAITING;
+        socket.emit(events.PIN_OPEN.EVENT(), { pin });
+        set((state) => ({ ...state, connections }))
+    },
+
+    configPin: (pin, config) => {
+        set(({ pinout, ...state }) => {
+            pinout[pin] = config;
+
+            return { ...state, pinout }
+        });
+    },
+    /** */
+
+
+
     subscribeToPin: (pin, options) => {
         const state = get();
-        const sub = state.pinout[pin];
+        const sub = state.connections[pin];
 
         if (sub) {
             return sub;
@@ -48,34 +101,38 @@ export const useGpioStore = create((set, get) => ({
             name: 'GPIO ' + pin,
             status: statuses.WAITING
         };
-        set(() => ({ ...state, pinout }));
+        connections[pin] = true;
+
+        set(() => ({ ...state, connections, pinout }));
 
         return pinout[pin];
     },
 
     requestPinRead: (pin) => {
-        socket.emit('pin-read-' + pin);
+        socket.emit(events.PIN_READ.EVENT(pin));
     },
 
     writeToPin: (pin, value, onWriteSuccess = () => { }) => {
-        socket.emit('pin-write-' + pin, value);
-        socket.on('pin-success-write-' + pin, onWriteSuccess)
+        socket.emit(events.PIN_WRITE.EVENT(pin), value);
+        socket.on(events.PIN_WRITE.SUCCESS(pin), onWriteSuccess)
     },
 
     writePWMToPin: (pin, value, onWriteSuccess = () => { }) => {
-        socket.emit('pin-pwm-' + pin, value);
-        socket.on('pin-success-pwm-' + pin, onWriteSuccess)
+        console.log('sending', pin, value)
+        socket.emit(events.PIN_PWM.EVENT(pin), value);
+        socket.on(events.PIN_PWM.SUCCESS(pin), onWriteSuccess)
     },
 
     removePin: (pin) => {
-        socket.off('pin-write-' + pin);
-        socket.off('pin-success-write-' + pin);
-        socket.off('pin-read-' + pin);
-        socket.off('pin-success-read-' + pin);
+        socket.off(events.PIN_WRITE.EVENT(pin));
+        socket.off(events.PIN_WRITE.SUCCESS(pin));
+        socket.off(events.PIN_READ.EVENT(pin));
+        socket.off(events.PIN_READ.SUCCESS(pin));
 
-        const state = get();
-        const { [pin]: ws, ...other } = state.pinout;
-        set((state) => ({ ...state, pinout: other }))
+        const { connections } = get();
+        connections[pin] = false;
+
+        set((state) => ({ ...state, connections }))
     },
 
     setPinProperty: (pin, name, value) => {

@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import './sectionProperties.css'
 import { useGpioStore } from 'store/gpio.store';
 import { TextNormal } from 'components/typography';
-import Input from 'components/input';
-import Button from 'components/button';
+import Input from 'components/input/input';
+import Button from 'components/input/button';
 import SectionWrapper from './section';
 
 
@@ -16,6 +16,7 @@ function AttributesSection({ pin, disabled }) {
     useEffect(() => {
         const { status, ...attributes } = pinout[pin] || {};
         setAttributes(attributes);
+        // eslint-disable-next-line
     }, [pin])
 
 
