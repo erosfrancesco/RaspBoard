@@ -1,6 +1,6 @@
 import { SectionTitle } from 'components/typography';
 import Button from 'components/input/button';
-import './index.css';
+import './widget.css';
 import { useState } from 'react';
 import { useLayoutStore } from 'store/layout.store';
 
@@ -54,9 +54,9 @@ function WidgetPersistence({
         <div className={wrapperClassName} {...others}>
             <div className='app-widget-title' onMouseLeave={onMouseLeave} onMouseOver={onMouseOver}>
                 <div className={actionsClassName}>
-                    <Button className='app-widget-header-wrapper-action-button' onClick={open}>Config</Button>
-                    <Button className='app-widget-header-wrapper-action-button' onClick={load}>Load</Button>
-                    <Button className='app-widget-header-wrapper-action-button' onClick={save}>Save</Button>
+                    <Button className='app-widget-header-wrapper-action-button' onClick={open}>&#x2699;</Button>
+                    <Button className='app-widget-header-wrapper-action-button' onClick={load}>&#x21B4;</Button>
+                    <Button className='app-widget-header-wrapper-action-button' onClick={save}>&#x2305;</Button>
                 </div>
                 <div className={textClassName}>
                     <SectionTitle>{widgetName}</SectionTitle>

@@ -1,7 +1,7 @@
 import './index.css';
 
 import { useGpioStore } from 'store/gpio.store';
-import WidgetPersistence from 'components/widgetWrapper';
+import WidgetPersistence from 'components/widget';
 import { WidgetBoardServoPin, WidgetBoardPinoutConfig } from './gpio';
 import WidgetBoardI2C, { WidgetBoardI2CConfig } from './i2c';
 import Tabs from 'components/tabs';

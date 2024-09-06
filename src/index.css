@@ -1,4 +1,4 @@
-@import url("./style.purple.css");
+@import url("./style.turquoise.css");
 
 body {
   background: var(--bg-main);
@@ -27,7 +27,11 @@ code {
   --box-shadow: 0 0.1em 0.2em var(--bg-main);
   --box-shadow-strong: 0 0.2em 0.4em var(--bg-main);
 
-  --bg-gradient: radial-gradient(var(--bg-main) 0%, var(--bg-primary-strong) 100%);
+  --bg-gradient: radial-gradient(
+    transparent 0%,
+    var(--bg-primary-strong) 60%,
+    var(--bg-primary) 100%
+  );
 
   --hexagon-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' \
   width='28' height='49' \

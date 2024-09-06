@@ -1,6 +1,6 @@
 import './index.css';
 import { statuses, useGpioStore } from 'store/gpio.store';
-import WidgetPersistence from 'components/widgetWrapper';
+import WidgetPersistence from 'components/widget';
 import Input from 'components/input/input';
 import { useState } from 'react';
 import { TextNormal } from 'components/typography';
