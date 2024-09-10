@@ -18,6 +18,7 @@
   position: absolute;
 }
 
+/*
 .app-bg-hexagon {
   background: var(--bg-gradient);
   opacity: 0.5;
@@ -27,7 +28,9 @@
   mask-image: var(--hexagon-pattern);
   opacity: 1;
   background-color: var(--bg-primary-strong);
+  background-repeat: repeat;
 }
+/**/
 
 .app-dashboard-bg {
   position: absolute;

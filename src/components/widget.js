@@ -27,6 +27,7 @@ function WidgetPersistence({
     const [showActions, setShowActions] = useState(false);
     const onMouseLeave = () => setShowActions(false);
     const onMouseOver = () => setShowActions(true);
+    
     const actionsClassName = 'app-widget-header-wrapper-actions' + (showActions ? "" : " app-widget-header-wrapper-hide");
     const textClassName = 'app-widget-header-wrapper-label' + (showActions ? " app-widget-header-wrapper-hide" : "");
     const wrapperClassName = 'app-widget' + (className ? " " + className : "");
@@ -54,7 +55,7 @@ function WidgetPersistence({
         <div className={wrapperClassName} {...others}>
             <div className='app-widget-title' onMouseLeave={onMouseLeave} onMouseOver={onMouseOver}>
                 <div className={actionsClassName}>
-                    <Button className='app-widget-header-wrapper-action-button' onClick={open}>&#x2699;</Button>
+                    <Button className='app-widget-header-wrapper-action-button' onClick={open}>&#x23E3;</Button>
                     <Button className='app-widget-header-wrapper-action-button' onClick={load}>&#x21B4;</Button>
                     <Button className='app-widget-header-wrapper-action-button' onClick={save}>&#x2305;</Button>
                 </div>
