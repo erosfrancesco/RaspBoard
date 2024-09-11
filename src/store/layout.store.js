@@ -8,7 +8,10 @@ const initialState = {
     tabContents: null,
 
     menuIsOpen: false,
-    menuContent: null
+    menuContent: null,
+    menuPosition: {
+        x: 0, y: 0
+    }
 };
 
 
@@ -36,4 +39,12 @@ export const useLayoutStore = create((set, get) => ({
         const menuIsOpen = menuContent ? true : false;
         return { ...state, menuContent, menuIsOpen }
     }),
+
+    setMenuPosition: (x, y) => set((state) => ({
+        ...state,
+        menuPosition: {
+            x: x || state.menuPosition.x,
+            y: y || state.menuPosition.y
+        }
+    })),
 }));
