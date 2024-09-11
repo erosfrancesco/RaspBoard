@@ -12,7 +12,7 @@ export function Tabs() {
                 const classNames = 'app-tabs-title-wrapper' + (selected ? ' selected' : '');
                 const onClick = () => setTabSelected(tabTitle);
 
-                return <div className={classNames} onClick={onClick}>
+                return <div className={classNames} onClick={onClick} key={tabTitle}>
                     <TextNormal>{tabTitle}</TextNormal>
                 </div>
             })}

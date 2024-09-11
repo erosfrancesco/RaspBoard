@@ -17,8 +17,9 @@ function WidgetBoardConfig() {
         setTabContents({
             'GPIO': <WidgetBoardPinoutConfig />,
             'I2C': <WidgetBoardI2CConfig />,
-        })
-    }, [])
+        });
+    // eslint-disable-next-line
+    }, []);
 
     return <div className='app-widget-board-config-content'>
         <Tabs />
@@ -69,7 +70,7 @@ function WidgetBoard({ boardName = "Raspberry PI 4", ...others } = {}) {
                 return { pinout, dataMap, dataParameters, address, readEvery }
             }}
             loadConfig={(config) => {
-                const { pinout, dataMap = {}, dataParameters = {}, address, readEvery } = config;
+                const { pinout = {}, dataMap = {}, dataParameters = {}, address, readEvery } = config || {};
                 // PINOUT
                 setupBoardPinout(pinout);
 
@@ -82,7 +83,7 @@ function WidgetBoard({ boardName = "Raspberry PI 4", ...others } = {}) {
                     setDataParameters(name, value);
                 });
             }}
-            openConfig={(config) => {
+            openConfig={() => {
                 return <WidgetBoardConfig />
             }}
             {...others}

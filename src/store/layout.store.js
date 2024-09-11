@@ -5,7 +5,10 @@ const initialState = {
     alertContent: null,
 
     tabSelected: null,
-    tabContents: null
+    tabContents: null,
+
+    menuIsOpen: false,
+    menuContent: null
 };
 
 
@@ -28,4 +31,9 @@ export const useLayoutStore = create((set, get) => ({
     }),
 
     setTabSelected: (tabSelected) => set((state) => ({ ...state, tabSelected })),
+
+    setMenuContent: (menuContent) => set((state) => {
+        const menuIsOpen = menuContent ? true : false;
+        return { ...state, menuContent, menuIsOpen }
+    }),
 }));

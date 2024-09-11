@@ -49,15 +49,13 @@ function WidgetPersistence({
 
 
     // load and save functionality.
-    // position functionality.
-    // drag and drop functionality.
     return (
         <div className={wrapperClassName} {...others}>
             <div className='app-widget-title' onMouseLeave={onMouseLeave} onMouseOver={onMouseOver}>
                 <div className={actionsClassName}>
-                    <Button className='app-widget-header-wrapper-action-button' onClick={open}>&#x23E3;</Button>
-                    <Button className='app-widget-header-wrapper-action-button' onClick={load}>&#x21B4;</Button>
-                    <Button className='app-widget-header-wrapper-action-button' onClick={save}>&#x2305;</Button>
+                    <Button className='app-widget-header-wrapper-action-button' onClick={open}>&#x224E;</Button>
+                    <Button className='app-widget-header-wrapper-action-button' onClick={load}>&#x2186;</Button>
+                    <Button className='app-widget-header-wrapper-action-button' onClick={save}>&#x21EB;</Button>
                 </div>
                 <div className={textClassName}>
                     <SectionTitle>{widgetName}</SectionTitle>
