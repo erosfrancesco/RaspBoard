@@ -59,4 +59,14 @@ export const useDashboardStore = create((set, get) => ({
             widgets
         }
     }),
+
+    removeWidget: (name) => set((state) => {
+        const { widgets = {} } = state;
+        delete widgets[name];
+
+        return {
+            ...state,
+            widgets
+        }
+    }),
 }));

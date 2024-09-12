@@ -3,7 +3,14 @@ import { create } from "zustand";
 
 const initialState = {
     lastCommand: null,
-    lastCommandOutput: null
+    lastCommandOutput: null /*
+        'Hello commands output \
+        Hello commands output Hello commands output Hello commands output \
+        Hello commands output Hello commands output Hello commands output \
+        Hello commands output Hello commands output Hello commands output \
+        Hello commands output Hello commands output Hello commands output \
+    '
+    /** */
 };
 
 
