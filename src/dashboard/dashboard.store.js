@@ -1,9 +1,9 @@
 import { create } from "zustand";
 import WidgetBoard from "./board";
-import WidgetCmd from "./cmd";
+import WidgetShell from "./shell";
 
 export const widgetMap = {
-    "cmd": WidgetCmd, "board": WidgetBoard,
+    "Shell": WidgetShell, "Board": WidgetBoard,
 };
 
 export const widgetDefault = WidgetBoard;

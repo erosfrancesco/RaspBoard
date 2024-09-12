@@ -35,6 +35,11 @@ export const events = {
     I2C_OPEN: {
         EVENT: () => 'i2c-open',
         SUCCESS: () => 'i2c-success-open'
+    },
+
+    SHELL: {
+        SEND: () => 'shell-send',
+        OUTPUT: () => 'shell-output'
     }
 };
 
