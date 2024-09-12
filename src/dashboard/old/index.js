@@ -1,6 +1,6 @@
 import './index.css';
 import { statuses, useGpioStore } from 'store/gpio.store';
-import WidgetPersistence from 'components/widget';
+import DashboardWidget from 'components/widget';
 import Input from 'components/input/input';
 import { useState } from 'react';
 import { TextNormal } from 'components/typography';
@@ -29,7 +29,7 @@ function WidgetGPIOPWM({ pin }) {
 
 
     return (
-        <WidgetPersistence widgetName={'GPIO - ' + pin}
+        <DashboardWidget widgetName={'GPIO - ' + pin}
             saveConfig={() => {
                 return pinout[pin] || {};
             }}
@@ -54,7 +54,7 @@ function WidgetGPIOPWM({ pin }) {
                     disabled={!isReady}
                 />
             </div>
-        </WidgetPersistence>
+        </DashboardWidget>
     );
 }
 

@@ -4,13 +4,19 @@ import { useDashboardStore, widgetDefault, widgetMap } from './dashboard.store';
 import { useLayoutStore } from 'store/layout.store';
 import Menu from 'components/menu';
 
+import Background from './background';
+
+const MenuContent = () => {
+    const { addWidget } = useDashboardStore();
+    return <div className='app-dashboard-menu-wrapper'> {
+        Object.keys(widgetMap).map((name) => {
+            return <div key={name} className='app-dashboard-menu-item' onClick={() => addWidget(name)}>{name}</div>;
+        })
+    } </div>
+}
 
 
-// TODO: - Widget list
-// TODO: - Remove - Add
-// TODO: - Check empty config
-
-// TODO: - Dashboard state
+// TODO: - Remove
 
 function Dashboard({ className = "" }) {
     const { widgets, loadWidgets, saveWidgets, setPosition } = useDashboardStore();
@@ -57,9 +63,7 @@ function Dashboard({ className = "" }) {
 
         const { pageX, pageY } = e;
         setMenuPosition(pageX, pageY);
-        setMenuContent(
-            <div> Hello menu </div>
-        )
+        setMenuContent(<MenuContent />)
     }
 
     return (
@@ -83,59 +87,3 @@ function Dashboard({ className = "" }) {
 }
 
 export default Dashboard;
-
-
-/** */
-const Hexagon = () => {
-    const color1 = 'var(--bg-primary-strong)';
-    const color2 = 'var(--bg-primary)';
-    const strokeWidth = 7.5;
-
-    return <svg
-        width="100%" height="100%"
-        style={{
-            background: color1,
-            position: 'absolute',
-            top: 0,
-            bottom: 0,
-            opacity: 0.6
-        }}>
-        <defs>
-            <pattern id="hexagons"
-                width="50" height="43.4"
-                patternUnits="userSpaceOnUse"
-            >
-                <polygon
-                    style={{
-                        fill: color1,
-                        strokeWidth,
-                        stroke: color2,
-                    }}
-                    points="24.8,22 37.3,29.2 37.3,43.7 24.8,50.9 12.3,43.7 12.3,29.2"
-                    id="hex"
-                    shapeRendering="geometricPrecision"
-                />
-                <use xlinkHref="#hex" x="25" />
-                <use xlinkHref="#hex" x="-25" />
-                <use xlinkHref="#hex" x="12.5" y="-21.7" />
-                <use xlinkHref="#hex" x="-12.5" y="-21.7" />
-            </pattern>
-        </defs>
-        <rect
-            width="100%" height="100%"
-            fill="url(#hexagons)"
-        />
-    </svg>
-}
-
-const Background = ({ style = {}, ...props } = {}) => {
-    return <div style={{
-        width: '100%',
-        height: '100%',
-        opacity: 1,
-        background: 'radial-gradient( var(--bg-primary) 0%, var(--bg-main) 80%)',
-        ...style
-    }} {...props}>
-        <Hexagon />
-    </div>
-}

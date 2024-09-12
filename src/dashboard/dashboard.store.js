@@ -48,4 +48,15 @@ export const useDashboardStore = create((set, get) => ({
             widgets
         }
     }),
+
+    addWidget: (type) => set((state) => {
+        const { widgets = {} } = state;
+        const i = Object.keys(widgets).length + 1;
+        widgets[i] = { type }
+
+        return {
+            ...state,
+            widgets
+        }
+    }),
 }));

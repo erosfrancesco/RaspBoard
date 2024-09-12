@@ -1,7 +1,7 @@
 import './index.css';
 
 import { useGpioStore } from 'store/gpio.store';
-import WidgetPersistence from 'components/widget';
+import DashboardWidget from 'components/widget';
 import { WidgetBoardServoPin, WidgetBoardPinoutConfig } from './gpio';
 import WidgetBoardI2C, { WidgetBoardI2CConfig } from './i2c';
 import Tabs from 'components/tabs';
@@ -34,7 +34,7 @@ function WidgetBoard({ boardName = "Raspberry PI 4", ...others } = {}) {
     } = useI2CStore();
 
     return (
-        <WidgetPersistence
+        <DashboardWidget
             widgetName={boardName}
             saveConfig={() => {
                 /*
@@ -95,7 +95,7 @@ function WidgetBoard({ boardName = "Raspberry PI 4", ...others } = {}) {
                 </div>
                 <WidgetBoardI2C className='app-widget-board-i2c' />
             </div>
-        </WidgetPersistence>
+        </DashboardWidget>
     );
 }
 

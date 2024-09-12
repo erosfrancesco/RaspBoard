@@ -14,7 +14,7 @@ import { useLayoutStore } from 'store/layout.store';
  * 
  * @returns 
  */
-function WidgetPersistence({
+function DashboardWidget({
     widgetName = "",
     saveConfig = () => ({}),
     loadConfig = () => { },
@@ -69,6 +69,6 @@ function WidgetPersistence({
     );
 }
 
-export default WidgetPersistence;
+export default DashboardWidget;
 
 

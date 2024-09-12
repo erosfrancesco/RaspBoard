@@ -18,20 +18,6 @@
   position: absolute;
 }
 
-/*
-.app-bg-hexagon {
-  background: var(--bg-gradient);
-  opacity: 0.5;
-}
-
-.app-bg-light {
-  mask-image: var(--hexagon-pattern);
-  opacity: 1;
-  background-color: var(--bg-primary-strong);
-  background-repeat: repeat;
-}
-/**/
-
 .app-dashboard-bg {
   position: absolute;
   top: 0;
@@ -58,4 +44,15 @@
   );
   border: none;
   box-shadow: 0em 0em 1em var(--bg-main);
+}
+
+.app-dashboard-menu-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25em;
+}
+
+.app-dashboard-menu-item {
+  cursor: pointer;
 }
