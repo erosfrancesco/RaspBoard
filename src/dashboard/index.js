@@ -5,28 +5,17 @@ import { useLayoutStore } from 'store/layout.store';
 import Menu from 'components/menu';
 
 import Background from './background';
+import DashboardConfig from './config';
 
-const MenuContent = () => {
-    const { addWidget } = useDashboardStore();
-    return <div className='app-dashboard-menu-wrapper'> {
-        Object.keys(widgetMap).map((name) => {
-            return <div key={name} className='app-dashboard-menu-item' onClick={() => addWidget(name)}>{name}</div>;
-        })
-    } </div>
-}
-
-
-// TODO: - Remove
 
 function Dashboard({ className = "" }) {
     const { widgets, loadWidgets, saveWidgets, setPosition } = useDashboardStore();
-    const { setMenuContent, setMenuPosition, menuIsOpen } = useLayoutStore();
+    const { setAlertContent } = useLayoutStore();
     const [offsetX, setOffsetX] = useState();
     const [offsetY, setOffsetY] = useState();
 
     useEffect(() => {
         loadWidgets();
-
         // eslint-disable-next-line
     }, []);
 
@@ -55,15 +44,7 @@ function Dashboard({ className = "" }) {
 
     const openMenu = (e) => {
         e.preventDefault();
-
-        if (menuIsOpen) {
-            setMenuContent();
-            return;
-        }
-
-        const { pageX, pageY } = e;
-        setMenuPosition(pageX, pageY);
-        setMenuContent(<MenuContent />)
+        setAlertContent(<DashboardConfig />)
     }
 
     return (
@@ -77,7 +58,7 @@ function Dashboard({ className = "" }) {
 
                 return <Widget
                     draggable onDragStart={onDragStart} onDragEnd={onDragEnd(widgetName)}
-                    style={{ top, left }} className="app-dashboard-widget" key={i} widgetKey={i + 1}
+                    style={{ top, left }} className="app-dashboard-widget" key={i} widgetKey={i}
                 />
             })}
 

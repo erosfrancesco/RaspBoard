@@ -1,11 +1,13 @@
 import { create } from "zustand";
 import WidgetBoard from "./board";
 import WidgetShell from "./shell";
+import WidgetGPIOPWM from "./gpio";
 
 export const widgetMap = {
-    "Shell": WidgetShell, "Board": WidgetBoard,
+    "Shell": WidgetShell,
+    "Board": WidgetBoard,
+    "Gpio": WidgetGPIOPWM
 };
-
 export const widgetDefault = WidgetBoard;
 
 const initialState = {
@@ -32,16 +34,7 @@ export const useDashboardStore = create((set, get) => ({
     },
 
     loadWidgets: () => set((state) => {
-        const { widgets = {} } = JSON.parse(localStorage.getItem('Dashboard')) || {}; /*
-        const widgets = {
-            1: {
-                type: Object.keys(widgetMap)[0]
-            },
-            2: {
-                type: Object.keys(widgetMap)[1]
-            }
-        };
-        /** */
+        const { widgets = {} } = JSON.parse(localStorage.getItem('Dashboard')) || {};
 
         return {
             ...state,
@@ -49,10 +42,9 @@ export const useDashboardStore = create((set, get) => ({
         }
     }),
 
-    addWidget: (type) => set((state) => {
+    addWidget: (name, type) => set((state) => {
         const { widgets = {} } = state;
-        const i = Object.keys(widgets).length + 1;
-        widgets[i] = { type }
+        widgets[name] = { type }
 
         return {
             ...state,

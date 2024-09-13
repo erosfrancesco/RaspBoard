@@ -1,0 +1,16 @@
+@import url("../App.css");
+
+.app-dashboard-config {
+  padding-right: 0.5em;
+  gap: 0.5em;
+}
+
+.app-dashboard-config-item {
+  background-color: var(--bg-primary);
+
+  justify-content: space-between;
+  align-items: center;
+
+  border-radius: 1em;
+  padding-left: 0.25em;
+}

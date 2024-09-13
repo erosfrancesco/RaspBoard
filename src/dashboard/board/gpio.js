@@ -4,7 +4,7 @@ import { statuses, useGpioStore } from 'store/gpio.store';
 import Input from 'components/input/input';
 import { useEffect, useState } from 'react';
 import { SectionTitle, TextNormal } from 'components/typography';
-import DeleteButton from 'components/deleteButton';
+import { DeleteButton } from 'components/input/button';
 
 
 /** */

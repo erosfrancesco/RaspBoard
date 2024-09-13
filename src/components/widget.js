@@ -1,9 +1,8 @@
 import { SectionTitle } from 'components/typography';
-import Button from 'components/input/button';
+import Button, { DeleteButton } from 'components/input/button';
 import './widget.css';
 import { useState } from 'react';
 import { useLayoutStore } from 'store/layout.store';
-import DeleteButton from './deleteButton';
 import { useDashboardStore } from 'dashboard/dashboard.store';
 
 
@@ -26,7 +25,6 @@ function DashboardWidget({
     children,
     ...others
 }) {
-    const { removeWidget } = useDashboardStore();
     const { setAlertContent } = useLayoutStore();
     const [showActions, setShowActions] = useState(false);
     const onMouseLeave = () => setShowActions(false);
@@ -38,21 +36,18 @@ function DashboardWidget({
 
     const save = () => {
         const configuration = JSON.stringify(saveConfig());
-        localStorage.setItem(widgetName, configuration);
+        localStorage.setItem(widgetKey, configuration);
     }
 
     const load = () => {
-        const configuration = JSON.parse(localStorage.getItem(widgetName));
+        console.log(widgetKey)
+        const configuration = JSON.parse(localStorage.getItem(widgetKey));
         loadConfig(configuration);
     }
 
     const open = () => {
         const content = openConfig();
         setAlertContent(content);
-    }
-
-    const remove = () => {
-        removeWidget(widgetKey);
     }
 
 
@@ -66,8 +61,6 @@ function DashboardWidget({
                         <Button className='app-widget-header-wrapper-action-button' onClick={load}>&#x2186;</Button>
                         <Button className='app-widget-header-wrapper-action-button' onClick={save}>&#x21EB;</Button>
                     </div>
-
-                    <DeleteButton onClick={remove} />
                 </div>
                 <div className={textClassName}>
                     <SectionTitle>{widgetName}</SectionTitle>

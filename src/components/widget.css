@@ -20,14 +20,17 @@
     align-items: center;
 
     :first-child {
+      padding: 0;
       background-color: var(--bg-config);
     }
 
     :nth-child(2) {
+      padding: 0;
       background-color: var(--bg-load);
     }
 
     :nth-child(3) {
+      padding: 0;
       background-color: var(--bg-save);
     }
   }

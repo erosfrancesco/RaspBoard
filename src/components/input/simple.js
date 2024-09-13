@@ -10,7 +10,7 @@ export function SimpleInput({
     ...args
 } = {}) {
     const [value, setValue] = useState(initialValue || "");
-    const classNames = "app app-input app-input-decoration app-input-content-wrapper" + (className ? " " + className : "")
+    const classNames = "app" + (className ? " " + className : "")
 
     useEffect(() => {
         onValueChange(value);
@@ -25,9 +25,7 @@ export function SimpleInput({
     return (
         <div className={classNames}>
             {prefix && <InputLabel>{prefix}</InputLabel>}
-            <input
-                className="app app-input app-input-decoration"
-
+            <input className="app"
                 onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                         onEnter(e.target.value);

@@ -12,4 +12,65 @@
 
   --text-main: #dce3e6;
   --text-main-strong: #d5b77b;
+
+  button {
+    background-color: var(--bg-primary);
+    color: var(--text-main);
+
+    border: solid 0.1em var(--bg-primary-strong);
+    box-shadow: none;
+
+    border-radius: 0.8em;
+    height: 1.6em;
+    outline: none;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+  }
+
+  input {
+    border-radius: 0.9em;
+    height: 1.8em;
+    padding: 0;
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+
+    outline: none !important;
+    box-shadow: none;
+    border: none !important;
+
+    background-color: var(--bg-primary-strong);
+    color: var(--text-main);
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+  }
+
+  select {
+    border-radius: 0.8em;
+    height: 1.6em;
+    width: 100%;
+
+    outline: none !important;
+    box-shadow: none;
+    border: none !important;
+
+    background-color: var(--bg-primary-strong);
+    color: var(--text-main);
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+  }
+
+  label {
+    font-size: 0.75em;
+    padding-left: 0.5em;
+    color: var(--text-main);
+  }
 }

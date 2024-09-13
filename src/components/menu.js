@@ -28,7 +28,6 @@ export function Menu() {
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef, () => {
         if (menuIsOpen) {
-            console.log('closing menu')
             setMenuContent(null);
         }
     });

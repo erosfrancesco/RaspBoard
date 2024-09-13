@@ -3,7 +3,7 @@ import { InputLabel } from '../typography';
 import SimpleInput from './simple';
 
 export function Label({ className, children, ...args }) {
-    const classNames = "app app-input-label" + (className ? " " + className : "");
+    const classNames = "app" + (className ? " " + className : "");
 
     return <label className={classNames} {...args}>
         <InputLabel>{children}</InputLabel>

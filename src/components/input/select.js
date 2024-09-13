@@ -1,13 +1,20 @@
+import { Label } from './input';
 import './select.css'
 
-export function Select({ className, children, onChange = () => { }, onSelected = () => { }, ...args } = {}) {
-    const classNames = "app app-input app-input-select" + (className ? " " + className : "")
-    return <select className={classNames} onChange={(e) => {
-        onSelected(e.target.value);
-        onChange(e);
-    }} {...args}>
-        {children}
-    </select>
+export function Select({ className, children, label, onChange = () => { }, onSelected = () => { }, ...args } = {}) {
+    const classNames = "app app-input-select" + (className ? " " + className : "")
+
+
+    return <div>
+        <Label>{label}</Label>
+        <select className={classNames} onChange={(e) => {
+            onSelected(e.target.value);
+            onChange(e);
+        }} {...args}>
+            {children}
+        </select>
+    </div>
+
 }
 
 export function Option({ className, children, ...args } = {}) {
