@@ -1,20 +1,10 @@
 import { events, socket } from "store/socket.store";
 import { create } from "zustand";
 
-const connections = {
-    4: 'CONNECTED'
+
+const initialState = {
+    pinout: {}
 };
-const pinout = {
-    4: {}
-    /** 
-    4: {
-    },
-    /*
-    18: {
-    }
-    /** */
-};
-const initialState = { connections, pinout };
 
 export const statuses = {
     WAITING: 'WAITING',
@@ -40,6 +30,15 @@ const createSocketConnection = (pin, { onOpen = () => { }, onRead = () => { } })
 export const useGpioStore = create((set, get) => ({
     ...initialState,
 
+    setPin: (widgetName, pin) => {
+        const { pinout } = get();
+        pinout[widgetName] = pinout[widgetName] || {};
+        pinout[widgetName].pin = pin;
+        set((state) => ({ ...state, pinout }))
+    },
+
+
+
     setupBoardPinout: (pinout) => {
         set((state) => ({ ...state, pinout }))
     },
@@ -52,15 +51,15 @@ export const useGpioStore = create((set, get) => ({
      * @returns 
      */
     setupPin: (pin, onRead, onOpen) => {
-        const { connections } = get();
+        const { pinout } = get();
 
         if (onRead) {
             socket.on(events.PIN_READ.SUCCESS(pin), onRead);
         }
 
         socket.on(events.PIN_OPEN.SUCCESS(pin), () => {
-            connections[pin] = statuses.CONNECTED;
-            set((state) => ({ ...state, connections }));
+            pinout[pin].status = statuses.CONNECTED;
+            set((state) => ({ ...state, pinout }));
 
             if (onOpen) {
                 onOpen(pin);
@@ -68,13 +67,13 @@ export const useGpioStore = create((set, get) => ({
         });
 
 
-        if (connections[pin]) {
+        if (pinout[pin].status) {
             return;
         }
 
-        connections[pin] = statuses.WAITING;
+        pinout[pin].status = statuses.WAITING;
         socket.emit(events.PIN_OPEN.EVENT(), { pin });
-        set((state) => ({ ...state, connections }))
+        set((state) => ({ ...state, pinout }))
     },
 
     configPin: (pin, config) => {
@@ -89,22 +88,20 @@ export const useGpioStore = create((set, get) => ({
 
 
     subscribeToPin: (pin, options) => {
-        const state = get();
-        const sub = state.connections[pin];
+        const { pinout, ...state } = get();
+        const sub = pinout[pin].status;
 
         if (sub) {
             return sub;
         }
 
         createSocketConnection(pin, options);
-        const { pinout } = state;
         pinout[pin] = {
             name: 'GPIO ' + pin,
             status: statuses.WAITING
         };
-        connections[pin] = true;
 
-        set(() => ({ ...state, connections, pinout }));
+        set(() => ({ ...state, pinout }));
 
         return pinout[pin];
     },
@@ -130,10 +127,10 @@ export const useGpioStore = create((set, get) => ({
         socket.off(events.PIN_READ.EVENT(pin));
         socket.off(events.PIN_READ.SUCCESS(pin));
 
-        const { connections } = get();
-        connections[pin] = false;
+        const { pinout } = get();
+        delete pinout[pin].status;
 
-        set((state) => ({ ...state, connections }))
+        set((state) => ({ ...state, pinout }))
     },
 
     setPinProperty: (pin, name, value) => {

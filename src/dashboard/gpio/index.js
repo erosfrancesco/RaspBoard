@@ -2,7 +2,7 @@ import './index.css';
 import { statuses, useGpioStore } from './gpio.store';
 import DashboardWidget from 'components/widget';
 import Input from 'components/input/input';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TextNormal } from 'components/typography';
 import WidgetGPIOConfig from './config';
 
@@ -22,6 +22,13 @@ function WidgetGPIOConfig({ pin }) {
 
 /** */
 export function WidgetGPIOPWM({ widgetKey, ...others }) {
+
+    const { pinout } = useGpioStore();
+
+    useEffect(() => {
+        const initialConfig = pinout[widgetKey] || {};
+    }, []);
+
     /*
     const [pwmInput, setPWMInput] = useState();
     const { pinout, connections, setupPin, configPin, writePWMToPin } = useGpioStore();
@@ -35,9 +42,10 @@ export function WidgetGPIOPWM({ widgetKey, ...others }) {
 
 
     return (
-        <DashboardWidget widgetName={'WidgetGPIO - ' + widgetKey}
+        <DashboardWidget widgetName={'GPIO - ' + widgetKey}
             saveConfig={() => {
-                return {}; // pinout[pin] || {};
+                console.log(pinout);
+                return pinout[widgetKey] || {};
             }}
             loadConfig={(config) => {
                 console.log(config);
@@ -53,7 +61,7 @@ export function WidgetGPIOPWM({ widgetKey, ...others }) {
                     /** */
             }}
             openConfig={(config) => {
-                return <WidgetGPIOConfig config={config || {}} />
+                return <WidgetGPIOConfig widgetKey={widgetKey} config={config || {}} />
             }}
             {...others}>
             <div className='app-widget-gpio-content'>

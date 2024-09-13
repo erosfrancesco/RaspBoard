@@ -1,17 +1,17 @@
 import { useState } from 'react';
 import './index.css';
 import Input from 'components/input/input';
+import { useGpioStore } from './gpio.store';
 
-export function WidgetGPIOConfig({ config = {} }) {
-    const [pin, setPin] = useState(config.pin);
-    // const { pin } = config;
-    // const gpioConfig = pinout[pin] || {};
+export function WidgetGPIOConfig({ widgetKey }) {
+    const { pinout, setPin } = useGpioStore();
+    const config = pinout[widgetKey] || {};
+    const pin = config.pin || '';
 
-    // const setPinName = (pinName) => { }
+    console.log(pin, pinout, widgetKey);
 
     return <div>
-        <span>hello config</span>
-        <Input value={pin} onEnter={setPin} />
+        <Input value={pin} onEnter={(pin) => setPin(widgetKey, pin)} label="Pin (GPIO)" />
     </div>
 }
 
