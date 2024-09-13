@@ -7,7 +7,9 @@ For now:
 ## Shell
   - Send command
   - Receive output
+
 ## Widget gpio (PWM)
+  - Send PWM value (0-256)
 
 ## I2C
   - Address
