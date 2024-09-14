@@ -1,14 +1,1 @@
 @import url("../../App.css");
-
-.app-input-select {
-  padding-left: 0.7em;
-  padding-top: 0.2em;
-  padding-right: 0.15em;
-  font-size: 1em;
-}
-
-.app-input-option {
-  background: var(--bg-main);
-  color: var(--text-main);
-  outline: none;
-}

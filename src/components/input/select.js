@@ -1,12 +1,9 @@
 import { Label } from './input';
-import './select.css'
 
-export function Select({ className, children, label, onChange = () => { }, onSelected = () => { }, ...args } = {}) {
-    const classNames = "app app-input-select" + (className ? " " + className : "")
-
+export function Select({ children, label, onChange = () => { }, onSelected = () => { }, ...args } = {}) {
     return <div>
         <Label>{label}</Label>
-        <select className={classNames} onChange={(e) => {
+        <select onChange={(e) => {
             onSelected(e.target.value);
             onChange(e);
         }} {...args}>
@@ -16,9 +13,8 @@ export function Select({ className, children, label, onChange = () => { }, onSel
 
 }
 
-export function Option({ className, children, ...args } = {}) {
-    const classNames = "app app-input-option" + (className ? " " + className : "")
-    return <option className={classNames} {...args}>
+export function Option({ children, ...args } = {}) {
+    return <option {...args}>
         {children}
     </option>
 }

@@ -27,26 +27,13 @@
   padding: 0.5em;
   margin: 0.25em;
 
-  box-shadow: inset 0 0 0.1em var(--text-main);
+  box-shadow: var(--border-glass);
   color: var(--text-main);
   border-radius: 0.4em;
 
   backdrop-filter: blur(0.1em);
   background-color: transparent;
 }
-
-/* ROUND STYLE */
-.app-input-decoration {
-  background: var(--bg-main);
-  color: var(--text-main);
-  /*
-  border: var(--border-shadow);
-  /*
-  box-shadow: 0em 0.5em 0.75em var(--bg-main) inset;
-  /**/
-  padding-right: 0.25em;
-}
-/**/
 
 /* FLAT STYLE */
 .app-input-flat {
@@ -70,6 +57,7 @@
 }
 /**/
 
+/**/
 .app-row {
   display: flex;
   flex-direction: row;
@@ -83,3 +71,4 @@
   height: 100%;
   gap: 0.25em;
 }
+/**/

@@ -2,10 +2,8 @@ import './input.css'
 import { InputLabel } from '../typography';
 import SimpleInput from './simple';
 
-export function Label({ className, children, ...args }) {
-    const classNames = "app" + (className ? " " + className : "");
-
-    return <label className={classNames} {...args}>
+export function Label({ children, ...args }) {
+    return <label {...args}>
         <InputLabel>{children}</InputLabel>
     </label>
 }

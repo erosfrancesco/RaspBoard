@@ -1,14 +1,12 @@
 import './button.css'
 
 export function Button({ className, children, ...args } = {}) {
-    const classNames = "app app-input app-button app-input-decoration" + (className ? " " + className : "")
+    const classNames = "app app-input app-button" + (className ? " " + className : "")
 
     return (
         <button className={classNames} {...args}>{children}</button>
     );
 }
-
-export default Button;
 
 export function DeleteButton({ size = 1, style = {}, className, ...other }) {
     const classNames = "app-button-delete" + (className ? " " + className : "");
@@ -23,3 +21,5 @@ export function DeleteButton({ size = 1, style = {}, className, ...other }) {
         &#x2297;
     </Button>
 }
+
+export default Button;

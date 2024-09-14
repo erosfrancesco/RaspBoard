@@ -16,15 +16,76 @@ body {
   display: flex;
 
   --border-primary: var(--bg-primary) 0.07em solid;
-  --border-shadow: linear-gradient(var(--bg-primary) 0%, transparent 25%) 0.7em
-    solid;
+  --border-glass: inset 0 0 0.1em var(--text-main);
 
   --box-shadow: 0 0.1em 0.2em var(--bg-main);
   --box-shadow-strong: 0 0.2em 0.4em var(--bg-main);
 
-  --bg-gradient: radial-gradient(
-    transparent 0%,
-    var(--bg-primary-strong) 60%,
-    var(--bg-primary) 100%
-  );
+  button {
+    background-color: var(--bg-primary);
+    color: var(--text-main);
+
+    border: solid 0.1em var(--bg-primary-strong);
+    box-shadow: none;
+
+    border-radius: 0.8em;
+    height: 1.6em;
+    outline: none;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+  }
+
+  input {
+    border-radius: 0.9em;
+    height: 1.8em;
+    padding: 0;
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+
+    outline: none !important;
+    box-shadow: none;
+    border: none !important;
+
+    background-color: var(--bg-primary-strong);
+    color: var(--text-main);
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+  }
+
+  select {
+    border-radius: 0.9em;
+    font-size: 0.85em;
+    height: 1.8em;
+    width: 100%;
+
+    outline: none !important;
+    box-shadow: none;
+    border: none !important;
+
+    background-color: var(--bg-primary-strong);
+    color: var(--text-main);
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+  }
+
+  option {
+    background: var(--bg-main);
+    color: var(--text-main);
+    outline: none;
+  }
+
+  label {
+    font-size: 0.75em;
+    padding-left: 0.5em;
+    color: var(--text-main);
+  }
 }
