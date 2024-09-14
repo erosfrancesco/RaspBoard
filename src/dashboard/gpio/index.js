@@ -22,11 +22,15 @@ function WidgetGPIOConfig({ pin }) {
 
 /** */
 export function WidgetGPIOPWM({ widgetKey, ...others }) {
-
     const { pinout, setPinConfig } = useGpioStore();
 
+    const initializeWidget = (config) => {
+        setPinConfig(widgetKey, config);
+    }
+
     useEffect(() => {
-        const initialConfig = pinout[widgetKey] || {};
+        const config = JSON.parse(localStorage.getItem(widgetKey));
+        initializeWidget(config);
     }, []);
 
     /*
@@ -47,7 +51,7 @@ export function WidgetGPIOPWM({ widgetKey, ...others }) {
                 return pinout[widgetKey] || {};
             }}
             loadConfig={(config = {}) => {
-                setPinConfig(widgetKey, config);
+                initializeWidget(config);
                 /*
                 configPin(pin, config);
                 setupPin(pin,
@@ -57,7 +61,7 @@ export function WidgetGPIOPWM({ widgetKey, ...others }) {
                     (pin) => {
                         console.log('Opened GPIO', pin);
                     });
-                    /** */
+                /** */
             }}
             openConfig={() => <WidgetGPIOConfig widgetKey={widgetKey} />}
             {...others}>
