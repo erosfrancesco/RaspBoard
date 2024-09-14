@@ -1,36 +1,23 @@
 import './index.css';
 import { statuses, useGpioStore } from './gpio.store';
 import DashboardWidget from 'components/widget';
-import Input from 'components/input/input';
-import { useEffect, useState } from 'react';
-import { TextNormal } from 'components/typography';
+import { useEffect } from 'react';
 import WidgetGPIOConfig from './config';
+import WidgetGPIOStatus from './status';
 
 
-/** 
-function WidgetGPIOConfig({ pin }) {
-    const { pinout } = useGpioStore();
-    const gpioConfig = pinout[pin] || {};
-
-    const setPinName = (pinName) => {}
-
-    return <div>
-        <span>hello config</span>
-        <Input value={pin} onEnter={setPinName} />
-    </div>
-}
-
-/** */
 export function WidgetGPIOPWM({ widgetKey, ...others }) {
     const { pinout, setPinConfig } = useGpioStore();
+    const { status } = pinout[widgetKey] || {};
 
     const initializeWidget = (config) => {
+        config.status = config.status || statuses.WAITING;
         setPinConfig(widgetKey, config);
     }
 
     useEffect(() => {
         const config = JSON.parse(localStorage.getItem(widgetKey));
-        initializeWidget(config);
+        initializeWidget(config || {});
     }, []);
 
     /*
@@ -50,8 +37,8 @@ export function WidgetGPIOPWM({ widgetKey, ...others }) {
             saveConfig={() => {
                 return pinout[widgetKey] || {};
             }}
-            loadConfig={(config = {}) => {
-                initializeWidget(config);
+            loadConfig={(config) => {
+                initializeWidget(config || {});
                 /*
                 configPin(pin, config);
                 setupPin(pin,
@@ -66,8 +53,8 @@ export function WidgetGPIOPWM({ widgetKey, ...others }) {
             openConfig={() => <WidgetGPIOConfig widgetKey={widgetKey} />}
             {...others}>
             <div className='app-widget-gpio-content'>
+                <WidgetGPIOStatus status={status} />
                 {/*}
-                <TextNormal>Status: {connections[pin]}</TextNormal>
                 <Input label="Send PWM"
                     type="number" min="0" max="256" step="1"
                     value={pwmInput} onValueChange={setPWMInput} onEnter={sendValue}
