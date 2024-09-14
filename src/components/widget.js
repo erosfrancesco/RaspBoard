@@ -1,9 +1,8 @@
 import { SectionTitle } from 'components/typography';
-import Button, { DeleteButton } from 'components/input/button';
+import Button from 'components/input/button';
 import './widget.css';
 import { useState } from 'react';
 import { useLayoutStore } from 'store/layout.store';
-import { useDashboardStore } from 'dashboard/dashboard.store';
 
 
 /**

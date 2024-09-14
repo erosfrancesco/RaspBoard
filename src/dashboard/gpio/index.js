@@ -18,6 +18,7 @@ export function WidgetGPIOPWM({ widgetKey, ...others }) {
     useEffect(() => {
         const config = JSON.parse(localStorage.getItem(widgetKey));
         initializeWidget(config || {});
+    // eslint-disable-next-line
     }, []);
 
     /*

@@ -14,6 +14,7 @@ export function SimpleInput({
 
     useEffect(() => {
         onValueChange(value);
+    // eslint-disable-next-line
     }, [value]);
 
     useEffect(() => {

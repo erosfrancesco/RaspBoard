@@ -2,7 +2,7 @@ import './index.css';
 import Input from 'components/input/input';
 import { useGpioStore, writeModes } from './gpio.store';
 import Select, { Option } from 'components/input/select';
-import { SectionTitle, TextNormal } from 'components/typography';
+import { TextNormal } from 'components/typography';
 
 /**
  * pin
