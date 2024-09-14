@@ -14,20 +14,24 @@ export const statuses = {
 
 export const writeModes = ["Digital", "PWM", "Servo"]
 
+/*
 const createSocketConnection = (pin, { onOpen = () => { }, onRead = () => { } }) => {
     socket.emit(events.PIN_OPEN.EVENT(), { pin });
     socket.on(events.PIN_READ.SUCCESS(pin), onRead);
     socket.on(events.PIN_OPEN.SUCCESS(pin), onOpen);
 }
+/** */
 
-/**
- * @param {*} subscribeToPin (pin, { onOpen, onRead }) => void -> Setup pin ws
- * @param {*}
- */
+
 export const useGpioStore = create((set, get) => ({
     ...initialState,
 
-    // set pin attribute
+    setPinConfig: (widgetName, config) => {
+        const { pinout } = get();
+        pinout[widgetName] = config;
+        set((state) => ({ ...state, pinout }));
+    },
+
     setPinAttribute: (widgetName, name, value) => {
         const { pinout } = get();
         pinout[widgetName] = pinout[widgetName] || {};
@@ -36,19 +40,7 @@ export const useGpioStore = create((set, get) => ({
     },
 
 
-
     /*
-    setupBoardPinout: (pinout) => {
-        set((state) => ({ ...state, pinout }))
-    },
-
-    /**
-     * 
-     * @param {*} pin 
-     * @param {*} onRead 
-     * @param {*} onRead 
-     * @returns 
-     */
     setupPin: (pin, onRead, onOpen) => {
         const { pinout } = get();
 
@@ -82,9 +74,6 @@ export const useGpioStore = create((set, get) => ({
             return { ...state, pinout }
         });
     },
-    /** */
-
-
 
     subscribeToPin: (pin, options) => {
         const { pinout, ...state } = get();
@@ -130,4 +119,5 @@ export const useGpioStore = create((set, get) => ({
 
         set((state) => ({ ...state, pinout }))
     }
+    /** */
 }));

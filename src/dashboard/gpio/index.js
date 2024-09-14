@@ -23,7 +23,7 @@ function WidgetGPIOConfig({ pin }) {
 /** */
 export function WidgetGPIOPWM({ widgetKey, ...others }) {
 
-    const { pinout } = useGpioStore();
+    const { pinout, setPinConfig } = useGpioStore();
 
     useEffect(() => {
         const initialConfig = pinout[widgetKey] || {};
@@ -44,11 +44,10 @@ export function WidgetGPIOPWM({ widgetKey, ...others }) {
     return (
         <DashboardWidget widgetName={'GPIO - ' + widgetKey}
             saveConfig={() => {
-                console.log(pinout);
                 return pinout[widgetKey] || {};
             }}
-            loadConfig={(config) => {
-                console.log(config);
+            loadConfig={(config = {}) => {
+                setPinConfig(widgetKey, config);
                 /*
                 configPin(pin, config);
                 setupPin(pin,
@@ -60,9 +59,7 @@ export function WidgetGPIOPWM({ widgetKey, ...others }) {
                     });
                     /** */
             }}
-            openConfig={(config) => {
-                return <WidgetGPIOConfig widgetKey={widgetKey} config={config || {}} />
-            }}
+            openConfig={() => <WidgetGPIOConfig widgetKey={widgetKey} />}
             {...others}>
             <div className='app-widget-gpio-content'>
                 {/*}

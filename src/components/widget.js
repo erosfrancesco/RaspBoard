@@ -40,7 +40,6 @@ function DashboardWidget({
     }
 
     const load = () => {
-        console.log(widgetKey)
         const configuration = JSON.parse(localStorage.getItem(widgetKey));
         loadConfig(configuration);
     }
