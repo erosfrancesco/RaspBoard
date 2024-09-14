@@ -12,10 +12,7 @@ export const statuses = {
     CLOSED: 'CLOSED'
 };
 
-export const writeModes = {
-    DIGITAL: "Digital",
-    PWM: "PWM"
-}
+export const writeModes = ["Digital", "PWM", "Servo"]
 
 const createSocketConnection = (pin, { onOpen = () => { }, onRead = () => { } }) => {
     socket.emit(events.PIN_OPEN.EVENT(), { pin });
@@ -30,15 +27,17 @@ const createSocketConnection = (pin, { onOpen = () => { }, onRead = () => { } })
 export const useGpioStore = create((set, get) => ({
     ...initialState,
 
-    setPin: (widgetName, pin) => {
+    // set pin attribute
+    setPinAttribute: (widgetName, name, value) => {
         const { pinout } = get();
         pinout[widgetName] = pinout[widgetName] || {};
-        pinout[widgetName].pin = pin;
+        pinout[widgetName][name] = value;
         set((state) => ({ ...state, pinout }))
     },
 
 
 
+    /*
     setupBoardPinout: (pinout) => {
         set((state) => ({ ...state, pinout }))
     },

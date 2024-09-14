@@ -21,9 +21,7 @@
 }
 
 .app-alert-content {
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
-  margin-left: 0.75em;
+  padding: 0.5em;
 }
 
 .app-alert {
@@ -45,7 +43,7 @@
   float: right;
 
   margin-top: -1em;
-  margin-right: -0.5em;
+  margin-right: -1em;
 
   min-width: 1.3em;
   min-height: 1.3em;

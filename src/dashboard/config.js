@@ -7,13 +7,13 @@ import { TextNormal, SectionTitle } from 'components/typography';
 import Select, { Option } from 'components/input/select';
 
 export function DashboardConfig() {
-    const { widgets, addWidgetConfig, removeWidget, saveWidgets } = useDashboardStore();
+    const { widgets, addWidget, removeWidget, saveWidgets } = useDashboardStore();
 
     const [newWidgetName, setNewWidgetName] = useState();
     const [newWidgetType, setNewWidgetType] = useState(Object.keys(widgetMap)[0]);
 
     const onAdd = () => {
-        addWidgetConfig(newWidgetName, newWidgetType);
+        addWidget(newWidgetName, newWidgetType);
     }
 
     return <div className='app-column app-dashboard-config'>
@@ -34,9 +34,7 @@ export function DashboardConfig() {
 
             <div className='app-row' style={{ alignItems: 'flex-end' }}>
                 <Input label="New Widget Name" value={newWidgetName} onChange={setNewWidgetName} />
-                <Select label="New Widget Type" value={newWidgetType} onChange={(e) => {
-                    setNewWidgetType(e.target.value)
-                }}>
+                <Select label="New Widget Type" value={newWidgetType} onSelected={setNewWidgetType}>
                     {Object.keys(widgetMap).map((type) =>
                         <Option>{type}</Option>
                     )}
