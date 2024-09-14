@@ -32,7 +32,7 @@ export const useGpioStore = create((set, get) => ({
         const { pinout } = get();
         pinout[widgetName] = pinout[widgetName] || {};
         pinout[widgetName][name] = value;
-        set((state) => ({ ...state, pinout }))
+        set((state) => ({ ...state, pinout }));
     },
 
 
@@ -115,7 +115,6 @@ export const useGpioStore = create((set, get) => ({
     },
 
     writePWMToPin: (pin, value, onWriteSuccess = () => { }) => {
-        console.log('sending', pin, value)
         socket.emit(events.PIN_PWM.EVENT(pin), value);
         socket.on(events.PIN_PWM.SUCCESS(pin), onWriteSuccess)
     },
@@ -130,17 +129,5 @@ export const useGpioStore = create((set, get) => ({
         delete pinout[pin].status;
 
         set((state) => ({ ...state, pinout }))
-    },
-
-    setPinProperty: (pin, name, value) => {
-        const state = get();
-        const { pinout, toggle } = state;
-        const opts = pinout[pin] || {};
-        const updatedToggle = toggle + 1;
-
-        opts[name] = value;
-        pinout[pin] = opts;
-
-        set(() => ({ ...state, toggle: updatedToggle, pinout }));
     }
 }));
