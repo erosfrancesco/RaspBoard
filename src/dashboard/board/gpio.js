@@ -29,11 +29,9 @@ export function WidgetBoardServoPin({ pin }) {
     useEffect(() => {
         setupPin(pin,
             (data) => {
-                console.log('GPIO', pin, ' data received:', data)
                 setDataReceived(data);
             },
             (pin) => {
-                console.log('Opened GPIO', pin);
             });
         // eslint-disable-next-line
     }, []);

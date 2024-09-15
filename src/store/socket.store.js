@@ -26,6 +26,11 @@ export const events = {
         SUCCESS: (pin) => 'pin-success-pwm-' + pin,
     },
 
+    SERVO_WRITE: {
+        EVENT: (pin) => 'pin-servo-' + pin,
+        SUCCESS: (pin) => 'pin-success-servo-' + pin,
+    },
+
     I2C: {
         SETTING: () => 'i2c-settings',
         DATA: () => 'i2c-data',
