@@ -21,15 +21,23 @@ export const useShellStore = create((set, get) => ({
 
     sendCommand: (command) => {
         console.log(command);
-
+        const { sub } = get();
         socket.emit(events.SHELL.SEND(), { command });
-        socket.on(events.SHELL.OUTPUT(), (lastCommandOutput) => {
-            console.log(lastCommandOutput);
+
+        if (!sub) {
+            socket.on(events.SHELL.OUTPUT(), (lastCommandOutput) => {
+                console.log(lastCommandOutput);
+                set((state) => ({
+                    ...state,
+                    lastCommandOutput
+                }));
+            });
+
             set((state) => ({
                 ...state,
-                lastCommandOutput
-            }));
-        });
+                sub: true
+            }))
+        }
 
         set((state) => ({
             ...state,
