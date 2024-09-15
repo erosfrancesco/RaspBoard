@@ -3,6 +3,7 @@ import Input from 'components/input/input';
 import { useGpioStore, writeModes } from './gpio.store';
 import Select, { Option } from 'components/input/select';
 import { TextNormal } from 'components/typography';
+import { useEffect } from 'react';
 
 /**
  * pin
@@ -12,7 +13,7 @@ export function WidgetGPIOConfig({ widgetKey }) {
     const { pinout, setPinAttribute } = useGpioStore();
     const config = pinout[widgetKey] || {};
     const {
-        pin = "", mode = writeModes[0],
+        pin = "", mode,
         digitalValue,
         pwmValue,
         servoMin = 0, servoMax = 2500, servoStep = 100, servoValue
@@ -29,6 +30,13 @@ export function WidgetGPIOConfig({ widgetKey }) {
     const onServoMaxChange = (value) => setPinAttribute(widgetKey, 'servoMax', value);
     const onServoStepChange = (value) => setPinAttribute(widgetKey, 'servoStep', value);
     const onServoValueChange = (value) => setPinAttribute(widgetKey, 'servoValue', value);
+
+    // set up initial values
+    useEffect(() => {
+        if (!mode) {
+            setPinAttribute(widgetKey, 'mode', writeModes[0]);
+        }
+    }, []);
 
     return <div>
         <div className='app-row'>

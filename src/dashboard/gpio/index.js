@@ -4,21 +4,34 @@ import DashboardWidget from 'components/widget';
 import { useEffect } from 'react';
 import WidgetGPIOConfig from './config';
 import WidgetGPIOStatus from './status';
+import socket, { events } from 'store/socket.store';
+import { TextNormal } from 'components/typography';
 
 
 export function WidgetGPIOPWM({ widgetKey, ...others }) {
-    const { pinout, setPinConfig } = useGpioStore();
-    const { status } = pinout[widgetKey] || {};
+    const { pinout, setPinConfig, setPinAttribute } = useGpioStore();
+    const { status, mode } = pinout[widgetKey] || {};
 
     const initializeWidget = (config) => {
         config.status = config.status || statuses.WAITING;
         setPinConfig(widgetKey, config);
+
+        const { pin } = config;
+
+        if (pin) {
+            socket.emit(events.PIN_OPEN.EVENT(), { pin });
+            // socket.on(events.PIN_READ.SUCCESS(pin), onRead);
+            socket.on(events.PIN_OPEN.SUCCESS(pin), () => {
+                setPinAttribute(widgetKey, 'status', statuses.CONNECTED);
+            });
+
+        }
     }
 
     useEffect(() => {
         const config = JSON.parse(localStorage.getItem(widgetKey));
         initializeWidget(config || {});
-    // eslint-disable-next-line
+        // eslint-disable-next-line
     }, []);
 
     /*
@@ -35,6 +48,7 @@ export function WidgetGPIOPWM({ widgetKey, ...others }) {
 
     return (
         <DashboardWidget widgetName={'GPIO - ' + widgetKey}
+            widgetKey={widgetKey}
             saveConfig={() => {
                 return pinout[widgetKey] || {};
             }}
@@ -55,6 +69,7 @@ export function WidgetGPIOPWM({ widgetKey, ...others }) {
             {...others}>
             <div className='app-widget-gpio-content'>
                 <WidgetGPIOStatus status={status} />
+                <TextNormal>Mode: {mode}</TextNormal>
                 {/*}
                 <Input label="Send PWM"
                     type="number" min="0" max="256" step="1"
