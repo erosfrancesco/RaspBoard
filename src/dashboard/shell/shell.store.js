@@ -19,9 +19,10 @@ export const useShellStore = create((set, get) => ({
     ...initialState,
     reset: () => set(() => (initialState)),
 
+    /*
     sendCommand: (command) => {
         console.log(command);
-        const { sub } = get();
+        // const { sub } = get();
         socket.emit(events.SHELL.SEND(), { command });
 
         if (!sub) {
@@ -44,6 +45,12 @@ export const useShellStore = create((set, get) => ({
             lastCommand: command
         }));
     },
+    /** */
+
+    setLastCommand: (lastCommand) => set((state) => ({
+        ...state,
+        lastCommand
+    })),
 
     setCommandOutput: (lastCommandOutput) => set((state) => ({
         ...state,
