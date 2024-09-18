@@ -1,0 +1,30 @@
+@import url("../App.css");
+
+.app-tabs-title-row {
+  display: flex;
+  gap: 0.5em;
+}
+
+.app-tabs-title-wrapper {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  background: var(--bg-primary);
+
+  &.selected {
+    background: var(--bg-primary-strong);
+    border: 0.1em solid white;
+    border-bottom: none;
+
+    margin-bottom: -0.1em;
+    border-top-left-radius: 0.3em;
+    border-top-right-radius: 0.3em;
+  }
+}
+
+.app-tabs-content {
+  background: var(--bg-primary-strong);
+  border: 0.1em solid white;
+  padding: 0.5em;
+}

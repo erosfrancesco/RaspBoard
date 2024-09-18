@@ -1,0 +1,15 @@
+:root {
+  --bg-main: #0f0f0f;
+
+  --bg-primary: #282828;
+  --bg-primary-strong: #1d2121;
+
+  --bg-danger: brown;
+
+  --bg-save: #2e7d32;
+  --bg-load: #0288d1;
+  --bg-config: #afb42b;
+
+  --text-main: antiquewhite;
+  --text-main-strong: white;
+}
