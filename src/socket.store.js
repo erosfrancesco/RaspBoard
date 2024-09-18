@@ -55,5 +55,5 @@ export const socket = io.connect(wsPath);
 // socket.emit()
 // socket.on()
 
-console.log(socket)
+socket.on('connected', () => console.log('Connected to WS'))
 export default socket;
