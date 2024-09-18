@@ -1,17 +1,23 @@
 # Raspberry Dashboard
+
 Dashboard with configurable widgets.
 For now:
-  - Board (GPIO and I2C)
-  - Shell
+
+- Gpio (Digital, PWM and Servo)
+- Shell
+  TODO: - I2C
 
 ## Shell
-  - Send command
-  - Receive output
+
+- Send command
+- Receive output
 
 ## Widget gpio (PWM)
-  - Send PWM value (0-256)
+
+- Send PWM value (0-256)
 
 ## I2C
-  - Address
-  - Data map
-  - Interval
+
+- Address
+- Data map
+- Interval
