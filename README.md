@@ -1,8 +1,17 @@
-# React + Vite
+# Raspberry Dashboard
+Dashboard with configurable widgets.
+For now:
+  - Board (GPIO and I2C)
+  - Shell
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Shell
+  - Send command
+  - Receive output
 
-Currently, two official plugins are available:
+## Widget gpio (PWM)
+  - Send PWM value (0-256)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## I2C
+  - Address
+  - Data map
+  - Interval
