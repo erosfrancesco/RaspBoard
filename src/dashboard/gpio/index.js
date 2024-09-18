@@ -4,7 +4,7 @@ import DashboardWidget from 'components/widget';
 import { useEffect, useState } from 'react';
 import WidgetGPIOConfig from './config';
 import WidgetGPIOStatus from './status';
-import socket, { events } from 'store/socket.store';
+import socket, { events } from 'socket.store';
 import { TextNormal } from 'components/typography';
 import Input from 'components/input/input';
 

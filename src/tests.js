@@ -1,5 +1,5 @@
 import { useI2CStore } from 'store/i2c.store';
-import { events, socket } from './store/socket.store';
+import { events, socket } from './socket.store';
 
 import { useEffect } from 'react';
 

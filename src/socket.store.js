@@ -51,9 +51,7 @@ export const events = {
 export const socket = io.connect(wsPath);
 
 
-socket.close()
+// socket.close()
 // socket.emit()
 // socket.on()
 export default socket;
-
-// "@babel/plugin-proposal-private-property-in-object"

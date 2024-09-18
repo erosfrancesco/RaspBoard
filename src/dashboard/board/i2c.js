@@ -6,7 +6,7 @@ import './index.css';
 import { useEffect, useState } from 'react';
 
 import { useI2CStore } from 'store/i2c.store';
-import socket, { events } from 'store/socket.store';
+import socket, { events } from 'socket.store';
 import { DeleteButton } from 'components/input/button';
 
 

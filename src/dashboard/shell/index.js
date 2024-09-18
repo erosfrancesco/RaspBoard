@@ -1,8 +1,8 @@
 import Input from 'components/input/input';
 import './index.css';
 import { TextNormal } from 'components/typography';
-import { useEffect, useState } from 'react';
-import socket, { events } from 'store/socket.store';
+import { useEffect } from 'react';
+import socket, { events } from 'socket.store';
 import DashboardWidget from 'components/widget';
 import WidgetShellConfig from './config';
 import { useShellStore } from './shell.store';
@@ -17,12 +17,14 @@ export function WidgetShell({ widgetKey, ...others } = {}) {
 
     /** */
     const handleCommandSend = (command) => {
-        socket.emit(events.SHELL.SEND(), { command, rootFolder });
+        socket.emit(events.SHELL.SEND(), { command, rootFolder, widgetKey });
         setLastCommand(command);
     }
 
-    const handleCommandOutput = ({ command, output }) => {
-        setCommandOutput(output);
+    const handleCommandOutput = ({ output, widgetKey: cmdWidgetKey }) => {
+        if (cmdWidgetKey === widgetKey) {
+            setCommandOutput(output);
+        }
     }
 
     const initializeWidget = (config) => {

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { events, socket } from "./socket.store";
+import { events, socket } from "../socket.store";
 
 const connections = {
     4: 'CONNECTED'
