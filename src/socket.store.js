@@ -54,4 +54,6 @@ export const socket = io.connect(wsPath);
 // socket.close()
 // socket.emit()
 // socket.on()
+
+console.log(socket)
 export default socket;

@@ -36,6 +36,7 @@ export function WidgetGPIOConfig({ widgetKey }) {
         if (!mode) {
             setPinAttribute(widgetKey, 'mode', writeModes[0]);
         }
+    // eslint-disable-next-line
     }, []);
 
     return <div>

@@ -2,14 +2,13 @@ import { useEffect, useState } from 'react';
 import './index.css';
 import { useDashboardStore, widgetDefault, widgetMap } from './dashboard.store';
 import { useLayoutStore } from 'store/layout.store';
-import Menu from 'components/menu';
 
 import Background from './background';
 import DashboardConfig from './config';
 
 
-function Dashboard({ className = "" }) {
-    const { widgets, loadWidgets, saveWidgets, setPosition } = useDashboardStore();
+function Dashboard({ className }) {
+    const { widgets, loadWidgets, setPosition } = useDashboardStore();
     const { setAlertContent } = useLayoutStore();
     const [offsetX, setOffsetX] = useState();
     const [offsetY, setOffsetY] = useState();
@@ -18,10 +17,6 @@ function Dashboard({ className = "" }) {
         loadWidgets();
         // eslint-disable-next-line
     }, []);
-
-    const onSave = () => {
-        saveWidgets();
-    }
 
     const onDragStart = (e) => {
         const { clientX, clientY } = e;
@@ -34,8 +29,8 @@ function Dashboard({ className = "" }) {
 
         const left = clientX - offsetX + e.target.offsetLeft - 4;
         const top = clientY - offsetY + e.target.offsetTop - 4;
-        e.target.style.top = (top) + 'px';
-        e.target.style.left = (left) + 'px';
+        e.target.style.top = (top - (top % 10)) + 'px';
+        e.target.style.left = (left - (left % 10)) + 'px';
 
         setOffsetX(null);
         setOffsetY(null);
@@ -50,7 +45,6 @@ function Dashboard({ className = "" }) {
     return (
         <div className={"app-dashboard" + (className ? " " + className : "")}>
             <Background onClick={openMenu} />
-            <Menu />
 
             {Object.keys(widgets).map((widgetName, i) => {
                 const { top, left, type } = widgets[widgetName];
@@ -62,8 +56,6 @@ function Dashboard({ className = "" }) {
                     key={i} widgetKey={i} widgetName={widgetName}
                 />
             })}
-
-            <button className='app-dashboard-save' onClick={onSave}>&#994;</button>
         </div>
     );
 }
