@@ -70,15 +70,18 @@ export function WidgetGPIO({ widgetKey, widgetName, ...others }) {
     //
 
     useEffect(() => {
-        const config = JSON.parse(localStorage.getItem(widgetKey));
+        const widgetID = widgetName + ' - ' + widgetKey;
+        const config = JSON.parse(localStorage.getItem(widgetID));
         initializeWidget(config || {});
-        const { pin } = config;
+        const { pin } = config || {};
 
         // EVENT HANDLERS
-        socket.on(events.PIN_WRITE.SUCCESS(pin), handleIncomingDigitalData);
-        socket.on(events.PIN_PWM.SUCCESS(pin), handleIncomingPWMData);
-        socket.on(events.SERVO_WRITE.SUCCESS(pin), handleIncomingServoData);
-        socket.on(events.PIN_OPEN.SUCCESS(pin), handlePinConnected);
+        if (pin) {
+            socket.on(events.PIN_WRITE.SUCCESS(pin), handleIncomingDigitalData);
+            socket.on(events.PIN_PWM.SUCCESS(pin), handleIncomingPWMData);
+            socket.on(events.SERVO_WRITE.SUCCESS(pin), handleIncomingServoData);
+            socket.on(events.PIN_OPEN.SUCCESS(pin), handlePinConnected);
+        }
 
 
         return () => {

@@ -8,6 +8,10 @@ export function DashboardWidget({
     className,
     children,
     widgetName,
+    widgetKey,
+    saveConfig,
+    loadConfig,
+    openConfig,
     ...others
 }) {
     const wrapperClassName = 'app-widget' + (className ? " " + className : "");
@@ -15,7 +19,14 @@ export function DashboardWidget({
     return (
         <div className={wrapperClassName} {...others}>
             <div className='app-row'>
-                <DashboardWidgetActions {...others} />
+                <DashboardWidgetActions
+                    widgetKey={widgetKey}
+                    widgetName={widgetName}
+                    saveConfig={saveConfig}
+                    loadConfig={loadConfig}
+                    openConfig={openConfig}
+                    {...others}
+                />
                 <div>
                     <SectionTitle className='app-widget-title'>{widgetName}</SectionTitle>
                     {children}
@@ -28,19 +39,21 @@ export function DashboardWidget({
 
 export function DashboardWidgetActions({
     widgetKey = "",
+    widgetName = "",
     saveConfig = () => ({}),
     loadConfig = () => { },
     openConfig = () => { },
 }) {
     const { setAlertContent } = useLayoutStore();
+    const widgetID = widgetName + ' - ' + widgetKey;
 
     const save = () => {
         const configuration = JSON.stringify(saveConfig());
-        localStorage.setItem(widgetKey, configuration);
+        localStorage.setItem(widgetID, configuration);
     }
 
     const load = () => {
-        const configuration = JSON.parse(localStorage.getItem(widgetKey));
+        const configuration = JSON.parse(localStorage.getItem(widgetID));
         loadConfig(configuration);
     }
 

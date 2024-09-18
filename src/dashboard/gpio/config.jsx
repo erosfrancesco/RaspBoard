@@ -36,14 +36,14 @@ export function WidgetGPIOConfig({ widgetKey }) {
         if (!mode) {
             setPinAttribute(widgetKey, 'mode', writeModes[0]);
         }
-    // eslint-disable-next-line
+        // eslint-disable-next-line
     }, []);
 
     return <div>
         <div className='app-row'>
             <Input value={pin} onEnter={onPinChange} label="Pin (GPIO)" />
             <Select onSelected={onModeChange} label="Pin Mode" value={mode}>
-                {writeModes.map((mode) => <Option>{mode}</Option>)}
+                {writeModes.map((mode) => <Option key={mode}>{mode}</Option>)}
             </Select>
         </div>
 

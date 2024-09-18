@@ -8,7 +8,7 @@ import WidgetShellConfig from './config';
 import { useShellStore } from './shell.store';
 
 // TODO: - History
-export function WidgetShell({ widgetKey, ...others } = {}) {
+export function WidgetShell({ widgetKey, widgetName, ...others } = {}) {
     const {
         rootFolder, setRootFolder,
         lastCommand, setLastCommand,
@@ -34,7 +34,8 @@ export function WidgetShell({ widgetKey, ...others } = {}) {
     /** */
 
     useEffect(() => {
-        const config = JSON.parse(localStorage.getItem(widgetKey));
+        const widgetID = widgetName + ' - ' + widgetKey;
+        const config = JSON.parse(localStorage.getItem(widgetID));
         initializeWidget(config || {});
 
         // EVENT HANDLERS
@@ -48,6 +49,7 @@ export function WidgetShell({ widgetKey, ...others } = {}) {
 
     return <DashboardWidget
         widgetKey={widgetKey}
+        widgetName={widgetName}
         saveConfig={() => ({ rootFolder })}
         loadConfig={(config) => initializeWidget(config || {})}
         openConfig={() => <WidgetShellConfig widgetKey={widgetKey} />}
