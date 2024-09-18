@@ -1,11 +1,11 @@
 import { create } from "zustand";
 
 import WidgetShell from "./shell";
-import WidgetGPIOPWM from "./gpio";
+import WidgetGPIO from "./gpio";
 
 export const widgetMap = {
     "Shell": WidgetShell,
-    "Gpio": WidgetGPIOPWM
+    "Gpio": WidgetGPIO
 };
 export const widgetDefault = WidgetShell;
 

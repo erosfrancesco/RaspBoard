@@ -9,7 +9,7 @@ import { TextNormal } from 'components/typography';
 import Input from 'components/input/input';
 
 
-export function WidgetGPIOPWM({ widgetKey, widgetName, ...others }) {
+export function WidgetGPIO({ widgetKey, widgetName, ...others }) {
     const [digitalData, setDigitalData] = useState();
     const [pwmData, setPWMData] = useState();
     const [servoData, setServoData] = useState();
@@ -72,6 +72,7 @@ export function WidgetGPIOPWM({ widgetKey, widgetName, ...others }) {
     useEffect(() => {
         const config = JSON.parse(localStorage.getItem(widgetKey));
         initializeWidget(config || {});
+        const { pin } = config;
 
         // EVENT HANDLERS
         socket.on(events.PIN_WRITE.SUCCESS(pin), handleIncomingDigitalData);
@@ -91,7 +92,8 @@ export function WidgetGPIOPWM({ widgetKey, widgetName, ...others }) {
 
 
     return (
-        <DashboardWidget widgetName={widgetName}
+        <DashboardWidget
+            widgetName={widgetName}
             widgetKey={widgetKey}
             saveConfig={() => pinout[widgetKey] || {}}
             loadConfig={(config) => initializeWidget(config || {})}
@@ -128,4 +130,4 @@ export function WidgetGPIOPWM({ widgetKey, widgetName, ...others }) {
     );
 }
 
-export default WidgetGPIOPWM;
+export default WidgetGPIO;
