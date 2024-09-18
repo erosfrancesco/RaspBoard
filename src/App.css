@@ -1,4 +1,4 @@
-@import url("./style.custom.css");
+@import url("./themes/custom.css");
 
 body {
   background: var(--bg-main);
@@ -16,7 +16,7 @@ body {
   display: flex;
 
   --border-primary: var(--bg-primary) 0.07em solid;
-  --border-glass: inset 0 0 0.1em var(--text-main);
+  --border-glass: inset 0 0 0.1em var(--text-main-strong);
 
   --box-shadow: 0 0.1em 0.2em var(--bg-main);
   --box-shadow-strong: 0 0.2em 0.4em var(--bg-main);
