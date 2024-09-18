@@ -1,16 +1,9 @@
-// import socket, { events } from "store/socket.store";
 import { create } from "zustand";
 
 const initialState = {
     lastCommand: null,
-    lastCommandOutput: null /*
-        'Hello commands output \
-        Hello commands output Hello commands output Hello commands output \
-        Hello commands output Hello commands output Hello commands output \
-        Hello commands output Hello commands output Hello commands output \
-        Hello commands output Hello commands output Hello commands output \
-    '
-    /** */
+    lastCommandOutput: null,
+    rootFolder: '/'
 };
 
 
@@ -18,6 +11,21 @@ const initialState = {
 export const useShellStore = create((set, get) => ({
     ...initialState,
     reset: () => set(() => (initialState)),
+
+    setLastCommand: (lastCommand) => set((state) => ({
+        ...state,
+        lastCommand
+    })),
+
+    setCommandOutput: (lastCommandOutput) => set((state) => ({
+        ...state,
+        lastCommandOutput
+    })),
+
+    setRootFolder: (rootFolder) => set((state) => ({
+        ...state,
+        rootFolder
+    })),
 
     /*
     sendCommand: (command) => {
@@ -46,14 +54,4 @@ export const useShellStore = create((set, get) => ({
         }));
     },
     /** */
-
-    setLastCommand: (lastCommand) => set((state) => ({
-        ...state,
-        lastCommand
-    })),
-
-    setCommandOutput: (lastCommandOutput) => set((state) => ({
-        ...state,
-        lastCommandOutput
-    })),
 }));

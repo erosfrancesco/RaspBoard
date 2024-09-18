@@ -55,3 +55,5 @@ socket.close()
 // socket.emit()
 // socket.on()
 export default socket;
+
+// "@babel/plugin-proposal-private-property-in-object"

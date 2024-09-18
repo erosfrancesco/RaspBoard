@@ -26,7 +26,6 @@ export const useDashboardStore = create((set, get) => ({
         set((state) => ({ ...state, widgets }));
     },
 
-
     saveWidgets: () => {
         const { widgets } = get();
         const configuration = JSON.stringify({ widgets });

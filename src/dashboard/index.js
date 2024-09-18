@@ -58,7 +58,8 @@ function Dashboard({ className = "" }) {
 
                 return <Widget
                     draggable onDragStart={onDragStart} onDragEnd={onDragEnd(widgetName)}
-                    style={{ top, left }} className="app-dashboard-widget" key={i} widgetKey={i}
+                    style={{ top, left }} className="app-dashboard-widget"
+                    key={i} widgetKey={i} widgetName={widgetName}
                 />
             })}
 

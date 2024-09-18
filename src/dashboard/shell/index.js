@@ -1,35 +1,39 @@
 import Input from 'components/input/input';
 import './index.css';
 import { TextNormal } from 'components/typography';
-// import { useShellStore } from './shell.store';
 import { useEffect, useState } from 'react';
 import socket, { events } from 'store/socket.store';
+import DashboardWidget from 'components/widget';
+import WidgetShellConfig from './config';
+import { useShellStore } from './shell.store';
 
 // TODO: - History
+export function WidgetShell({ widgetKey, ...others } = {}) {
+    const {
+        rootFolder, setRootFolder,
+        lastCommand, setLastCommand,
+        lastCommandOutput, setCommandOutput
+    } = useShellStore();
 
-export function WidgetShell({ widgetKey, className, ...others } = {}) {
-    // const { lastCommand, setLastCommand, lastCommandOutput, setCommandOutput } = useShellStore()
-    const classNames = "app-widget" + (className ? " " + className : "")
-
-    const [lastCommand, setLastCommand] = useState();
-    const [lastCommandOutput, setCommandOutput] = useState();
-
-
+    /** */
     const handleCommandSend = (command) => {
-        // wait for outputs?
-        socket.emit(events.SHELL.SEND(), command);
+        socket.emit(events.SHELL.SEND(), { command, rootFolder });
         setLastCommand(command);
     }
+
     const handleCommandOutput = ({ command, output }) => {
-        console.log(output, command);
-        if (command === lastCommand) {
-            setCommandOutput(output);
-        }
+        setCommandOutput(output);
     }
 
+    const initializeWidget = (config) => {
+        const { rootFolder } = config;
+        setRootFolder(rootFolder || '/');
+    }
+    /** */
+
     useEffect(() => {
-        // const config = JSON.parse(localStorage.getItem(widgetKey));
-        // initializeWidget(config || {});
+        const config = JSON.parse(localStorage.getItem(widgetKey));
+        initializeWidget(config || {});
 
         // EVENT HANDLERS
         socket.on(events.SHELL.OUTPUT(), handleCommandOutput);
@@ -40,14 +44,19 @@ export function WidgetShell({ widgetKey, className, ...others } = {}) {
         // eslint-disable-next-line
     }, []);
 
-    return <div className={classNames} {...others}>
+    return <DashboardWidget
+        saveConfig={() => ({ rootFolder })}
+        loadConfig={(config) => initializeWidget(config || {})}
+        openConfig={() => <WidgetShellConfig widgetKey={widgetKey} />}
+        {...others}>
         <div className='app-widget-cmd'>
+            <TextNormal>{rootFolder}</TextNormal>
             <Input label="Send command" onEnter={handleCommandSend} value={lastCommand} />
             <div className='app-widget-ouput-wrapper'>
                 <TextNormal>{lastCommandOutput}</TextNormal>
             </div>
         </div>
-    </div>
+    </DashboardWidget>
 
 }
 

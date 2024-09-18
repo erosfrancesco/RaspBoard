@@ -21,20 +21,6 @@
   flex-grow: 1;
 }
 
-.app-widget {
-  display: flex;
-  flex-direction: column;
-  padding: 0.5em;
-  margin: 0.25em;
-
-  box-shadow: var(--border-glass);
-  color: var(--text-main);
-  border-radius: 0.4em;
-
-  backdrop-filter: blur(0.1em);
-  background-color: transparent;
-}
-
 /* FLAT STYLE */
 .app-input-flat {
   .app-input {
@@ -74,5 +60,27 @@
 
 .app-stretch-row {
   width: 100%;
+}
+/**/
+
+/**/
+.triangle-up {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-right: 50px solid transparent;
+  border-left: 50px solid transparent;
+  border-bottom: 60px solid #555555;
+  border-top: 0;
+}
+
+.triangle-down {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-right: 50px solid transparent;
+  border-left: 50px solid transparent;
+  border-top: 60px solid #555555;
+  border-bottom: 0;
 }
 /**/

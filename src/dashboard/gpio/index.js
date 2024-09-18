@@ -9,7 +9,7 @@ import { TextNormal } from 'components/typography';
 import Input from 'components/input/input';
 
 
-export function WidgetGPIOPWM({ widgetKey, ...others }) {
+export function WidgetGPIOPWM({ widgetKey, widgetName, ...others }) {
     const [digitalData, setDigitalData] = useState();
     const [pwmData, setPWMData] = useState();
     const [servoData, setServoData] = useState();
@@ -91,7 +91,7 @@ export function WidgetGPIOPWM({ widgetKey, ...others }) {
 
 
     return (
-        <DashboardWidget widgetName={'GPIO - ' + widgetKey}
+        <DashboardWidget widgetName={widgetName}
             widgetKey={widgetKey}
             saveConfig={() => pinout[widgetKey] || {}}
             loadConfig={(config) => initializeWidget(config || {})}
