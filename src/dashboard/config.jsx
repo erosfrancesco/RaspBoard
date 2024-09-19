@@ -20,12 +20,11 @@ export function DashboardConfig() {
         <SectionTitle>Dashboard Widgets</SectionTitle>
 
         <div className='app-column'>
-            {Object.keys(widgets).map((name) => {
-                const { 
-                    type, 
-                    // x, y 
+            {Object.keys(widgets).map((name, i) => {
+                const {
+                    type
                 } = widgets[name] || {};
-                return <div key={name} className='app-row app-dashboard-config-item'>
+                return <div key={i} className='app-row app-dashboard-config-item'>
                     <TextNormal>{type} - {name}</TextNormal>
                     <DeleteButton size="1.2" onClick={() => removeWidget(name)} />
                 </div>

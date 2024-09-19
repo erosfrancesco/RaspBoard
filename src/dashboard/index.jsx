@@ -19,12 +19,16 @@ function Dashboard({ className }) {
     }, []);
 
     const onDragStart = (e) => {
+        e.stopPropagation();
+        e.preventDefault();
         const { clientX, clientY } = e;
         setOffsetX(clientX);
         setOffsetY(clientY);
     }
 
     const onDragEnd = (i) => (e) => {
+        e.stopPropagation();
+        e.preventDefault();
         const { clientX, clientY } = e;
 
         const left = clientX - offsetX + e.target.offsetLeft - 4;
@@ -39,6 +43,7 @@ function Dashboard({ className }) {
 
     const openMenu = (e) => {
         e.preventDefault();
+        e.stopPropagation();
         setAlertContent(<DashboardConfig />)
     }
 

@@ -1,6 +1,6 @@
 import Input from 'components/input/input';
 import './index.css';
-import { TextNormal, SectionTitle } from 'components/typography';
+import { TextNormal } from 'components/typography';
 import { useEffect } from 'react';
 import socket, { events } from '@/socket.store';
 import DashboardWidget from 'components/widget';
@@ -54,7 +54,7 @@ export function WidgetShell({ widgetKey, widgetName, ...others } = {}) {
         loadConfig={(config) => initializeWidget(config || {})}
         openConfig={() => <WidgetShellConfig widgetKey={widgetKey} />}
         {...others}>
-        <div className='app-widget-cmd'>
+        <div className='app-widget-cmd' draggable={false}>
             <TextNormal>{rootFolder}</TextNormal>
             <Input label="Send command" onEnter={handleCommandSend} value={lastCommand} />
             <div className='app-widget-ouput-wrapper'>

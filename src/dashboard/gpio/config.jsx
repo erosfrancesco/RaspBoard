@@ -35,6 +35,10 @@ export function WidgetGPIOConfig({ widgetKey }) {
     useEffect(() => {
         if (!mode) {
             setPinAttribute(widgetKey, 'mode', writeModes[0]);
+
+            setPinAttribute(widgetKey, 'servoMin', 0);
+            setPinAttribute(widgetKey, 'servoMax', 2500);
+            setPinAttribute(widgetKey, 'servoStep', 100);
         }
         // eslint-disable-next-line
     }, []);

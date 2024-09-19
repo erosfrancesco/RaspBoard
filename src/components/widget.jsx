@@ -25,7 +25,6 @@ export function DashboardWidget({
                     saveConfig={saveConfig}
                     loadConfig={loadConfig}
                     openConfig={openConfig}
-                    {...others}
                 />
                 <div>
                     <SectionTitle className='app-widget-title'>{widgetName}</SectionTitle>

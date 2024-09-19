@@ -23,6 +23,7 @@ export function WidgetGPIO({ widgetKey, widgetName, ...others }) {
 
     const isReady = status === statuses.CONNECTED;
 
+
     // WIDGET EVENTS
     const onDigitalValueChange = (value) => {
         setPinAttribute(widgetKey, 'digitalValue', value);
