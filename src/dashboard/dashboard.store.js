@@ -2,10 +2,12 @@ import { create } from "zustand";
 
 import WidgetShell from "./shell";
 import WidgetGPIO from "./gpio";
+import WidgetI2C from "./i2c";
 
 export const widgetMap = {
     "Shell": WidgetShell,
-    "Gpio": WidgetGPIO
+    "Gpio": WidgetGPIO,
+    "I2C": WidgetI2C
 };
 export const widgetDefault = WidgetShell;
 

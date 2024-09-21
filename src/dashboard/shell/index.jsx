@@ -54,7 +54,7 @@ export function WidgetShell({ widgetKey, widgetName, ...others } = {}) {
         loadConfig={(config) => initializeWidget(config || {})}
         openConfig={() => <WidgetShellConfig widgetKey={widgetKey} />}
         {...others}>
-        <div className='app-widget-cmd' draggable={false}>
+        <div className='app-widget-cmd'>
             <TextNormal>{rootFolder}</TextNormal>
             <Input label="Send command" onEnter={handleCommandSend} value={lastCommand} />
             <div className='app-widget-ouput-wrapper'>
