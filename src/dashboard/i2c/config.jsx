@@ -89,7 +89,7 @@ function I2CAddressMapItem({ name, address, removable }) {
     }
 
 
-    return <div className='app-row'>
+    return <div className='app-row app-wiget-i2c-config-row'>
         <Input
             label='Name'
             value={nameValue}
