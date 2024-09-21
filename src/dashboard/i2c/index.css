@@ -1,5 +1,9 @@
 @import url("../../App.css");
 
+.app-input-hexadecimal {
+  width: 3em !important;
+}
+
 .app-widget-board-content {
   display: flex;
   flex-direction: row;

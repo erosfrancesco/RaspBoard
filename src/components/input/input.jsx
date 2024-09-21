@@ -18,7 +18,7 @@ export function Input({
     ...args
 } = {}) {
     const [value, setValue] = useState(initialValue || "");
-    const classNames = "app app-input-wrapper" + (className ? " " + className : "");
+    const classNames = "app" + (className ? " " + className : "");
 
     useEffect(() => {
         onValueChange(value);
@@ -34,7 +34,7 @@ export function Input({
     return (
         <div className={classNames}>
             <Label>{label}</Label>
-            <div className="app app-input-wrapper">
+            <div className="app app-row app-input-wrapper">
                 {prefix && <InputLabel>{prefix}</InputLabel>}
                 <input className="app app-stretch-row"
                     onKeyDown={(e) => {

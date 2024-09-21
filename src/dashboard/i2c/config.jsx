@@ -1,5 +1,3 @@
-
-import HexadecimalInput from 'components/input/hexadecimal';
 import Input from 'components/input/input';
 import { TextNormal } from 'components/typography';
 import './index.css';
@@ -7,6 +5,18 @@ import { useEffect, useState } from 'react';
 
 import { useI2CStore } from './i2c.store';
 import { DeleteButton } from 'components/input/button';
+
+
+function HexadecimalInput({ className, ...props }) {
+    const classNames = 'app-input-hexadecimal' + (className ? ' ' + className : '');
+
+    return <Input
+        className={classNames}
+        maxLength="2"
+        prefix="0x"
+        {...props}
+    />
+}
 
 
 function I2CAddressMapItem({ name, address, removable }) {

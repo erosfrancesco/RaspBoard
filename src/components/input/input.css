@@ -1,11 +1,34 @@
 @import url("../../App.css");
 
 .app-input-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: baseline;
-  background-color: transparent;
+  align-items: baseline !important;
+
   width: 100%;
+  border-radius: 0.9em;
+  height: 1.8em;
+
+  padding: 0;
+  padding-left: 0.4em;
+
+  outline: none !important;
+  box-shadow: none;
+  border: none !important;
+
+  background-color: var(--bg-primary-strong);
+  color: var(--text-main);
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  input {
+    margin: 0 !important;
+    padding: 0 !important;
+    padding-right: 0.4em !important;
+    border-radius: 0 !important;
+    background-color: transparent !important;
+  }
 }
 
 .app-select-wrapper {
