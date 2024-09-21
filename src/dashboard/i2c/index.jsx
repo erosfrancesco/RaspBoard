@@ -1,4 +1,4 @@
-import { SectionTitle, TextNormal } from 'components/typography';
+import { TextNormal } from 'components/typography';
 import './index.css';
 import { useEffect, useState } from 'react';
 import { useI2CStore } from './i2c.store';
@@ -16,7 +16,7 @@ function I2CDatum({ name, value }) {
     };
 
 
-    return <div className='app-i2c-datum'>
+    return <div className='app-widget-i2c-datum'>
         <TextNormal>{name}:</TextNormal>
         <TextNormal>{computeValue()}</TextNormal>
     </div>
@@ -48,8 +48,7 @@ export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
             loadConfig={(config) => initializeWidget(config || {})}
             openConfig={() => <WidgetI2CConfig widgetKey={widgetKey} />}
             {...others}>
-            <div className='app-widget-board-content app-widget-board-i2c'>
-                <SectionTitle>I2C Data</SectionTitle>
+            <div className='app-widget-i2c'>
                 {Object.keys(data).map((name) => {
                     const value = data[name];
 

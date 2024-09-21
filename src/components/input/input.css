@@ -1,12 +1,19 @@
 @import url("../../App.css");
 
 .app-input-wrapper {
+  display: flex !important;
+  align-items: flex-start !important;
+}
+
+.app-input-content {
+  gap: 0;
   align-items: baseline !important;
 
-  width: 100%;
+  width: calc(100% - 0.4em) !important;
   border-radius: 0.9em;
   height: 1.8em;
 
+  margin: 0;
   padding: 0;
   padding-left: 0.4em;
 
@@ -25,9 +32,10 @@
   input {
     margin: 0 !important;
     padding: 0 !important;
-    padding-right: 0.4em !important;
     border-radius: 0 !important;
     background-color: transparent !important;
+    min-width: none !important;
+    max-width: none !important;
   }
 }
 

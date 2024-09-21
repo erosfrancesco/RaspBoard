@@ -89,23 +89,20 @@ function I2CAddressMapItem({ name, address, removable }) {
     }
 
 
-    return <div className='app-widget-i2c-datamap-row'>
+    return <div className='app-row'>
         <Input
-            className="app-input-flat"
             label='Name'
             value={nameValue}
             onValueChange={setNameValue}
             onEnter={updateAddressMapItem}
         />
         <HexadecimalInput
-            className="app-input-flat"
             label='Address'
             value={addressValue}
             onValueChange={setAddressValue}
             onEnter={updateAddressMapItem}
         />
         <Input
-            className="app-input-flat"
             label='Scale Factor'
             type="number"
             onEnter={updateScale}
@@ -113,7 +110,6 @@ function I2CAddressMapItem({ name, address, removable }) {
             value={scaleValue}
         />
         <Input
-            className="app-input-flat"
             label='Offset'
             type="number"
             onEnter={updateOffset}
@@ -121,7 +117,6 @@ function I2CAddressMapItem({ name, address, removable }) {
             value={offsetValue}
         />
         <Input
-            className="app-input-flat"
             label='Precision'
             type="number"
             step="1"
@@ -130,18 +125,33 @@ function I2CAddressMapItem({ name, address, removable }) {
             onValueChange={setPrecisionValue}
             value={precisionValue}
         />
-        {removable && <DeleteButton className="app-widget-board-pin-delete" onClick={removeData} />}
+        {removable && <DeleteButton onClick={removeData} className="app-wiget-i2c-config-row-delete" />}
     </div>
 }
 
-function I2CDataMapSection() {
-    const { dataMap } = useI2CStore();
+export function WidgetI2CConfig() {
+    const { setDeviceAddress, setReadInterval, address, readEvery, dataMap } = useI2CStore();
 
-    return (
+    return <div className='app-widget-i2c-config'>
+        <div className='app-row'>
+            <HexadecimalInput
+                label='Address'
+                onEnter={setDeviceAddress}
+                value={address}
+            />
+            <Input
+                label='Read every (ms)'
+                min='0' step='1'
+                type='number'
+                onEnter={setReadInterval}
+                value={readEvery}
+                initialValue={readEvery}
+            />
+        </div>
         <div>
             <TextNormal>Address Data map</TextNormal>
 
-            <div className='app-widget-i2c-datamap'>
+            <div className='app-column app-widget-i2c-config-datamap'>
                 {Object.keys(dataMap).sort().map((name) => {
                     const address = dataMap[name];
 
@@ -151,35 +161,8 @@ function I2CDataMapSection() {
 
             <TextNormal>Add new</TextNormal>
             <I2CAddressMapItem name="" address="" />
-        </div >
-    );
-}
-
-export function WidgetI2CConfig() {
-    const { setDeviceAddress, setReadInterval, address, readEvery } = useI2CStore();
-    const pinClassNames = "app-widget-board-config-section";
-
-    return <div className='app-widget-board-content'>
-        <div className={pinClassNames}>
-            <div className='app-widget-board-config-i2c'>
-                <HexadecimalInput
-                    className="app-input-flat app-widget-board-hexadecimal-input"
-                    label='Address'
-                    onEnter={setDeviceAddress}
-                    value={address}
-                />
-                <Input
-                    className="app-input-flat"
-                    label='Read every (ms)'
-                    min='0' step='1'
-                    type='number'
-                    onEnter={setReadInterval}
-                    value={readEvery}
-                    initialValue={readEvery}
-                />
-            </div>
-            <I2CDataMapSection />
         </div>
+
     </div>
 }
 
