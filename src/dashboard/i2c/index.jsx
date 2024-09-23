@@ -8,7 +8,7 @@ import DashboardWidget from 'components/widget';
 
 
 function I2CDatum({ name, value }) {
-    const { dataParameters } = useI2CStore();
+    const { dataParameters = {} } = useI2CStore();
 
     const computeValue = () => {
         const { scale = 1, precision = 0, offset = 0 } = dataParameters[name] || {};
@@ -42,13 +42,28 @@ export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
     })
     /** */
 
+    const onDataReceived = (data) => {
+        console.log(data)
+        setData(data);
+    }
+
+    /** */
     const cleanup = () => {
-        socket.removeListener(events.I2C.DATA(), setData);
+        socket.removeListener(events.I2C.DATA(), onDataReceived);
     }
 
     const initializeWidget = (config) => {
         resetWidget(config);
-        socket.on(events.I2C.DATA(), setData);
+        socket.on(events.I2C.DATA(), onDataReceived);
+
+        // TESTS
+        setInterval(() => {
+            console.log('stream')
+            onDataReceived({
+                'hello': 9876
+            });
+        }, 2000);
+        // 
     };
 
     const resetWidget = (config) => {
@@ -61,6 +76,7 @@ export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
         setReadInterval(readEvery);
         setDataMap(dataMap);
     }
+    /** */
 
     return (
         <DashboardWidget

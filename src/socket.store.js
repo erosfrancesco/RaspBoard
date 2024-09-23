@@ -1,8 +1,8 @@
 import io from "socket.io-client";
 
 const wsPath =
-    "http://raspberrypi.local:80" /*
-    "http://localhost:80";
+    //"http://raspberrypi.local:80" /*
+    "localhost:3000";
 /** */
 
 export const events = {
@@ -49,7 +49,6 @@ export const events = {
 };
 
 export const socket = io.connect(wsPath);
-
 
 socket.close()
 // socket.emit()
