@@ -14,6 +14,7 @@ export function DashboardWidget({
     loadConfig,
     openConfig,
     initialize = () => { },
+    cleanup = () => { },
     ...others
 }) {
     const wrapperClassName = 'app-widget' + (className ? " " + className : "");
@@ -22,6 +23,8 @@ export function DashboardWidget({
         const widgetID = widgetName + ' - ' + widgetKey;
         const config = JSON.parse(localStorage.getItem(widgetID));
         initialize(config || {});
+
+        return cleanup;
     }, []);
 
     return (

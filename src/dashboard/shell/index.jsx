@@ -14,7 +14,6 @@ export function WidgetShell({ widgetKey, widgetName, ...others } = {}) {
         lastCommandOutput, setCommandOutput
     } = useShellStore();
 
-    /** */
     const handleCommandSend = (command) => {
         socket.emit(events.SHELL.SEND(), { command, rootFolder, widgetKey });
         setLastCommand(command);
@@ -26,6 +25,11 @@ export function WidgetShell({ widgetKey, widgetName, ...others } = {}) {
         }
     }
 
+    /** */
+    const cleanup = () => {
+        socket.removeListener(events.SHELL.OUTPUT(), handleCommandOutput);
+    }
+
     const resetWidget = (config) => {
         const { rootFolder } = config || {};
         setRootFolder(rootFolder || '/');
@@ -33,19 +37,14 @@ export function WidgetShell({ widgetKey, widgetName, ...others } = {}) {
 
     const initializeWidget = (config) => {
         resetWidget(config);
-
         socket.on(events.SHELL.OUTPUT(), handleCommandOutput);
-
-        return () => {
-            console.log('removing')
-            socket.removeListener(events.SHELL.OUTPUT(), handleCommandOutput);
-        }
     }
     /** */
 
 
     return <DashboardWidget
         initialize={initializeWidget}
+        cleanup={cleanup}
         widgetKey={widgetKey}
         widgetName={widgetName}
         saveConfig={() => ({ rootFolder })}

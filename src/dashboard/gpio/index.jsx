@@ -58,6 +58,13 @@ export function WidgetGPIO({ widgetKey, widgetName, ...others }) {
     //
 
     /** */
+    const cleanup = () => {
+        socket.removeListener(events.PIN_OPEN.SUCCESS(pin), handlePinConnected);
+        socket.removeListener(events.PIN_WRITE.SUCCESS(pin), handleIncomingDigitalData);
+        socket.removeListener(events.PIN_PWM.SUCCESS(pin), handleIncomingPWMData);
+        socket.removeListener(events.SERVO_WRITE.SUCCESS(pin), handleIncomingServoData);
+    }
+
     const resetWidget = (config = {}) => {
         config.status = config.status || statuses.WAITING;
         setPinConfig(widgetKey, config);
@@ -79,20 +86,13 @@ export function WidgetGPIO({ widgetKey, widgetName, ...others }) {
             socket.on(events.SERVO_WRITE.SUCCESS(pin), handleIncomingServoData);
             socket.on(events.PIN_OPEN.SUCCESS(pin), handlePinConnected);
         }
-
-
-        return () => {
-            socket.removeListener(events.PIN_OPEN.SUCCESS(pin), handlePinConnected);
-            socket.removeListener(events.PIN_WRITE.SUCCESS(pin), handleIncomingDigitalData);
-            socket.removeListener(events.PIN_PWM.SUCCESS(pin), handleIncomingPWMData);
-            socket.removeListener(events.SERVO_WRITE.SUCCESS(pin), handleIncomingServoData);
-        }
     }
     /** */
 
     return (
         <DashboardWidget
             initialize={initializeWidget}
+            cleanup={cleanup}
             widgetName={widgetName}
             widgetKey={widgetKey}
             saveConfig={() => pinout[widgetKey] || {}}

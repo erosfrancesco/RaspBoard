@@ -42,14 +42,13 @@ export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
     })
     /** */
 
+    const cleanup = () => {
+        socket.removeListener(events.I2C.DATA(), setData);
+    }
+
     const initializeWidget = (config) => {
         resetWidget(config);
-
         socket.on(events.I2C.DATA(), setData);
-
-        return () => {
-            socket.removeListener(events.I2C.DATA(), setData);
-        }
     };
 
     const resetWidget = (config) => {
@@ -66,6 +65,7 @@ export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
     return (
         <DashboardWidget
             initialize={initializeWidget}
+            cleanup={cleanup}
             widgetKey={widgetKey}
             widgetName={widgetName}
             saveConfig={() => ({ address, readEvery, dataMap, dataParameters })}
