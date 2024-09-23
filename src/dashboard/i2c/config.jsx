@@ -21,7 +21,7 @@ function HexadecimalInput({ className, ...props }) {
 
 function I2CAddressMapItem({ name, address, removable }) {
     const { setDataMap, dataMap, setDataParameters, dataParameters, removeDataParameters } = useI2CStore();
-    const dataParameter = dataParameters[name] || {};
+    const dataParameter = (dataParameters || {})[name] || {};
 
     const [nameValue, setNameValue] = useState('');
     const [addressValue, setAddressValue] = useState('');
@@ -32,41 +32,18 @@ function I2CAddressMapItem({ name, address, removable }) {
 
 
     /** */
-    useEffect(() => {
-        setNameValue(name);
-    }, [name]);
-
-    useEffect(() => {
-        setAddressValue(address)
-    }, [address]);
-
-    useEffect(() => {
-        setScaleValue(dataParameter.scale)
-    }, [dataParameter.scale]);
-
-    useEffect(() => {
-        setOffsetValue(dataParameter.offset)
-    }, [dataParameter.offset]);
-
-    useEffect(() => {
-        setPrecisionValue(dataParameter.precision)
-    }, [dataParameter.precision]);
+    useEffect(() => setNameValue(name), [name]);
+    useEffect(() => setAddressValue(address), [address]);
+    useEffect(() => setScaleValue(dataParameter.scale), [dataParameter.scale]);
+    useEffect(() => setOffsetValue(dataParameter.offset), [dataParameter.offset]);
+    useEffect(() => setPrecisionValue(dataParameter.precision), [dataParameter.precision]);
     /** */
 
 
     /** */
-    const updateScale = (value) => {
-        setDataParameters(name, { scale: value });
-    }
-
-    const updateOffset = (value) => {
-        setDataParameters(name, { offset: value });
-    }
-
-    const updatePrecision = (value) => {
-        setDataParameters(name, { precision: value });
-    }
-
+    const updateScale = (value) => setDataParameters(name, { scale: value });
+    const updateOffset = (value) => setDataParameters(name, { offset: value });
+    const updatePrecision = (value) => setDataParameters(name, { precision: value });
     const updateAddressMapItem = () => {
         if (!(addressValue && nameValue)) {
             return;
@@ -152,7 +129,7 @@ export function WidgetI2CConfig() {
             <TextNormal>Address Data map</TextNormal>
 
             <div className='app-column app-widget-i2c-config-datamap'>
-                {Object.keys(dataMap).sort().map((name) => {
+                {Object.keys(dataMap || {}).sort().map((name) => {
                     const address = dataMap[name];
 
                     return <I2CAddressMapItem key={name} name={name} address={address} removable />
