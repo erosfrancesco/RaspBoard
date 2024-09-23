@@ -1,13 +1,13 @@
 import { create } from "zustand";
 
 const initialState = {
-    address: null,
+    address: '68',
     readEvery: 0,
-    /** */
+    /*
     dataMap: {},
     dataParameters: {},
     /** */
-    /*
+    // /*
     dataMap: {
         'accelX': '3B',	     // Accelerometer registers
         'accelY': '3D',	     //
@@ -36,6 +36,8 @@ export const useI2CStore = create((set, get) => ({
     setDeviceAddress: (address) => set((state) => ({ ...state, address })),
     setDataMap: (dataMap = {}) => set((state) => ({ ...state, dataMap })),
     setReadInterval: (readEvery) => set((state) => ({ ...state, readEvery })),
+
+    initializeDataParameters: (dataParameters) => set((state) => ({ ...state, dataParameters })),
 
     setDataParameters: (name, { scale, offset, precision } = {}) => set(({ dataParameters, ...state }) => {
         dataParameters[name] = dataParameters[name] || {}

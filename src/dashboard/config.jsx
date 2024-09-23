@@ -38,7 +38,7 @@ export function DashboardConfig() {
                 <Input label="New Widget Name" value={newWidgetName} onChange={setNewWidgetName} />
                 <Select label="New Widget Type" value={newWidgetType} onSelected={setNewWidgetType}>
                     {Object.keys(widgetMap).map((type) =>
-                        <Option>{type}</Option>
+                        <Option key={type}>{type}</Option>
                     )}
                 </Select>
                 <Button disabled={!newWidgetName || !newWidgetType} onClick={onAdd}>+</Button>

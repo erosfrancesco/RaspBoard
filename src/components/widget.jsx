@@ -2,6 +2,7 @@ import { SectionTitle } from 'components/typography';
 import { useLayoutStore } from 'store/layout.store';
 import Button from 'components/input/button';
 import './widget.css';
+import { useEffect } from 'react';
 
 
 export function DashboardWidget({
@@ -12,9 +13,16 @@ export function DashboardWidget({
     saveConfig,
     loadConfig,
     openConfig,
+    initialize = () => { },
     ...others
 }) {
     const wrapperClassName = 'app-widget' + (className ? " " + className : "");
+
+    useEffect(() => {
+        const widgetID = widgetName + ' - ' + widgetKey;
+        const config = JSON.parse(localStorage.getItem(widgetID));
+        initialize(config || {});
+    }, []);
 
     return (
         <div className={wrapperClassName} {...others}>

@@ -1,7 +1,7 @@
 import './index.css';
 import { statuses, useGpioStore, writeModes } from './gpio.store';
 import DashboardWidget from 'components/widget';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import WidgetGPIOConfig from './config';
 import WidgetGPIOStatus from './status';
 import socket, { events } from '@/socket.store.js';
@@ -23,7 +23,6 @@ export function WidgetGPIO({ widgetKey, widgetName, ...others }) {
 
     const isReady = status === statuses.CONNECTED;
 
-
     // WIDGET EVENTS
     const onDigitalValueChange = (value) => {
         setPinAttribute(widgetKey, 'digitalValue', value);
@@ -39,18 +38,6 @@ export function WidgetGPIO({ widgetKey, widgetName, ...others }) {
         setPinAttribute(widgetKey, 'servoValue', value);
         socket.emit(events.PIN_WRITE.EVENT(pin), value);
     }
-
-    const initializeWidget = (config) => {
-        config.status = config.status || statuses.WAITING;
-        setPinConfig(widgetKey, config);
-
-        const { pin } = config;
-
-        if (pin) {
-            socket.emit(events.PIN_OPEN.EVENT(), { pin });
-        }
-    }
-    //
 
     // SOCKET EVENT HANDLERS
     const handlePinConnected = () => {
@@ -70,13 +57,22 @@ export function WidgetGPIO({ widgetKey, widgetName, ...others }) {
     };
     //
 
-    useEffect(() => {
-        const widgetID = widgetName + ' - ' + widgetKey;
-        const config = JSON.parse(localStorage.getItem(widgetID));
-        initializeWidget(config || {});
+    /** */
+    const resetWidget = (config = {}) => {
+        config.status = config.status || statuses.WAITING;
+        setPinConfig(widgetKey, config);
+
+        const { pin } = config;
+
+        if (pin) {
+            socket.emit(events.PIN_OPEN.EVENT(), { pin });
+        }
+    }
+
+    const initializeWidget = (config) => {
+        resetWidget(config);
         const { pin } = config || {};
 
-        // EVENT HANDLERS
         if (pin) {
             socket.on(events.PIN_WRITE.SUCCESS(pin), handleIncomingDigitalData);
             socket.on(events.PIN_PWM.SUCCESS(pin), handleIncomingPWMData);
@@ -91,16 +87,16 @@ export function WidgetGPIO({ widgetKey, widgetName, ...others }) {
             socket.removeListener(events.PIN_PWM.SUCCESS(pin), handleIncomingPWMData);
             socket.removeListener(events.SERVO_WRITE.SUCCESS(pin), handleIncomingServoData);
         }
-        // eslint-disable-next-line
-    }, []);
-
+    }
+    /** */
 
     return (
         <DashboardWidget
+            initialize={initializeWidget}
             widgetName={widgetName}
             widgetKey={widgetKey}
             saveConfig={() => pinout[widgetKey] || {}}
-            loadConfig={(config) => initializeWidget(config || {})}
+            loadConfig={resetWidget}
             openConfig={() => <WidgetGPIOConfig widgetKey={widgetKey} />}
             {...others}>
             <div className='app-widget-gpio-content'>

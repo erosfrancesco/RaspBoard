@@ -1,7 +1,6 @@
 import Input from 'components/input/input';
 import './index.css';
 import { TextNormal } from 'components/typography';
-import { useEffect } from 'react';
 import socket, { events } from '@/socket.store';
 import DashboardWidget from 'components/widget';
 import WidgetShellConfig from './config';
@@ -27,31 +26,30 @@ export function WidgetShell({ widgetKey, widgetName, ...others } = {}) {
         }
     }
 
-    const initializeWidget = (config) => {
-        const { rootFolder } = config;
+    const resetWidget = (config) => {
+        const { rootFolder } = config || {};
         setRootFolder(rootFolder || '/');
     }
-    /** */
 
-    useEffect(() => {
-        const widgetID = widgetName + ' - ' + widgetKey;
-        const config = JSON.parse(localStorage.getItem(widgetID));
-        initializeWidget(config || {});
+    const initializeWidget = (config) => {
+        resetWidget(config);
 
-        // EVENT HANDLERS
         socket.on(events.SHELL.OUTPUT(), handleCommandOutput);
 
         return () => {
+            console.log('removing')
             socket.removeListener(events.SHELL.OUTPUT(), handleCommandOutput);
         }
-        // eslint-disable-next-line
-    }, []);
+    }
+    /** */
+
 
     return <DashboardWidget
+        initialize={initializeWidget}
         widgetKey={widgetKey}
         widgetName={widgetName}
         saveConfig={() => ({ rootFolder })}
-        loadConfig={(config) => initializeWidget(config || {})}
+        loadConfig={resetWidget}
         openConfig={() => <WidgetShellConfig widgetKey={widgetKey} />}
         {...others}>
         <div className='app-widget-cmd'>
