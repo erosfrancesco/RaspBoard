@@ -41,6 +41,7 @@ body {
   input {
     border-radius: 0.9em;
     height: 1.8em;
+    width: 100%;
     padding: 0;
     padding-right: 0.5em;
     padding-left: 0.5em;

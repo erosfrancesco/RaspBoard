@@ -1,4 +1,4 @@
-import { useLayoutStore } from 'store/layout.store';
+import { useLayoutStore } from '@/layout.store';
 import './alert.css';
 import { DeleteButton } from './input/button';
 

@@ -66,7 +66,7 @@ function I2CAddressMapItem({ name, address, removable }) {
     }
 
 
-    return <div className='app-row app-wiget-i2c-config-row'>
+    return <div className='app-row'>
         <Input
             label='Name'
             value={nameValue}
@@ -107,7 +107,10 @@ function I2CAddressMapItem({ name, address, removable }) {
 }
 
 export function WidgetI2CConfig() {
-    const { setDeviceAddress, setReadInterval, address, readEvery, dataMap } = useI2CStore();
+    const {
+        address, readEvery, dataMap,
+        setDataParameters, setDataMap, setDeviceAddress, setReadInterval,
+    } = useI2CStore();
 
     return <div className='app-widget-i2c-config'>
         <div className='app-row'>
@@ -130,14 +133,19 @@ export function WidgetI2CConfig() {
 
             <div className='app-column app-widget-i2c-config-datamap'>
                 {Object.keys(dataMap || {}).sort().map((name) => {
-                    const address = dataMap[name];
+                    const address = dataMap[name] || '';
 
                     return <I2CAddressMapItem key={name} name={name} address={address} removable />
                 })}
             </div>
 
-            <TextNormal>Add new</TextNormal>
-            <I2CAddressMapItem name="" address="" />
+            <Input label="Add new" onEnter={(name) => {
+                const updates = dataMap;
+                updates[name] = '';
+
+                setDataParameters(name, {})
+                setDataMap(updates);
+            }} />
         </div>
 
     </div>

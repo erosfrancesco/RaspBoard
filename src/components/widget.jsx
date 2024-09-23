@@ -1,5 +1,5 @@
 import { SectionTitle } from 'components/typography';
-import { useLayoutStore } from 'store/layout.store';
+import { useLayoutStore } from '@/layout.store';
 import Button from 'components/input/button';
 import './widget.css';
 import { useEffect } from 'react';

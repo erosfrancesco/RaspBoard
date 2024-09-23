@@ -1,4 +1,4 @@
-import { useLayoutStore } from 'store/layout.store'
+import { useLayoutStore } from '@/layout.store'
 import './tabs.css'
 import { TextNormal } from './typography';
 

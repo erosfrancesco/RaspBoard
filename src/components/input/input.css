@@ -36,6 +36,7 @@
     background-color: transparent !important;
     min-width: 1em !important;
     max-width: none !important;
+    width: fit-content;
   }
 }
 
@@ -58,4 +59,5 @@
 
 .app-label-wrapper {
   text-wrap: nowrap;
+  width: fit-content !important;
 }

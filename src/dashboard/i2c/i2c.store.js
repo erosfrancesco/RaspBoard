@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 const initialState = {
-    address: '68',
+    address: null,
     readEvery: 0,
     /** */
     dataMap: {},

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import './index.css';
 import { useDashboardStore, widgetDefault, widgetMap } from './dashboard.store';
-import { useLayoutStore } from 'store/layout.store';
+import { useLayoutStore } from '@/layout.store';
 
 import Background from './background';
 import DashboardConfig from './config';

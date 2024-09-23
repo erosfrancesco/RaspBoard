@@ -30,20 +30,7 @@ export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
     } = useI2CStore();
     const [data, setData] = useState({});
 
-    /** 
-    setData({
-        'accelX': 0.000004,	     // Accelerometer registers
-        'accelY': 0.000004,	     //
-        'accelZ': 0.000004,	     //
-        'temp': 41,	     //	Temperature registers
-        'gyroX': 0.43,	     // Gyroscope registers
-        'gyroY': 0.45,	     //
-        'gyroZ': 0.47, 	     //    
-    })
-    /** */
-
     const onDataReceived = (data) => {
-        console.log(data)
         setData(data);
     }
 
@@ -58,12 +45,17 @@ export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
 
         // TESTS
         setInterval(() => {
-            console.log('stream')
             onDataReceived({
-                'hello': 9876
+                'accelX': 0.00004 + (Math.random() / 10000),	     // Accelerometer registers
+                'accelY': 0.00004 + (Math.random() / 10000),	     //
+                'accelZ': 0.00004 + (Math.random() / 10000),	     //
+                'temp': 41 + (Math.random() + (Math.random() * 10)),	     //	Temperature registers
+                'gyroX': 0.43 + (Math.random()),	     // Gyroscope registers
+                'gyroY': 0.45 + (Math.random()),	     //
+                'gyroZ': 0.47 + (Math.random()), 	     //    
             });
         }, 2000);
-        // 
+        /** */
     };
 
     const resetWidget = (config) => {
