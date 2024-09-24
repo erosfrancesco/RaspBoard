@@ -34,34 +34,6 @@ export const useI2CStore = create((set, get) => ({
 
     setDeviceAddress: (address) => set((state) => ({ ...state, address })),
     setReadInterval: (readEvery) => set((state) => ({ ...state, readEvery })),
-
-    // initializeDataParameters: (dataParameters = []) => set((state) => ({ ...state, dataParameters })),
     setDataParameters: (dataParameters = []) => set((state) => ({ ...state, dataParameters })),
-    /*
-    setDataParameters: (name, { scale, offset, precision, address } = {}) => set(({ dataParameters, ...state }) => {
-        dataParameters[name] = dataParameters[name] || {}
-        const updatedScale = scale || dataParameters[name].scale || 1;
-        const updatedOffset = offset || dataParameters[name].offset || 0;
-        const updatedPrecision = precision || dataParameters[name].precision || 0;
-
-        dataParameters[name] = {
-            scale: updatedScale,
-            offset: updatedOffset,
-            precision: updatedPrecision,
-            address
-        };
-
-        return { ...state, dataParameters }
-    }),
-    /** */
-
-    /*
-    removeDataParameters: (name) => set(({ dataParameters, ...state }) => {
-        delete dataParameters[name]
-
-        return { ...state, dataParameters }
-    }),
-    /** */
-
     setWriteConfigs: (writeConfigs) => set((state) => ({ ...state, writeConfigs })),
 }));

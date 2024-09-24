@@ -29,6 +29,7 @@ export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
         setDeviceAddress, setReadInterval, setDataParameters, setWriteConfigs
     } = useI2CStore();
     const [data, setData] = useState({});
+    const [isConfigured, setIsConfigured] = useState(false);
 
     const onDataReceived = (data) => {
         setData(data);
@@ -36,20 +37,30 @@ export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
 
     const sendConfig = () => {
         console.log('Writing on I2C Configs');
-        // Check if Configs is ready and has been wrote.
+        // Check if writeConfigs is ready and has been wrote.
         // Flag?
+        socket.emit(events.I2C.WRITE(), writeConfigs);
+    }
+
+    const onI2COpened = () => {
+        if (!isConfigured) {
+            console.log('Writing on I2C Configs');
+            setIsConfigured(true);
+            sendConfig();
+        }
+
     }
 
     /** */
     const cleanup = () => {
         socket.removeListener(events.I2C.DATA(), onDataReceived);
-        socket.removeListener(events.I2C_OPEN.SUCCESS(), sendConfig);
+        socket.removeListener(events.I2C_OPEN.SUCCESS(), onI2COpened);
     }
 
     const initializeWidget = (config) => {
         resetWidget(config);
         socket.on(events.I2C.DATA(), onDataReceived);
-        socket.on(events.I2C_OPEN.SUCCESS(), sendConfig);
+        socket.on(events.I2C_OPEN.SUCCESS(), onI2COpened);
 
         // TESTS
         setInterval(() => {
