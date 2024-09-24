@@ -1,7 +1,6 @@
 import Input from 'components/input/input';
 import { TextNormal } from 'components/typography';
 import './index.css';
-import { useEffect, useState } from 'react';
 
 import { useI2CStore } from './i2c.store';
 import { DeleteButton } from 'components/input/button';
@@ -19,82 +18,69 @@ function HexadecimalInput({ className, ...props }) {
 }
 
 
-function I2CAddressMapItem({ name, removable }) {
-    const { dataParameters, setDataParameters, removeDataParameters } = useI2CStore();
-    const dataParameter = (dataParameters || {})[name] || {};
+function I2CAddressMapItem({ i, removable }) {
+    const { dataParameters, setDataParameters } = useI2CStore();
+    const dataParameter = (dataParameters || [])[i] || {};
 
-    const [nameValue, setNameValue] = useState('');
-
-    const [addressValue, setAddressValue] = useState(dataParameter.address || '');
-    const [scaleValue, setScaleValue] = useState(dataParameter.scale || '');
-    const [offsetValue, setOffsetValue] = useState(dataParameter.offset || '');
-    const [precisionValue, setPrecisionValue] = useState(dataParameter.precision || '');
-
-
-    /** */
-    useEffect(() => setNameValue(name), [name]);
-    useEffect(() => setAddressValue(dataParameter.address), [dataParameter.address]);
-    useEffect(() => setScaleValue(dataParameter.scale), [dataParameter.scale]);
-    useEffect(() => setOffsetValue(dataParameter.offset), [dataParameter.offset]);
-    useEffect(() => setPrecisionValue(dataParameter.precision), [dataParameter.precision]);
-    /** */
-
-
-    /** */
-    const updateScale = (value) => setDataParameters(name, { scale: value });
-    const updateOffset = (value) => setDataParameters(name, { offset: value });
-    const updatePrecision = (value) => setDataParameters(name, { precision: value });
-    const updateAddress = (value) => setDataParameters(name, { address: value });
-    /** */
-
-    const updateAddressMapItem = () => {
-        setDataParameters(name, {
-            address: addressValue,
-            scale: scaleValue,
-            offset: offsetValue,
-            precision: precisionValue
-        });
+    const updateScale = (value) => {
+        dataParameters[i].scale = value;
+        setDataParameters(dataParameters);
+    }
+    const updateOffset = (value) => {
+        dataParameters[i].offset = value;
+        setDataParameters(dataParameters);
+    }
+    const updatePrecision = (value) => {
+        dataParameters[i].precision = value;
+        setDataParameters(dataParameters);
+    }
+    const updateAddress = (value) => {
+        dataParameters[i].address = value;
+        setDataParameters(dataParameters);
+    }
+    const updateLabel = () => {
+        dataParameters[i].label = value;
+        setDataParameters(dataParameters);
     }
 
-    const removeData = () => removeDataParameters(name);
+    const removeData = () => {
+        delete dataParameters[i];
+        setDataParameters(dataParameters);
+    }
 
 
     return <div className='app-row'>
         <Input
             label='Name'
-            value={nameValue}
-            onValueChange={setNameValue}
-            onEnter={updateAddressMapItem}
+            onEnter={updateLabel}
+            value={dataParameter.label || ''}
         />
-        <HexadecimalInput
-            label='Address'
-            onEnter={updateAddress}
-            onValueChange={setAddressValue}
-            value={addressValue}
-        />
+
+        <HexadecimalInput label='Address' onEnter={updateAddress} value={dataParameter.address} />
+
         <Input
             label='Scale Factor'
             type="number"
             onEnter={updateScale}
-            onValueChange={setScaleValue}
-            value={scaleValue}
+            value={dataParameter.scale || 1}
         />
+
         <Input
             label='Offset'
             type="number"
             onEnter={updateOffset}
-            onValueChange={setOffsetValue}
-            value={offsetValue}
+            value={dataParameter.offset || 0}
         />
+
         <Input
             label='Precision'
             type="number"
             step="1"
             min="0"
             onEnter={updatePrecision}
-            onValueChange={setPrecisionValue}
-            value={precisionValue}
+            value={dataParameter.precision || 0}
         />
+
         {removable && <DeleteButton onClick={removeData} className="app-wiget-i2c-config-row-delete" />}
     </div>
 }
@@ -103,18 +89,19 @@ function I2CStartupConfigItem({ i }) {
     const { writeConfigs, setWriteConfigs } = useI2CStore();
     const config = (writeConfigs || {})[i] || {};
 
-
-    const [addressValue, setAddressValue] = useState(config.address || '');
-    useEffect(() => setAddressValue(config.address), [config.address]);
+    //
     const updateAddress = (value) => {
         writeConfigs[i].address = value;
         setWriteConfigs(writeConfigs);
     };
 
-    const [dataValue, setDataValue] = useState(config.value || '');
-    useEffect(() => setAddressValue(config.value), [config.value]);
     const updateData = (value) => {
         writeConfigs[i].value = value;
+        setWriteConfigs(writeConfigs);
+    };
+
+    const updateLabel = (value) => {
+        writeConfigs[i].label = value;
         setWriteConfigs(writeConfigs);
     };
 
@@ -122,26 +109,12 @@ function I2CStartupConfigItem({ i }) {
         delete writeConfigs[i];
         setWriteConfigs(writeConfigs);
     };
+    //
 
     return <div className='app-row'>
-
-        <TextNormal style={{
-            alignItems: 'center'
-        }}>{config.label}</TextNormal>
-
-        <HexadecimalInput
-            label='Address'
-            onEnter={updateAddress}
-            onValueChange={setAddressValue}
-            value={addressValue}
-        />
-
-        <Input
-            label='Value'
-            onEnter={updateData}
-            onValueChange={setDataValue}
-            value={dataValue}
-        />
+        <Input label="Label" onEnter={updateLabel} value={config.label} />
+        <HexadecimalInput label='Address' onEnter={updateAddress} value={config.address} />
+        <Input label='Value' onEnter={updateData} value={config.value} />
 
         <DeleteButton onClick={removeData} className="app-wiget-i2c-config-row-delete" />
     </div>
@@ -152,6 +125,8 @@ export function WidgetI2CConfig() {
         address, readEvery, dataParameters, writeConfigs,
         setDataParameters, setDeviceAddress, setReadInterval, setWriteConfigs
     } = useI2CStore();
+
+    const addNewDataParameter = (label) => setDataParameters([...dataParameters, { label }]);
 
     return <div className='app-column app-widget-i2c-config'>
         <div className='app-row'>
@@ -173,18 +148,18 @@ export function WidgetI2CConfig() {
             <TextNormal>Address Data map</TextNormal>
 
             <div className='app-column app-widget-i2c-config-list'>
-                {Object.keys(dataParameters || {}).sort().map((name) =>
-                    <I2CAddressMapItem key={name} name={name} removable />
+                {Object.keys(dataParameters || []).map((_, i) =>
+                    <I2CAddressMapItem key={i} i={i} removable />
                 )}
             </div>
 
-            <Input label="Add new" onEnter={(name) => setDataParameters(name, {})} />
+            <Input label="Add new" onEnter={addNewDataParameter} />
         </div>
         <div>
             <TextNormal>Write on startup</TextNormal>
 
             <div className='app-column app-widget-i2c-config-list'>
-                {writeConfigs.map((config, i) => <I2CStartupConfigItem key={i} i={i} />)}
+                {writeConfigs.map((_, i) => <I2CStartupConfigItem key={i} i={i} />)}
             </div>
 
             <Input label="Add new" onEnter={(label) => setWriteConfigs([...writeConfigs, { label }])} />

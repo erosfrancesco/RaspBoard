@@ -9,13 +9,13 @@ import DashboardWidget from 'components/widget';
 
 
 function I2CDatum({ name, value }) {
-    const { dataParameters = {} } = useI2CStore();
+    const { dataParameters = [] } = useI2CStore();
 
     const computeValue = () => {
-        const { scale = 1, precision = 0, offset = 0 } = dataParameters[name] || {};
+        const dataParameter = dataParameters.find((el) => el.label === name);
+        const { scale = 1, precision = 0, offset = 0 } = dataParameter || {}
         return (Number(offset) + (Number(value) / Number(scale))).toFixed(precision)
     };
-
 
     return <div className='app-widget-i2c-datum'>
         <TextNormal>{name}:</TextNormal>
@@ -26,8 +26,7 @@ function I2CDatum({ name, value }) {
 export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
     const {
         address, readEvery, dataParameters, writeConfigs,
-        setDeviceAddress, setReadInterval, initializeDataParameters, setWriteConfigs
-
+        setDeviceAddress, setReadInterval, setDataParameters, setWriteConfigs
     } = useI2CStore();
     const [data, setData] = useState({});
 
@@ -35,14 +34,22 @@ export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
         setData(data);
     }
 
+    const sendConfig = () => {
+        console.log('Writing on I2C Configs');
+        // Check if Configs is ready and has been wrote.
+        // Flag?
+    }
+
     /** */
     const cleanup = () => {
         socket.removeListener(events.I2C.DATA(), onDataReceived);
+        socket.removeListener(events.I2C_OPEN.SUCCESS(), sendConfig);
     }
 
     const initializeWidget = (config) => {
         resetWidget(config);
         socket.on(events.I2C.DATA(), onDataReceived);
+        socket.on(events.I2C_OPEN.SUCCESS(), sendConfig);
 
         // TESTS
         setInterval(() => {
@@ -61,10 +68,10 @@ export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
 
     const resetWidget = (config) => {
         const {
-            address, readEvery, dataParameters, writeConfigs = []
+            address, readEvery, dataParameters = [], writeConfigs = []
         } = config || {};
 
-        initializeDataParameters(dataParameters);
+        setDataParameters(dataParameters || []);
         setDeviceAddress(address);
         setReadInterval(readEvery);
         setWriteConfigs(writeConfigs || []);
@@ -84,12 +91,11 @@ export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
             <div className='app-row app-widget-i2c'>
                 {Object.keys(data).map((name) => {
                     const value = data[name];
-
                     return <I2CDatum key={name} name={name} value={value} />
                 })}
             </div>
             <div className='app-widget-i2c-actions'>
-                <Button>Send I2C config</Button>
+                <Button onClick={sendConfig}>Write Config</Button>
             </div>
         </DashboardWidget>
     );

@@ -3,7 +3,7 @@ import { create } from "zustand";
 const initialState = {
     address: null,
     readEvery: 0,
-    dataParameters: {},
+    dataParameters: [],
     writeConfigs: []
 
     /*
@@ -35,8 +35,9 @@ export const useI2CStore = create((set, get) => ({
     setDeviceAddress: (address) => set((state) => ({ ...state, address })),
     setReadInterval: (readEvery) => set((state) => ({ ...state, readEvery })),
 
-    initializeDataParameters: (dataParameters = {}) => set((state) => ({ ...state, dataParameters })),
-
+    // initializeDataParameters: (dataParameters = []) => set((state) => ({ ...state, dataParameters })),
+    setDataParameters: (dataParameters = []) => set((state) => ({ ...state, dataParameters })),
+    /*
     setDataParameters: (name, { scale, offset, precision, address } = {}) => set(({ dataParameters, ...state }) => {
         dataParameters[name] = dataParameters[name] || {}
         const updatedScale = scale || dataParameters[name].scale || 1;
@@ -52,12 +53,15 @@ export const useI2CStore = create((set, get) => ({
 
         return { ...state, dataParameters }
     }),
+    /** */
 
+    /*
     removeDataParameters: (name) => set(({ dataParameters, ...state }) => {
         delete dataParameters[name]
 
         return { ...state, dataParameters }
     }),
+    /** */
 
     setWriteConfigs: (writeConfigs) => set((state) => ({ ...state, writeConfigs })),
 }));
