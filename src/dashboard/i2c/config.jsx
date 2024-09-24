@@ -19,21 +19,21 @@ function HexadecimalInput({ className, ...props }) {
 }
 
 
-function I2CAddressMapItem({ name, address, removable }) {
-    const { setDataMap, dataMap, setDataParameters, dataParameters, removeDataParameters } = useI2CStore();
+function I2CAddressMapItem({ name, removable }) {
+    const { dataParameters, setDataParameters, removeDataParameters } = useI2CStore();
     const dataParameter = (dataParameters || {})[name] || {};
 
     const [nameValue, setNameValue] = useState('');
-    const [addressValue, setAddressValue] = useState('');
 
-    const [scaleValue, setScaleValue] = useState('');
-    const [offsetValue, setOffsetValue] = useState('');
-    const [precisionValue, setPrecisionValue] = useState('');
+    const [addressValue, setAddressValue] = useState(dataParameter.address || '');
+    const [scaleValue, setScaleValue] = useState(dataParameter.scale || '');
+    const [offsetValue, setOffsetValue] = useState(dataParameter.offset || '');
+    const [precisionValue, setPrecisionValue] = useState(dataParameter.precision || '');
 
 
     /** */
     useEffect(() => setNameValue(name), [name]);
-    useEffect(() => setAddressValue(address), [address]);
+    useEffect(() => setAddressValue(dataParameter.address), [dataParameter.address]);
     useEffect(() => setScaleValue(dataParameter.scale), [dataParameter.scale]);
     useEffect(() => setOffsetValue(dataParameter.offset), [dataParameter.offset]);
     useEffect(() => setPrecisionValue(dataParameter.precision), [dataParameter.precision]);
@@ -44,26 +44,19 @@ function I2CAddressMapItem({ name, address, removable }) {
     const updateScale = (value) => setDataParameters(name, { scale: value });
     const updateOffset = (value) => setDataParameters(name, { offset: value });
     const updatePrecision = (value) => setDataParameters(name, { precision: value });
-    const updateAddressMapItem = () => {
-        if (!(addressValue && nameValue)) {
-            return;
-        }
-
-        const updates = dataMap;
-        delete updates[name];
-        updates[nameValue] = address;
-
-        setDataMap(updates);
-    }
+    const updateAddress = (value) => setDataParameters(name, { address: value });
     /** */
 
-    const removeData = () => {
-        const updates = dataMap;
-        delete updates[name];
-
-        setDataMap(updates);
-        removeDataParameters(name);
+    const updateAddressMapItem = () => {
+        setDataParameters(name, {
+            address: addressValue,
+            scale: scaleValue,
+            offset: offsetValue,
+            precision: precisionValue
+        });
     }
+
+    const removeData = () => removeDataParameters(name);
 
 
     return <div className='app-row'>
@@ -75,9 +68,9 @@ function I2CAddressMapItem({ name, address, removable }) {
         />
         <HexadecimalInput
             label='Address'
-            value={addressValue}
+            onEnter={updateAddress}
             onValueChange={setAddressValue}
-            onEnter={updateAddressMapItem}
+            value={addressValue}
         />
         <Input
             label='Scale Factor'
@@ -108,8 +101,8 @@ function I2CAddressMapItem({ name, address, removable }) {
 
 export function WidgetI2CConfig() {
     const {
-        address, readEvery, dataMap,
-        setDataParameters, setDataMap, setDeviceAddress, setReadInterval,
+        address, readEvery, dataParameters,
+        setDataParameters, setDeviceAddress, setReadInterval,
     } = useI2CStore();
 
     return <div className='app-widget-i2c-config'>
@@ -132,20 +125,12 @@ export function WidgetI2CConfig() {
             <TextNormal>Address Data map</TextNormal>
 
             <div className='app-column app-widget-i2c-config-datamap'>
-                {Object.keys(dataMap || {}).sort().map((name) => {
-                    const address = dataMap[name] || '';
-
-                    return <I2CAddressMapItem key={name} name={name} address={address} removable />
-                })}
+                {Object.keys(dataParameters || {}).sort().map((name) =>
+                    <I2CAddressMapItem key={name} name={name} removable />
+                )}
             </div>
 
-            <Input label="Add new" onEnter={(name) => {
-                const updates = dataMap;
-                updates[name] = '';
-
-                setDataParameters(name, {})
-                setDataMap(updates);
-            }} />
+            <Input label="Add new" onEnter={(name) => setDataParameters(name, {})} />
         </div>
 
     </div>

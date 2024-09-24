@@ -24,8 +24,8 @@ function I2CDatum({ name, value }) {
 
 export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
     const {
-        address, readEvery, dataMap, dataParameters,
-        setDeviceAddress, setReadInterval, setDataMap, initializeDataParameters
+        address, readEvery, dataParameters,
+        setDeviceAddress, setReadInterval, initializeDataParameters
 
     } = useI2CStore();
     const [data, setData] = useState({});
@@ -60,13 +60,12 @@ export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
 
     const resetWidget = (config) => {
         const {
-            address, readEvery, dataMap, dataParameters,
+            address, readEvery, dataParameters,
         } = config || {};
 
         initializeDataParameters(dataParameters);
         setDeviceAddress(address);
         setReadInterval(readEvery);
-        setDataMap(dataMap);
     }
     /** */
 
@@ -76,7 +75,7 @@ export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
             cleanup={cleanup}
             widgetKey={widgetKey}
             widgetName={widgetName}
-            saveConfig={() => ({ address, readEvery, dataMap, dataParameters })}
+            saveConfig={() => ({ address, readEvery, dataParameters })}
             loadConfig={resetWidget}
             openConfig={() => <WidgetI2CConfig widgetKey={widgetKey} />}
             {...others}>
