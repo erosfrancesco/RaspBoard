@@ -4,6 +4,7 @@ const initialState = {
     address: null,
     readEvery: 0,
     dataParameters: {},
+    writeConfigs: []
 
     /*
     dataMap: {
@@ -56,6 +57,7 @@ export const useI2CStore = create((set, get) => ({
         delete dataParameters[name]
 
         return { ...state, dataParameters }
-    })
+    }),
 
+    setWriteConfigs: (writeConfigs) => set((state) => ({ ...state, writeConfigs })),
 }));

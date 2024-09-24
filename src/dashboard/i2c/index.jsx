@@ -1,4 +1,5 @@
 import { TextNormal } from 'components/typography';
+import Button from 'components/input/button';
 import './index.css';
 import { useState } from 'react';
 import { useI2CStore } from './i2c.store';
@@ -24,8 +25,8 @@ function I2CDatum({ name, value }) {
 
 export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
     const {
-        address, readEvery, dataParameters,
-        setDeviceAddress, setReadInterval, initializeDataParameters
+        address, readEvery, dataParameters, writeConfigs,
+        setDeviceAddress, setReadInterval, initializeDataParameters, setWriteConfigs
 
     } = useI2CStore();
     const [data, setData] = useState({});
@@ -60,12 +61,13 @@ export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
 
     const resetWidget = (config) => {
         const {
-            address, readEvery, dataParameters,
+            address, readEvery, dataParameters, writeConfigs = []
         } = config || {};
 
         initializeDataParameters(dataParameters);
         setDeviceAddress(address);
         setReadInterval(readEvery);
+        setWriteConfigs(writeConfigs || []);
     }
     /** */
 
@@ -75,16 +77,19 @@ export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
             cleanup={cleanup}
             widgetKey={widgetKey}
             widgetName={widgetName}
-            saveConfig={() => ({ address, readEvery, dataParameters })}
+            saveConfig={() => ({ address, readEvery, dataParameters, writeConfigs })}
             loadConfig={resetWidget}
             openConfig={() => <WidgetI2CConfig widgetKey={widgetKey} />}
             {...others}>
-            <div className='app-widget-i2c'>
+            <div className='app-row app-widget-i2c'>
                 {Object.keys(data).map((name) => {
                     const value = data[name];
 
                     return <I2CDatum key={name} name={name} value={value} />
                 })}
+            </div>
+            <div className='app-widget-i2c-actions'>
+                <Button>Send I2C config</Button>
             </div>
         </DashboardWidget>
     );

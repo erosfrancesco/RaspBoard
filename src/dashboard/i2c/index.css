@@ -1,14 +1,15 @@
 @import url("../../App.css");
 
-.app-input-hexadecimal {
-  width: 3em !important;
-}
-
 .app-widget-i2c {
-  display: flex;
-  flex-direction: row;
+  flex-wrap: wrap;
   gap: 0.5em;
   width: 24em;
+  height: 8em;
+}
+
+.app-widget-i2c-actions {
+  position: absolute;
+  bottom: 0.5em;
 }
 
 .app-widget-i2c-datum {
@@ -17,9 +18,11 @@
 /**/
 
 /* CONFIG */
+.app-input-hexadecimal {
+  width: 3em !important;
+}
+
 .app-widget-i2c-config {
-  display: flex;
-  flex-direction: column;
   gap: 0.5em;
   width: 24em;
 }
@@ -35,7 +38,7 @@
   height: 1em;
 }
 
-.app-widget-i2c-config-datamap {
+.app-widget-i2c-config-list {
   align-items: center !important;
 
   padding-left: 0.5em;

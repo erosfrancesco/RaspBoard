@@ -99,13 +99,61 @@ function I2CAddressMapItem({ name, removable }) {
     </div>
 }
 
+function I2CStartupConfigItem({ i }) {
+    const { writeConfigs, setWriteConfigs } = useI2CStore();
+    const config = (writeConfigs || {})[i] || {};
+
+
+    const [addressValue, setAddressValue] = useState(config.address || '');
+    useEffect(() => setAddressValue(config.address), [config.address]);
+    const updateAddress = (value) => {
+        writeConfigs[i].address = value;
+        setWriteConfigs(writeConfigs);
+    };
+
+    const [dataValue, setDataValue] = useState(config.value || '');
+    useEffect(() => setAddressValue(config.value), [config.value]);
+    const updateData = (value) => {
+        writeConfigs[i].value = value;
+        setWriteConfigs(writeConfigs);
+    };
+
+    const removeData = () => {
+        delete writeConfigs[i];
+        setWriteConfigs(writeConfigs);
+    };
+
+    return <div className='app-row'>
+
+        <TextNormal style={{
+            alignItems: 'center'
+        }}>{config.label}</TextNormal>
+
+        <HexadecimalInput
+            label='Address'
+            onEnter={updateAddress}
+            onValueChange={setAddressValue}
+            value={addressValue}
+        />
+
+        <Input
+            label='Value'
+            onEnter={updateData}
+            onValueChange={setDataValue}
+            value={dataValue}
+        />
+
+        <DeleteButton onClick={removeData} className="app-wiget-i2c-config-row-delete" />
+    </div>
+}
+
 export function WidgetI2CConfig() {
     const {
-        address, readEvery, dataParameters,
-        setDataParameters, setDeviceAddress, setReadInterval,
+        address, readEvery, dataParameters, writeConfigs,
+        setDataParameters, setDeviceAddress, setReadInterval, setWriteConfigs
     } = useI2CStore();
 
-    return <div className='app-widget-i2c-config'>
+    return <div className='app-column app-widget-i2c-config'>
         <div className='app-row'>
             <HexadecimalInput
                 label='Address'
@@ -124,7 +172,7 @@ export function WidgetI2CConfig() {
         <div>
             <TextNormal>Address Data map</TextNormal>
 
-            <div className='app-column app-widget-i2c-config-datamap'>
+            <div className='app-column app-widget-i2c-config-list'>
                 {Object.keys(dataParameters || {}).sort().map((name) =>
                     <I2CAddressMapItem key={name} name={name} removable />
                 )}
@@ -132,7 +180,15 @@ export function WidgetI2CConfig() {
 
             <Input label="Add new" onEnter={(name) => setDataParameters(name, {})} />
         </div>
+        <div>
+            <TextNormal>Write on startup</TextNormal>
 
+            <div className='app-column app-widget-i2c-config-list'>
+                {writeConfigs.map((config, i) => <I2CStartupConfigItem key={i} i={i} />)}
+            </div>
+
+            <Input label="Add new" onEnter={(label) => setWriteConfigs([...writeConfigs, { label }])} />
+        </div>
     </div>
 }
 
