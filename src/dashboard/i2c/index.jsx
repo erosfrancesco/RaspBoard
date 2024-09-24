@@ -61,6 +61,7 @@ export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
         resetWidget(config);
         socket.on(events.I2C.DATA(), onDataReceived);
         socket.on(events.I2C_OPEN.SUCCESS(), onI2COpened);
+        socket.on(events.I2C_WRITE.SUCCESS(), onI2COpened);
 
         // TESTS
         setInterval(() => {
