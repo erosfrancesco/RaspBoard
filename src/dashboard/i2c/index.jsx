@@ -43,26 +43,33 @@ export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
     }
 
     const onI2COpened = () => {
-        if (!isConfigured) {
-            console.log('Writing on I2C Configs');
-            setIsConfigured(true);
-            sendConfig();
-        }
+        socket.emit(events.I2C_SETTING.CHECK());
+    }
 
+    const onI2CSetupCheck = (setup) => {
+        console.log('setup', setup);
+        if (!setup) { }
     }
 
     /** */
     const cleanup = () => {
-        socket.removeListener(events.I2C.DATA(), onDataReceived);
+        // socket.removeListener(events.I2C.DATA(), onDataReceived);
         socket.removeListener(events.I2C_OPEN.SUCCESS(), onI2COpened);
+        socket.removeListener(events.I2C_SETTING.CHECK(), onI2CSetupCheck);
+        // socket.removeListener(events.I2C_WRITE.SUCCESS(), onI2COpened);
     }
 
     const initializeWidget = (config) => {
         resetWidget(config);
-        socket.on(events.I2C.DATA(), onDataReceived);
+        // socket.on(events.I2C.DATA(), onDataReceived);
+        socket.on(events.I2C_SETTING.CHECK(), onI2CSetupCheck);
         socket.on(events.I2C_OPEN.SUCCESS(), onI2COpened);
-        socket.on(events.I2C_WRITE.SUCCESS(), onI2COpened);
+        // socket.on(events.I2C_WRITE.SUCCESS(), onI2COpened);
+        socket.emit(events.I2C_OPEN.EVENT(), config);
+        socket.emit(events.I2C_SETTING.WRITE(), config);
 
+
+        /*
         // TESTS
         setInterval(() => {
             onDataReceived({
