@@ -22,7 +22,8 @@ export function DashboardWidget({
     useEffect(() => {
         const widgetID = widgetName + ' - ' + widgetKey;
         const config = JSON.parse(localStorage.getItem(widgetID));
-        initialize(config || {});
+        // TODO: - Initialize only on WS connected
+        setTimeout(() => initialize(config || {}), 2000);
 
         return cleanup;
     }, []);
