@@ -3,6 +3,7 @@ import { useLayoutStore } from '@/layout.store';
 import Button from 'components/input/button';
 import './widget.css';
 import { useEffect } from 'react';
+import socket from '../socket.store';
 
 
 export function DashboardWidget({
@@ -19,13 +20,25 @@ export function DashboardWidget({
 }) {
     const wrapperClassName = 'app-widget' + (className ? " " + className : "");
 
-    useEffect(() => {
+    const initializeWiget = () => {
         const widgetID = widgetName + ' - ' + widgetKey;
         const config = JSON.parse(localStorage.getItem(widgetID));
-        // TODO: - Initialize only on WS connected
-        setTimeout(() => initialize(config || {}), 2000);
 
-        return cleanup;
+        initialize(config || {});
+    }
+
+    useEffect(() => {
+        // Initialize widget on WS ready
+        if (socket.connected) {
+            initializeWiget();
+        } else {
+            socket.on('connected', initializeWiget);
+        }
+
+        return () => {
+            socket.removeListener('connected', initializeWiget);
+            cleanup();
+        };
     }, []);
 
     return (

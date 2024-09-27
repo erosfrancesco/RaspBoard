@@ -19,33 +19,33 @@ function HexadecimalInput({ className, ...props }) {
 
 
 function I2CAddressMapItem({ i, removable }) {
-    const { dataParameters, setDataParameters } = useI2CStore();
-    const dataParameter = (dataParameters || [])[i] || {};
+    const { dataStructure, setDataStructure } = useI2CStore();
+    const datum = (dataStructure || [])[i] || {};
 
     const updateScale = (value) => {
-        dataParameters[i].scale = value;
-        setDataParameters(dataParameters);
+        dataStructure[i].scale = value;
+        setDataStructure(dataStructure);
     }
     const updateOffset = (value) => {
-        dataParameters[i].offset = value;
-        setDataParameters(dataParameters);
+        dataStructure[i].offset = value;
+        setDataStructure(dataStructure);
     }
     const updatePrecision = (value) => {
-        dataParameters[i].precision = value;
-        setDataParameters(dataParameters);
+        dataStructure[i].precision = value;
+        setDataStructure(dataStructure);
     }
     const updateAddress = (value) => {
-        dataParameters[i].address = value;
-        setDataParameters(dataParameters);
+        dataStructure[i].address = value;
+        setDataStructure(dataStructure);
     }
     const updateLabel = () => {
-        dataParameters[i].label = value;
-        setDataParameters(dataParameters);
+        dataStructure[i].label = value;
+        setDataStructure(dataStructure);
     }
 
     const removeData = () => {
-        delete dataParameters[i];
-        setDataParameters(dataParameters);
+        delete dataStructure[i];
+        setDataStructure(dataStructure);
     }
 
 
@@ -53,23 +53,23 @@ function I2CAddressMapItem({ i, removable }) {
         <Input
             label='Name'
             onEnter={updateLabel}
-            value={dataParameter.label || ''}
+            value={datum.label || ''}
         />
 
-        <HexadecimalInput label='Address' onEnter={updateAddress} value={dataParameter.address} />
+        <HexadecimalInput label='Address' onEnter={updateAddress} value={datum.address} />
 
         <Input
             label='Scale Factor'
             type="number"
             onEnter={updateScale}
-            value={dataParameter.scale || 1}
+            value={datum.scale || 1}
         />
 
         <Input
             label='Offset'
             type="number"
             onEnter={updateOffset}
-            value={dataParameter.offset || 0}
+            value={datum.offset || 0}
         />
 
         <Input
@@ -78,7 +78,7 @@ function I2CAddressMapItem({ i, removable }) {
             step="1"
             min="0"
             onEnter={updatePrecision}
-            value={dataParameter.precision || 0}
+            value={datum.precision || 0}
         />
 
         {removable && <DeleteButton onClick={removeData} className="app-wiget-i2c-config-row-delete" />}
@@ -86,28 +86,28 @@ function I2CAddressMapItem({ i, removable }) {
 }
 
 function I2CStartupConfigItem({ i }) {
-    const { writeConfigs, setWriteConfigs } = useI2CStore();
-    const config = (writeConfigs || {})[i] || {};
+    const { deviceSetup, setDeviceSetup } = useI2CStore();
+    const config = (deviceSetup || {})[i] || {};
 
     //
     const updateAddress = (value) => {
-        writeConfigs[i].address = value;
-        setWriteConfigs(writeConfigs);
+        deviceSetup[i].address = value;
+        setDeviceSetup(deviceSetup);
     };
 
     const updateData = (value) => {
-        writeConfigs[i].value = value;
-        setWriteConfigs(writeConfigs);
+        deviceSetup[i].value = value;
+        setDeviceSetup(deviceSetup);
     };
 
     const updateLabel = (value) => {
-        writeConfigs[i].label = value;
-        setWriteConfigs(writeConfigs);
+        deviceSetup[i].label = value;
+        setDeviceSetup(deviceSetup);
     };
 
     const removeData = () => {
-        delete writeConfigs[i];
-        setWriteConfigs(writeConfigs);
+        delete deviceSetup[i];
+        setDeviceSetup(deviceSetup);
     };
     //
 
@@ -122,11 +122,11 @@ function I2CStartupConfigItem({ i }) {
 
 export function WidgetI2CConfig() {
     const {
-        address, readEvery, dataParameters, writeConfigs,
-        setDataParameters, setDeviceAddress, setReadInterval, setWriteConfigs
+        address, readFrequency, dataStructure, deviceSetup,
+        setDataStructure, setDeviceAddress, setReadFrequency, setDeviceSetup
     } = useI2CStore();
 
-    const addNewDataParameter = (label) => setDataParameters([...dataParameters, { label }]);
+    const addNewDatum = (label) => setDataStructure([...(dataStructure || []), { label }]);
 
     return <div className='app-column app-widget-i2c-config'>
         <div className='app-row'>
@@ -139,30 +139,30 @@ export function WidgetI2CConfig() {
                 label='Read every (ms)'
                 min='0' step='1'
                 type='number'
-                onEnter={setReadInterval}
-                value={readEvery}
-                initialValue={readEvery}
+                onEnter={setReadFrequency}
+                value={readFrequency}
+                initialValue={readFrequency}
             />
         </div>
         <div>
             <TextNormal>Address Data map</TextNormal>
 
             <div className='app-column app-widget-i2c-config-list'>
-                {Object.keys(dataParameters || []).map((_, i) =>
+                {Object.keys(dataStructure || []).map((_, i) =>
                     <I2CAddressMapItem key={i} i={i} removable />
                 )}
             </div>
 
-            <Input label="Add new" onEnter={addNewDataParameter} />
+            <Input label="Add new" onEnter={addNewDatum} />
         </div>
         <div>
             <TextNormal>Write on startup</TextNormal>
 
             <div className='app-column app-widget-i2c-config-list'>
-                {writeConfigs.map((_, i) => <I2CStartupConfigItem key={i} i={i} />)}
+                {deviceSetup.map((_, i) => <I2CStartupConfigItem key={i} i={i} />)}
             </div>
 
-            <Input label="Add new" onEnter={(label) => setWriteConfigs([...writeConfigs, { label }])} />
+            <Input label="Add new" onEnter={(label) => setDeviceSetup([...deviceSetup, { label }])} />
         </div>
     </div>
 }

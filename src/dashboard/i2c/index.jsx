@@ -1,19 +1,19 @@
 import { TextNormal } from 'components/typography';
-import Button from 'components/input/button';
 import './index.css';
 import { useState } from 'react';
 import { useI2CStore } from './i2c.store';
-import socket, { events } from '@/socket.store';
+import socket, { events } from './events';
 import WidgetI2CConfig from './config';
 import DashboardWidget from 'components/widget';
 
+// TODO: - Write config manually
 
 function I2CDatum({ name, value }) {
-    const { dataParameters = [] } = useI2CStore();
+    const { dataStructure = [] } = useI2CStore();
 
     const computeValue = () => {
-        const dataParameter = dataParameters.find((el) => el.label === name);
-        const { scale = 1, precision = 0, offset = 0 } = dataParameter || {}
+        const datum = dataStructure.find((el) => el.label === name);
+        const { scale = 1, precision = 0, offset = 0 } = datum || {}
         return (Number(offset) + (Number(value) / Number(scale))).toFixed(precision)
     };
 
@@ -25,75 +25,50 @@ function I2CDatum({ name, value }) {
 
 export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
     const {
-        address, readEvery, dataParameters, writeConfigs,
-        setDeviceAddress, setReadInterval, setDataParameters, setWriteConfigs
+        address, readFrequency, dataStructure, deviceSetup,
+        setDeviceAddress, setReadFrequency, setDataStructure, setDeviceSetup
     } = useI2CStore();
-    const [data, setData] = useState({});
-    const [isConfigured, setIsConfigured] = useState(false);
 
+    const [data, setData] = useState({});
+
+    /** */
     const onDataReceived = (data) => {
         setData(data);
-    }
+    };
 
-    const sendConfig = () => {
-        console.log('Writing on I2C Configs');
-        // Check if writeConfigs is ready and has been wrote.
-        // Flag?
-        socket.emit(events.I2C.WRITE(), writeConfigs);
-    }
-
-    const onI2COpened = () => {
-        socket.emit(events.I2C_SETTING.CHECK());
-    }
-
-    const onI2CSetupCheck = (setup) => {
-        console.log('setup', setup);
-        if (!setup) { }
-    }
 
     /** */
     const cleanup = () => {
-        // socket.removeListener(events.I2C.DATA(), onDataReceived);
-        socket.removeListener(events.I2C_OPEN.SUCCESS(), onI2COpened);
-        socket.removeListener(events.I2C_SETTING.CHECK(), onI2CSetupCheck);
-        // socket.removeListener(events.I2C_WRITE.SUCCESS(), onI2COpened);
+        socket.removeListener(events.DATA, onDataReceived);
     }
 
-    const initializeWidget = (config) => {
-        resetWidget(config);
-        // socket.on(events.I2C.DATA(), onDataReceived);
-        socket.on(events.I2C_SETTING.CHECK(), onI2CSetupCheck);
-        socket.on(events.I2C_OPEN.SUCCESS(), onI2COpened);
-        // socket.on(events.I2C_WRITE.SUCCESS(), onI2COpened);
-        socket.emit(events.I2C_OPEN.EVENT(), config);
-        socket.emit(events.I2C_SETTING.WRITE(), config);
+    const initializeWidget = (updatedConfig) => {
+        resetWidget(updatedConfig);
 
+        const widgetId = widgetKey + '-' + widgetName;
+        const dataStructure = {};
+        (updatedConfig.dataStructure || []).forEach(({ label, address }) => {
+            dataStructure[label] = address
+        });
 
-        /*
-        // TESTS
-        setInterval(() => {
-            onDataReceived({
-                'accelX': 0.00004 + (Math.random() / 10000),	     // Accelerometer registers
-                'accelY': 0.00004 + (Math.random() / 10000),	     //
-                'accelZ': 0.00004 + (Math.random() / 10000),	     //
-                'temp': 41 + (Math.random() + (Math.random() * 10)),	     //	Temperature registers
-                'gyroX': 0.43 + (Math.random()),	     // Gyroscope registers
-                'gyroY': 0.45 + (Math.random()),	     //
-                'gyroZ': 0.47 + (Math.random()), 	     //    
-            });
-        }, 2000);
-        /** */
+        const settings = {
+            address: updatedConfig.address,
+            readFrequency: updatedConfig.readFrequency,
+            deviceSetup: updatedConfig.deviceSetup,
+            dataStructure, widgetId
+        };
+
+        socket.emit(events.STATUS, settings);
+        // socket.on(events.STATUS, onSettingsReceived); // update the config?
+
+        socket.on(events.DATA, onDataReceived);
     };
 
-    const resetWidget = (config) => {
-        const {
-            address, readEvery, dataParameters = [], writeConfigs = []
-        } = config || {};
-
-        setDataParameters(dataParameters || []);
-        setDeviceAddress(address);
-        setReadInterval(readEvery);
-        setWriteConfigs(writeConfigs || []);
+    const resetWidget = (updateConfigs) => {
+        setDeviceAddress(updateConfigs.address);
+        setReadFrequency(updateConfigs.readFrequency);
+        setDataStructure(updateConfigs.dataStructure);
+        setDeviceSetup(updateConfigs.deviceSetup || []);
     }
     /** */
 
@@ -103,7 +78,7 @@ export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
             cleanup={cleanup}
             widgetKey={widgetKey}
             widgetName={widgetName}
-            saveConfig={() => ({ address, readEvery, dataParameters, writeConfigs })}
+            saveConfig={() => ({ address, readFrequency, dataStructure, deviceSetup })}
             loadConfig={resetWidget}
             openConfig={() => <WidgetI2CConfig widgetKey={widgetKey} />}
             {...others}>
@@ -113,9 +88,11 @@ export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
                     return <I2CDatum key={name} name={name} value={value} />
                 })}
             </div>
+            {/*}
             <div className='app-widget-i2c-actions'>
-                <Button onClick={sendConfig}>Write Config</Button>
+                <Button onClick={resetI2C}>Write Config</Button>
             </div>
+            {/** */}
         </DashboardWidget>
     );
 }

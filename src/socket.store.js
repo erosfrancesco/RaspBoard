@@ -2,7 +2,7 @@ import io from "socket.io-client";
 
 const wsPath =
     "http://raspberrypi.local:80" /*
-    "localhost:3000";
+    "localhost:80";
 /** */
 
 export const events = {
@@ -34,30 +34,11 @@ export const events = {
     /** */
 
     /** */
-    I2C: {
-        DATA: () => 'i2c-data',
-    },
-
-    I2C_OPEN: {
-        EVENT: () => 'i2c-open',
-        SUCCESS: () => 'i2c-success-open'
-    },
-
-    I2C_WRITE: {
-        EVENT: () => 'i2c-write',
-        SUCCESS: () => 'i2c-success-write'
-    },
-
-    I2C_SETTING: {
-        CHECK: () => 'i2c-settings',
-        WRITE: () => 'i2c-settings-write'
-    },
-    /** */
-
     SHELL: {
         SEND: () => 'shell-send',
         OUTPUT: () => 'shell-output'
     }
+    /** */
 };
 
 export const socket = io.connect(wsPath);
