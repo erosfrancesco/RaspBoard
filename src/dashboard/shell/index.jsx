@@ -1,11 +1,16 @@
 import Input from 'components/input/input';
 import './index.css';
 import { TextNormal } from 'components/typography';
-import socket, { events } from '@/socket.store';
+import socket from '@/socket.store';
 import DashboardWidget from 'components/widget';
 import WidgetShellConfig from './config';
 import { useShellStore } from './shell.store';
 
+const events = {
+    CMD: 'shell.cmd'
+}
+
+// TODO: - Check directory
 // TODO: - History
 export function WidgetShell({ widgetKey, widgetName, ...others } = {}) {
     const {
@@ -17,7 +22,7 @@ export function WidgetShell({ widgetKey, widgetName, ...others } = {}) {
     const widgetId = widgetName + '-' + widgetKey;
 
     const handleCommandSend = (command) => {
-        socket.emit(events.SHELL.SEND(), { command, rootFolder, widgetId });
+        socket.emit(events.CMD, { command, rootFolder, widgetId });
         setLastCommand(command);
     }
 
@@ -29,7 +34,7 @@ export function WidgetShell({ widgetKey, widgetName, ...others } = {}) {
 
     /** */
     const cleanup = () => {
-        socket.removeListener(events.SHELL.OUTPUT(), handleCommandOutput);
+        socket.removeListener(events.CMD, handleCommandOutput);
     }
 
     const resetWidget = (config) => {
@@ -39,7 +44,7 @@ export function WidgetShell({ widgetKey, widgetName, ...others } = {}) {
 
     const initializeWidget = (config) => {
         resetWidget(config);
-        socket.on(events.SHELL.OUTPUT(), handleCommandOutput);
+        socket.on(events.CMD, handleCommandOutput);
     }
     /** */
 

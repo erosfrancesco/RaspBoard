@@ -5,15 +5,6 @@ const wsPath =
     "localhost:80";
 /** */
 
-export const events = {
-    /** */
-    SHELL: {
-        SEND: () => 'shell-send',
-        OUTPUT: () => 'shell-output'
-    }
-    /** */
-};
-
 export const socket = io.connect(wsPath);
 
 // socket.close()
