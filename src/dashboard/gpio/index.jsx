@@ -1,10 +1,10 @@
 import './index.css';
 import { statuses, useGpioStore, writeModes } from './gpio.store';
+import socket, { events } from './events.js';
 import DashboardWidget from 'components/widget';
 import { useState } from 'react';
 import WidgetGPIOConfig from './config';
 import WidgetGPIOStatus from './status';
-import socket, { events } from '@/socket.store.js';
 import { TextNormal } from 'components/typography';
 import Input from 'components/input/input';
 
@@ -26,21 +26,22 @@ export function WidgetGPIO({ widgetKey, widgetName, ...others }) {
     // WIDGET EVENTS
     const onDigitalValueChange = (value) => {
         setPinAttribute(widgetKey, 'digitalValue', value);
-        socket.emit(events.PIN_WRITE.EVENT(pin), value);
+        socket.emit(events.WRITE(pin), value);
     }
 
     const onPWMValueChange = (value) => {
         setPinAttribute(widgetKey, 'pwmValue', value);
-        socket.emit(events.PIN_WRITE.EVENT(pin), value);
+        socket.emit(events.WRITE(pin), value);
     }
 
     const onServoValueChange = (value) => {
         setPinAttribute(widgetKey, 'servoValue', value);
-        socket.emit(events.PIN_WRITE.EVENT(pin), value);
+        socket.emit(events.WRITE(pin), value);
     }
 
     // SOCKET EVENT HANDLERS
-    const handlePinConnected = () => {
+    const handlePinConnected = ({ pin }) => {
+        console.log('CONNECTED TO ', pin)
         setPinAttribute(widgetKey, 'status', statuses.CONNECTED);
     };
 
@@ -59,10 +60,10 @@ export function WidgetGPIO({ widgetKey, widgetName, ...others }) {
 
     /** */
     const cleanup = () => {
-        socket.removeListener(events.PIN_OPEN.SUCCESS(pin), handlePinConnected);
-        socket.removeListener(events.PIN_WRITE.SUCCESS(pin), handleIncomingDigitalData);
-        socket.removeListener(events.PIN_PWM.SUCCESS(pin), handleIncomingPWMData);
-        socket.removeListener(events.SERVO_WRITE.SUCCESS(pin), handleIncomingServoData);
+        socket.removeListener(events.OPEN, handlePinConnected);
+        socket.removeListener(events.WRITE(pin), handleIncomingDigitalData);
+        socket.removeListener(events.PWM(pin), handleIncomingPWMData);
+        socket.removeListener(events.SERVO(pin), handleIncomingServoData);
     }
 
     const resetWidget = (config = {}) => {
@@ -72,7 +73,7 @@ export function WidgetGPIO({ widgetKey, widgetName, ...others }) {
         const { pin } = config;
 
         if (pin) {
-            socket.emit(events.PIN_OPEN.EVENT(), { pin });
+            socket.emit(events.OPEN, { pin });
         }
     }
 
@@ -81,10 +82,10 @@ export function WidgetGPIO({ widgetKey, widgetName, ...others }) {
         const { pin } = config || {};
 
         if (pin) {
-            socket.on(events.PIN_WRITE.SUCCESS(pin), handleIncomingDigitalData);
-            socket.on(events.PIN_PWM.SUCCESS(pin), handleIncomingPWMData);
-            socket.on(events.SERVO_WRITE.SUCCESS(pin), handleIncomingServoData);
-            socket.on(events.PIN_OPEN.SUCCESS(pin), handlePinConnected);
+            socket.on(events.OPEN, handlePinConnected);
+            socket.on(events.WRITE(pin), handleIncomingDigitalData);
+            socket.on(events.PWM(pin), handleIncomingPWMData);
+            socket.on(events.SERVO(pin), handleIncomingServoData);
         }
     }
     /** */

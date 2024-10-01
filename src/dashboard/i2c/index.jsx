@@ -59,7 +59,7 @@ export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
         };
 
         socket.emit(events.STATUS, settings);
-        // socket.on(events.STATUS, onSettingsReceived); // update the config?
+        socket.on(events.STATUS, console.log); // update the config?
 
         socket.on(events.DATA, onDataReceived);
     };
