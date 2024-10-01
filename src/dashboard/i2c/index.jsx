@@ -28,8 +28,9 @@ export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
         address, readFrequency, dataStructure, deviceSetup,
         setDeviceAddress, setReadFrequency, setDataStructure, setDeviceSetup
     } = useI2CStore();
-
     const [data, setData] = useState({});
+    
+    const widgetId = widgetName + '-' + widgetKey;
 
     /** */
     const onDataReceived = (data) => {
@@ -45,7 +46,6 @@ export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
     const initializeWidget = (updatedConfig) => {
         resetWidget(updatedConfig);
 
-        const widgetId = widgetKey + '-' + widgetName;
         const dataStructure = {};
         (updatedConfig.dataStructure || []).forEach(({ label, address }) => {
             dataStructure[label] = address

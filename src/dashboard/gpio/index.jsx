@@ -21,6 +21,7 @@ export function WidgetGPIO({ widgetKey, widgetName, ...others }) {
         servoMin, servoMax, servoStep, servoValue
     } = pinout[widgetKey] || {};
 
+    const widgetId = widgetName + '-' + widgetKey;
     const isReady = status === statuses.CONNECTED;
 
     // WIDGET EVENTS
@@ -40,8 +41,12 @@ export function WidgetGPIO({ widgetKey, widgetName, ...others }) {
     }
 
     // SOCKET EVENT HANDLERS
-    const handlePinConnected = ({ pin }) => {
-        console.log('CONNECTED TO ', pin)
+    const handlePinConnected = ({ pin: socketPin, widgetId: socketWidgetId }) => {
+        if (!(pin === socketPin && widgetId === socketWidgetId)) {
+            return;
+        }
+
+        console.log('CONNECTED TO ', pin);
         setPinAttribute(widgetKey, 'status', statuses.CONNECTED);
     };
 
@@ -73,7 +78,7 @@ export function WidgetGPIO({ widgetKey, widgetName, ...others }) {
         const { pin } = config;
 
         if (pin) {
-            socket.emit(events.OPEN, { pin });
+            socket.emit(events.OPEN, { pin, widgetId });
         }
     }
 

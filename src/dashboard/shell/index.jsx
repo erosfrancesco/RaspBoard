@@ -14,13 +14,15 @@ export function WidgetShell({ widgetKey, widgetName, ...others } = {}) {
         lastCommandOutput, setCommandOutput
     } = useShellStore();
 
+    const widgetId = widgetName + '-' + widgetKey;
+
     const handleCommandSend = (command) => {
-        socket.emit(events.SHELL.SEND(), { command, rootFolder, widgetKey });
+        socket.emit(events.SHELL.SEND(), { command, rootFolder, widgetId });
         setLastCommand(command);
     }
 
-    const handleCommandOutput = ({ output, widgetKey: cmdWidgetKey }) => {
-        if (cmdWidgetKey === widgetKey) {
+    const handleCommandOutput = ({ output, widgetId: socketWidgetId }) => {
+        if (socketWidgetId === widgetId) {
             setCommandOutput(output);
         }
     }
