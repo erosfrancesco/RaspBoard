@@ -19,33 +19,33 @@ function HexadecimalInput({ className, ...props }) {
 
 
 function I2CAddressMapItem({ i, removable }) {
-    const { dataStructure, setDataStructure } = useI2CStore();
-    const datum = (dataStructure || [])[i] || {};
+    const { dataSchema, setDataSchema } = useI2CStore();
+    const datum = (dataSchema || [])[i] || {};
 
     const updateScale = (value) => {
-        dataStructure[i].scale = value;
-        setDataStructure(dataStructure);
+        dataSchema[i].scale = value;
+        setDataSchema(dataSchema);
     }
     const updateOffset = (value) => {
-        dataStructure[i].offset = value;
-        setDataStructure(dataStructure);
+        dataSchema[i].offset = value;
+        setDataSchema(dataSchema);
     }
     const updatePrecision = (value) => {
-        dataStructure[i].precision = value;
-        setDataStructure(dataStructure);
+        dataSchema[i].precision = value;
+        setDataSchema(dataSchema);
     }
     const updateAddress = (value) => {
-        dataStructure[i].address = value;
-        setDataStructure(dataStructure);
+        dataSchema[i].address = value;
+        setDataSchema(dataSchema);
     }
     const updateLabel = () => {
-        dataStructure[i].label = value;
-        setDataStructure(dataStructure);
+        dataSchema[i].label = value;
+        setDataSchema(dataSchema);
     }
 
     const removeData = () => {
-        delete dataStructure[i];
-        setDataStructure(dataStructure);
+        delete dataSchema[i];
+        setDataSchema(dataSchema);
     }
 
 
@@ -87,7 +87,7 @@ function I2CAddressMapItem({ i, removable }) {
 
 function I2CStartupConfigItem({ i }) {
     const { deviceSetup, setDeviceSetup } = useI2CStore();
-    const config = (deviceSetup || {})[i] || {};
+    const config = (deviceSetup || [])[i] || {};
 
     //
     const updateAddress = (value) => {
@@ -122,11 +122,11 @@ function I2CStartupConfigItem({ i }) {
 
 export function WidgetI2CConfig() {
     const {
-        address, readFrequency, dataStructure, deviceSetup,
-        setDataStructure, setDeviceAddress, setReadFrequency, setDeviceSetup
+        address, readFrequency, dataSchema, deviceSetup,
+        setDataSchema, setDeviceAddress, setReadFrequency, setDeviceSetup
     } = useI2CStore();
 
-    const addNewDatum = (label) => setDataStructure([...(dataStructure || []), { label }]);
+    const addNewDatum = (label) => setDataSchema([...(dataSchema || []), { label }]);
 
     return <div className='app-column app-widget-i2c-config'>
         <div className='app-row'>
@@ -148,7 +148,7 @@ export function WidgetI2CConfig() {
             <TextNormal>Address Data map</TextNormal>
 
             <div className='app-column app-widget-i2c-config-list'>
-                {Object.keys(dataStructure || []).map((_, i) =>
+                {Object.keys(dataSchema || []).map((_, i) =>
                     <I2CAddressMapItem key={i} i={i} removable />
                 )}
             </div>

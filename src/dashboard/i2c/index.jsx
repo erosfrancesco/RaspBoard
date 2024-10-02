@@ -9,10 +9,10 @@ import DashboardWidget from 'components/widget';
 // TODO: - Write config manually
 
 function I2CDatum({ name, value }) {
-    const { dataStructure = [] } = useI2CStore();
+    const { dataSchema = [] } = useI2CStore();
 
     const computeValue = () => {
-        const datum = dataStructure.find((el) => el.label === name);
+        const datum = dataSchema.find((el) => el.label === name);
         const { scale = 1, precision = 0, offset = 0 } = datum || {}
         return (Number(offset) + (Number(value) / Number(scale))).toFixed(precision)
     };
@@ -25,49 +25,56 @@ function I2CDatum({ name, value }) {
 
 export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
     const {
-        address, readFrequency, dataStructure, deviceSetup,
-        setDeviceAddress, setReadFrequency, setDataStructure, setDeviceSetup
+        address, readFrequency, dataSchema, deviceSetup,
+        setDeviceAddress, setReadFrequency, setDataSchema, setDeviceSetup
     } = useI2CStore();
     const [data, setData] = useState({});
-    
+
     const widgetId = widgetName + '-' + widgetKey;
 
     /** */
     const onDataReceived = (data) => {
+        console.log('data received', data)
         setData(data);
     };
 
 
     /** */
     const cleanup = () => {
+        console.log('cleaning')
         socket.removeListener(events.DATA, onDataReceived);
     }
 
     const initializeWidget = (updatedConfig) => {
         resetWidget(updatedConfig);
 
-        const dataStructure = {};
-        (updatedConfig.dataStructure || []).forEach(({ label, address }) => {
-            dataStructure[label] = address
+        const deviceSetup = updatedConfig.deviceSetup.map(({ address, ...item }) => ({ ...item, address: Number('0x' + address) }));
+
+        const dataSchema = {};
+        (updatedConfig.dataSchema || []).forEach(({ label, address }) => {
+            dataSchema[label] = Number('0x' + address);
         });
 
         const settings = {
-            address: updatedConfig.address,
-            readFrequency: updatedConfig.readFrequency,
-            deviceSetup: updatedConfig.deviceSetup,
-            dataStructure, widgetId
+            address: Number('0x' + updatedConfig.address),
+            readFrequency: Number(updatedConfig.readFrequency),
+            deviceSetup,
+            dataSchema,
+            widgetId
         };
 
         socket.emit(events.STATUS, settings);
-        socket.on(events.STATUS, console.log); // update the config?
-
-        socket.on(events.DATA, onDataReceived);
+        socket.on(events.STATUS, () => {
+            // update the config?
+            socket.on(events.DATA, onDataReceived);
+            console.log('event data, ', socket)
+        });
     };
 
     const resetWidget = (updateConfigs) => {
         setDeviceAddress(updateConfigs.address);
         setReadFrequency(updateConfigs.readFrequency);
-        setDataStructure(updateConfigs.dataStructure);
+        setDataSchema(updateConfigs.dataSchema);
         setDeviceSetup(updateConfigs.deviceSetup || []);
     }
     /** */
@@ -78,7 +85,7 @@ export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
             cleanup={cleanup}
             widgetKey={widgetKey}
             widgetName={widgetName}
-            saveConfig={() => ({ address, readFrequency, dataStructure, deviceSetup })}
+            saveConfig={() => ({ address, readFrequency, dataSchema, deviceSetup })}
             loadConfig={resetWidget}
             openConfig={() => <WidgetI2CConfig widgetKey={widgetKey} />}
             {...others}>

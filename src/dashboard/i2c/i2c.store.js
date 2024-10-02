@@ -3,7 +3,7 @@ import { create } from "zustand";
 const initialState = {
     address: null,
     readFrequency: 0,
-    dataStructure: null,
+    dataSchema: null,
     deviceSetup: []
 
     /*
@@ -16,7 +16,7 @@ const initialState = {
         'gyroY': '45',	     //
         'gyroZ': '47', 	     //
     },
-    dataStructure: {
+    dataSchema: {
         'accelX': {},
         'accelY': { precision: 2, scale: 1000 },
         'accelZ': {},
@@ -34,6 +34,6 @@ export const useI2CStore = create((set, get) => ({
 
     setDeviceAddress: (address) => set((state) => ({ ...state, address })),
     setReadFrequency: (readFrequency) => set((state) => ({ ...state, readFrequency })),
-    setDataStructure: (dataStructure = []) => set((state) => ({ ...state, dataStructure })),
+    setDataSchema: (dataSchema = []) => set((state) => ({ ...state, dataSchema })),
     setDeviceSetup: (deviceSetup) => set((state) => ({ ...state, deviceSetup })),
 }));
