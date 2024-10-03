@@ -1,0 +1,16 @@
+@import url("../../App.css");
+
+.app-widget-socket {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  width: 7em;
+  height: 4em;
+}
+
+.text-red {
+  color: salmon;
+}
+.text-green {
+  color: greenyellow;
+}

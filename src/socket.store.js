@@ -8,12 +8,10 @@ const wsPath =
 export const socket = io.connect(wsPath);
 
 // socket.close()
-// socket.emit()
-// socket.on()
 
 socket.on('connect', () => console.log('Connected to WS'))
 socket.on('disconnect', () => console.log('Disconnected to WS'))
-// socket.on('error', () => console.log('Socket error: ', error))
+socket.on('error', () => console.log('Socket error: ', error))
 
 
 export default socket;

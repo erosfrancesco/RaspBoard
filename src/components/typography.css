@@ -6,17 +6,22 @@
 }
 
 .app-section-title {
-  font-size: 1em;
+  font-size: 1.2em;
   font-weight: 500;
 }
 
 .app-text-normal {
-  font-size: 0.8em;
+  font-size: 1em;
   font-weight: 400;
 }
 
+.app-text-normal-strong {
+  font-size: 1em;
+  font-weight: 700;
+}
+
 .app-input-label {
-  font-size: 0.8em;
+  font-size: 1em;
   font-weight: 500;
   width: fit-content;
 }

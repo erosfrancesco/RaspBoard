@@ -20,3 +20,8 @@ export function TextNormal({ className, children, ...args } = {}) {
     const classNames = (className ? className + ' ' : '') + 'app-text-normal'
     return <span className={classNames} {...args}>{children}</span>
 }
+
+export function TextNormalStrong({ className, children, ...args } = {}) {
+    const classNames = (className ? className + ' ' : '') + 'app-text-normal-strong'
+    return <span className={classNames} {...args}>{children}</span>
+}

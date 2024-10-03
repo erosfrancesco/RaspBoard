@@ -64,33 +64,39 @@ export function DashboardWidget({
 export function DashboardWidgetActions({
     widgetKey = "",
     widgetName = "",
-    saveConfig = () => ({}),
-    loadConfig = () => { },
-    openConfig = () => { },
+    saveConfig,
+    loadConfig,
+    openConfig,
 }) {
     const { setAlertContent } = useLayoutStore();
     const widgetID = widgetName + ' - ' + widgetKey;
 
     const save = () => {
-        const configuration = JSON.stringify(saveConfig());
-        localStorage.setItem(widgetID, configuration);
+        if (saveConfig) {
+            const configuration = JSON.stringify(saveConfig());
+            localStorage.setItem(widgetID, configuration);
+        }
     }
 
     const load = () => {
-        const configuration = JSON.parse(localStorage.getItem(widgetID));
-        loadConfig(configuration);
+        if (loadConfig) {
+            const configuration = JSON.parse(localStorage.getItem(widgetID));
+            loadConfig(configuration);
+        }
     }
 
     const open = () => {
-        const content = openConfig();
-        setAlertContent(content);
+        if (openConfig) {
+            const content = openConfig();
+            setAlertContent(content);
+        }
     }
 
     return (
         <div className='app-column app-widget-actions'>
-            <Button className='app-widget-action-button' onClick={open}>&#x224E;</Button>
-            <Button className='app-widget-action-button' onClick={load}>&#x2186;</Button>
-            <Button className='app-widget-action-button' onClick={save}>&#x21EB;</Button>
+            {openConfig && <Button className='app-widget-action-button' onClick={open}>&#x224E;</Button>}
+            {loadConfig && <Button className='app-widget-action-button' onClick={load}>&#x2186;</Button>}
+            {saveConfig && <Button className='app-widget-action-button' onClick={save}>&#x21EB;</Button>}
         </div>
     );
 }
