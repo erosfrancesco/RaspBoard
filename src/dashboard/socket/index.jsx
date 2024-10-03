@@ -3,33 +3,35 @@ import { TextNormal, TextNormalStrong, SectionTitle } from 'components/typograph
 import socket from '@/socket.store';
 import DashboardWidget from 'components/widget';
 import Button from 'components/input/button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 
 export function WidgetSocket({ widgetKey, widgetName, ...others } = {}) {
 
     const [active, setActive] = useState();
     const [connected, setConnected] = useState();
-    const [disconnected, setDisconnected] = useState();
     const [socketPath, setSocketPath] = useState();
 
     const resetState = () => {
-        const { io, active, disconnected, connected } = socket || {};
-        const { path, hostname, port } = ((io || {}).opts || {});
+        const { io, active, connected } = socket || {};
+        const { hostname, port } = ((io || {}).opts || {});
+
         setActive(active);
         setConnected(connected);
-        setDisconnected(disconnected);
         setSocketPath(hostname + ':' + port)
     }
 
+    useEffect(() => {
+        socket.on('connect', resetState);
+        socket.on('disconnect', resetState);
 
-    const { io, active: socketActive, socketDisconnected, connected: socketConnected } = socket || {};
-    const { hostname, port } = ((io || {}).opts || {});
+        return () => {
+            socket.removeListener('connect', resetState);
+            socket.removeListener('disconnect', resetState);
+        }
+    }, []);
 
-    useState(() => {
-        resetState();
-        console.log(socket)
-    }, [socketActive, socketDisconnected, socketConnected, hostname, port]);
+
 
     const open = () => {
         socket.connect();
@@ -51,14 +53,10 @@ export function WidgetSocket({ widgetKey, widgetName, ...others } = {}) {
         }
         {...others}>
         <div className='app-widget-socket'>
-            <div className="app-row">
-                <TextNormal>Socket: </TextNormal>
-                <TextNormalStrong className={connected ? 'text-green' : 'text-red'}>
-                    {disconnected ? 'Disconnected' : 'Connected'}
-                </TextNormalStrong>
-            </div>
-
             <TextNormal>{socketPath}</TextNormal>
+            <TextNormalStrong className={connected ? 'text-green' : 'text-red'}>
+                {connected ? 'Connected' : 'Disconnected'}
+            </TextNormalStrong>
 
             <div className='app-widget-socket-actions'>
                 <Button disabled={active} onClick={open}>Open</Button>

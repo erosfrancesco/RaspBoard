@@ -1,7 +1,7 @@
 import io from "socket.io-client";
 
 const wsPath =
-    "http://raspberrypi.local:80" /*
+    // "http://raspberrypi.local:80" /*
     "localhost:80";
 /** */
 
