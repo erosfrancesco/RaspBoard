@@ -11,11 +11,12 @@ export function DashboardWidget({
     children,
     widgetName,
     widgetKey,
+    widgetTitle,
     saveConfig,
     loadConfig,
     openConfig,
-    initialize = () => { },
-    cleanup = () => { },
+    initialize,
+    cleanup,
     ...others
 }) {
     const wrapperClassName = 'app-widget' + (className ? " " + className : "");
@@ -24,7 +25,7 @@ export function DashboardWidget({
         const widgetID = widgetName + ' - ' + widgetKey;
         const config = JSON.parse(localStorage.getItem(widgetID));
 
-        initialize(config || {});
+        initialize && initialize(config || {});
     }
 
     useEffect(() => {
@@ -37,7 +38,7 @@ export function DashboardWidget({
 
         return () => {
             socket.removeListener('connected', initializeWiget);
-            cleanup();
+            cleanup && cleanup();
         };
     }, []);
 
@@ -52,7 +53,7 @@ export function DashboardWidget({
                     openConfig={openConfig}
                 />
                 <div>
-                    <SectionTitle className='app-widget-title'>{widgetName}</SectionTitle>
+                    {widgetTitle ? widgetTitle : <SectionTitle className='app-widget-title'>{widgetName}</SectionTitle>}
                     {children}
                 </div>
             </div>

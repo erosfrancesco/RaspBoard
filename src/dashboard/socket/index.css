@@ -4,8 +4,22 @@
   display: flex;
   flex-direction: column;
   text-align: center;
-  width: 7em;
-  height: 4em;
+  width: 10em;
+  height: 5em;
+}
+
+.app-widget-socket-actions {
+  margin-top: 0.5em;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.app-widget-socket-title {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.5em;
 }
 
 .text-red {
