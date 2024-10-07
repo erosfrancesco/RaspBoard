@@ -1,7 +1,7 @@
 import './index.css';
 import { TextNormal, TextNormalStrong, SectionTitle } from 'components/typography';
 import socket from '@/socket.store';
-import DashboardWidget from 'components/widget';
+import DashboardWidget from '../widget';
 import Button from 'components/input/button';
 import { useEffect, useState } from 'react';
 

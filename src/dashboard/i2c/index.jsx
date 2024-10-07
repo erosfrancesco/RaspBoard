@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useI2CStore } from './i2c.store';
 import socket, { events } from './events';
 import WidgetI2CConfig from './config';
-import DashboardWidget from 'components/widget';
+import DashboardWidget from '../widget';
 
 // TODO: - Write config manually
 
@@ -34,7 +34,6 @@ export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
 
     /** */
     const onDataReceived = (data) => {
-        console.log('data received', data)
         setData(data);
     };
 
@@ -63,11 +62,13 @@ export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
             widgetId
         };
 
+        console.log('sent configs,', settings);
+
         socket.emit(events.STATUS, settings);
-        socket.on(events.STATUS, () => {
+        socket.on(events.STATUS, (s) => {
+            console.log('got configuration:', s)
             // update the config?
             socket.on(events.DATA, onDataReceived);
-            console.log('event data, ', socket)
         });
     };
 

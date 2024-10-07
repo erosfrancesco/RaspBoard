@@ -2,7 +2,7 @@ import Input from 'components/input/input';
 import './index.css';
 import { TextNormal } from 'components/typography';
 import socket from '@/socket.store';
-import DashboardWidget from 'components/widget';
+import DashboardWidget from '../widget';
 import WidgetShellConfig from './config';
 import { useShellStore } from './shell.store';
 

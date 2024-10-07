@@ -1,7 +1,7 @@
 import './index.css';
 import { statuses, useGpioStore, writeModes } from './gpio.store';
 import socket, { events } from './events.js';
-import DashboardWidget from 'components/widget';
+import DashboardWidget from '../widget';
 import { useState } from 'react';
 import WidgetGPIOConfig from './config';
 import WidgetGPIOStatus from './status';

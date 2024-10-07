@@ -2,7 +2,7 @@ import { SectionTitle } from 'components/typography';
 import { useLayoutStore } from '@/layout.store';
 import Button from 'components/input/button';
 import './widget.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import socket from '../socket.store';
 
 
@@ -20,12 +20,19 @@ export function DashboardWidget({
     ...others
 }) {
     const wrapperClassName = 'app-widget' + (className ? " " + className : "");
+    const [isInitialized, setIsInitialized] = useState(false);
 
     const initializeWiget = () => {
+        // If widget is already configured, return
+        if (isInitialized) {
+            return;
+        }
+
         const widgetID = widgetName + ' - ' + widgetKey;
         const config = JSON.parse(localStorage.getItem(widgetID));
 
         initialize && initialize(config || {});
+        setIsInitialized(true);
     }
 
     useEffect(() => {
@@ -33,11 +40,10 @@ export function DashboardWidget({
         if (socket.connected) {
             initializeWiget();
         } else {
-            socket.on('connected', initializeWiget);
+            socket.once('connect', initializeWiget);
         }
 
         return () => {
-            socket.removeListener('connected', initializeWiget);
             cleanup && cleanup();
         };
     }, []);
