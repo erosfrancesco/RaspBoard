@@ -4,7 +4,8 @@ const initialState = {
     address: null,
     readFrequency: 0,
     dataSchema: null,
-    deviceSetup: []
+    deviceSetup: [],
+    dataGroups: [['accelX', 'accelY', 'accelZ'], ['gyroX', 'gyroY', 'gyroZ']]
 
     /*
     dataMap: {
@@ -20,7 +21,7 @@ const initialState = {
         'accelX': {},
         'accelY': { precision: 2, scale: 1000 },
         'accelZ': {},
-        'temp': { offset: 340, precision: 2 },
+        'temp': { scale: 340, offset: 36.53, precision: 2 },
         'gyroX': {},
         'gyroY': {},
         'gyroZ': {},

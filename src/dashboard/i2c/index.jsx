@@ -1,28 +1,12 @@
-import { TextNormal } from 'components/typography';
 import './index.css';
 import { useState } from 'react';
 import { useI2CStore } from './i2c.store';
 import socket, { events } from './events';
 import WidgetI2CConfig from './config';
 import DashboardWidget from '../widget';
+import WidgetI2CDataView from './dataView';
 
 // TODO: - Write config manually
-
-function I2CDatum({ name, value }) {
-    const { dataSchema = [] } = useI2CStore();
-
-    const computeValue = () => {
-        const datum = dataSchema.find((el) => el.label === name);
-        const { scale = 1, precision = 0, offset = 0 } = datum || {}
-        return (Number(offset) + (Number(value) / Number(scale))).toFixed(precision)
-    };
-
-    return <div className='app-widget-i2c-datum'>
-        <TextNormal>{name}:</TextNormal>
-        <TextNormal>{computeValue()}</TextNormal>
-    </div>
-}
-
 export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
     const {
         address, readFrequency, dataSchema, deviceSetup,
@@ -91,10 +75,7 @@ export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
             openConfig={() => <WidgetI2CConfig widgetKey={widgetKey} />}
             {...others}>
             <div className='app-row app-widget-i2c'>
-                {Object.keys(data).map((name) => {
-                    const value = data[name];
-                    return <I2CDatum key={name} name={name} value={value} />
-                })}
+                <WidgetI2CDataView data={data} />
             </div>
             {/*}
             <div className='app-widget-i2c-actions'>

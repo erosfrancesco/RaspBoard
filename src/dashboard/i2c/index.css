@@ -1,8 +1,6 @@
 @import url("../../App.css");
 
 .app-widget-i2c {
-  flex-wrap: wrap;
-  gap: 0.5em;
   width: 24em;
   height: 8em;
 }
@@ -13,7 +11,7 @@
 }
 
 .app-widget-i2c-datum {
-  flex-grow: 1;
+  min-width: 6em;
 }
 /**/
 
