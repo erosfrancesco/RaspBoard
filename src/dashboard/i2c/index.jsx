@@ -48,7 +48,7 @@ export function WidgetI2C({ widgetKey, widgetName, ...others } = {}) {
     const initializeWidget = (updatedConfig) => {
         resetWidget(updatedConfig);
 
-        const deviceSetup = updatedConfig.deviceSetup.map(({ address, ...item }) => ({ ...item, address: Number('0x' + address) }));
+        const deviceSetup = (updatedConfig.deviceSetup || []).map(({ address, ...item }) => ({ ...item, address: Number('0x' + address) }));
 
         const dataSchema = {};
         (updatedConfig.dataSchema || []).forEach(({ label, address }) => {
