@@ -17,7 +17,7 @@
   height: fit-content;
   padding: 0.25em;
 
-  box-shadow: var(--border-glass);
+  border: var(--border-glass);
   color: var(--text-main);
   backdrop-filter: blur(0.1em);
   background-color: color-mix(in srgb, var(--bg-main), transparent 50%);

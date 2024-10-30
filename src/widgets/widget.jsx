@@ -3,7 +3,7 @@ import { useLayoutStore } from '@/layout.store';
 import Button from 'components/input/button';
 import './widget.css';
 import { useEffect, useState } from 'react';
-import socket from '../socket.store';
+import socket from '@/socket.store';
 
 
 export function DashboardWidget({

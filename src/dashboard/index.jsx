@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import './index.css';
-import { useDashboardStore, widgetDefault, widgetMap } from './dashboard.store';
+import { widgetMap, widgetDefault } from "../widgets";
+import { useDashboardStore } from './store';
 import { useLayoutStore } from '@/layout.store';
 
 import Background from './background';
-import DashboardConfig from './config';
+import DashboardConfig from './settings';
+import ConnectionPanel from './connectionsPanel';
 
 
 function Dashboard({ className }) {
@@ -43,6 +45,7 @@ function Dashboard({ className }) {
 
     return (
         <div className={"app-dashboard" + (className ? " " + className : "")}>
+
             <Background onClick={openMenu} />
 
             {Object.keys(widgets).map((widgetName, i) => {
@@ -55,6 +58,8 @@ function Dashboard({ className }) {
                     key={i} widgetKey={i} widgetName={widgetName}
                 />
             })}
+
+            <ConnectionPanel />
         </div>
     );
 }

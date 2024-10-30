@@ -1,4 +1,4 @@
-@import url("../App.css");
+@import url("@/App.css");
 
 .app-dashboard-config {
   padding-right: 0.5em;

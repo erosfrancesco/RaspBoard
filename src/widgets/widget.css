@@ -6,7 +6,7 @@
   padding: 0.5em;
   margin: 0.25em;
 
-  box-shadow: var(--border-glass);
+  border: var(--border-glass);
   color: var(--text-main);
   border-radius: 0.4em;
 

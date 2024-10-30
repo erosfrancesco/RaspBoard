@@ -1,4 +1,4 @@
-import './background.css';
+import './index.css';
 
 
 const Hexagon = () => {

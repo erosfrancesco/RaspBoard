@@ -16,7 +16,8 @@ body {
   display: flex;
 
   --border-primary: var(--bg-primary) 0.07em solid;
-  --border-glass: inset 0 0 0.1em var(--text-main-strong);
+  --border-glass: color-mix(in srgb, var(--text-main-strong), transparent 50%)
+    0.07em solid;
 
   --box-shadow: 0 0.1em 0.2em var(--bg-main);
   --box-shadow-strong: 0 0.2em 0.4em var(--bg-main);
@@ -156,24 +157,23 @@ body {
 }
 /**/
 
-/**/
-.triangle-up {
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-right: 50px solid transparent;
-  border-left: 50px solid transparent;
-  border-bottom: 60px solid #555555;
-  border-top: 0;
+/* SCROLLBAR */
+::-webkit-scrollbar {
+  width: 0.7em;
+  background-color: transparent;
 }
 
-.triangle-down {
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-right: 50px solid transparent;
-  border-left: 50px solid transparent;
-  border-top: 60px solid #555555;
-  border-bottom: 0;
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 0.5em var(--bg-primary);
+  border-radius: 0.35em;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-primary);
+  border-radius: 0.35em;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--bg-primary-strong);
 }
 /**/

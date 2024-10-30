@@ -1,0 +1,56 @@
+@import url("../App.css");
+
+.app-panel-wrapper {
+  border: var(--border-glass);
+  color: var(--text-main);
+  border-radius: 0.4em;
+
+  backdrop-filter: blur(0.1em);
+  background-color: transparent;
+}
+
+/* TITLE */
+.app-panel-title {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5em;
+  border-top-right-radius: 0.4em;
+  border-top-left-radius: 0.4em;
+
+  width: calc(100% - 1em);
+  padding: 0.5em;
+  
+  border-bottom: var(--border-glass);
+  background-color: color-mix(in srgb, var(--bg-primary), transparent 30%);
+}
+
+.app-panel-title-icon {
+  width: 0.5em;
+  height: 0.5em;
+
+  border-color: var(--text-main);
+  border-style: solid;
+}
+
+.triangle-up {
+  border-left: 0.05em;
+  border-top: 0.05em;
+  transform: rotate(45deg);
+}
+
+.triangle-down {
+  border-right: 0.05em;
+  border-bottom: 0.05em;
+  transform: translate(0%, 50%) rotate(45deg);
+}
+/**/
+
+.app-panel-hide {
+  display: none;
+}
+
+.app-panel-content {
+  width: 100%;
+}

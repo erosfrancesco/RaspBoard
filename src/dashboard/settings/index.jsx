@@ -1,8 +1,10 @@
 import { useState } from 'react';
-import './config.css';
+import './index.css';
+
 import Input from 'components/input/input';
 import Button, { DeleteButton } from 'components/input/button';
-import { useDashboardStore, widgetMap } from './dashboard.store';
+import { useDashboardStore } from '../store';
+import { widgetMap } from '@/widgets';
 import { TextNormal, SectionTitle } from 'components/typography';
 import Select, { Option } from 'components/input/select';
 
