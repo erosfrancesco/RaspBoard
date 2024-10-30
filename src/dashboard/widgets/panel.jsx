@@ -22,7 +22,7 @@ function WidgetPanel() {
     }
 
     return (
-        <ExpansionPanel title="Widgets" className="app-dashboard-widgets-panel">
+        <ExpansionPanel title="Widgets" className="app-dashboard-widgets-panel" hide>
             <div className='app-dashboard-widgets-panel-content app-dashboard-widgets-panel-section'>
                 {Object.keys(widgets).map((name, i) => {
                     const {

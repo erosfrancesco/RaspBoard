@@ -14,8 +14,8 @@ function ExpansionPanelTitleContainer({ show = true, title = "", ...args } = {})
     </div>
 }
 
-export function ExpansionPanel({ className, children, show = true, title, ...args } = {}) {
-    const [hideContent, setHideContent] = useState(!show);
+export function ExpansionPanel({ className, children, show = true, hide = false, title, ...args } = {}) {
+    const [hideContent, setHideContent] = useState(hide || !show);
     const classNames = "app-panel-wrapper" + (className ? " " + className : "");
     const childrenClassNames = "app-panel-content" + (hideContent ? " app-panel-hide" : "");
 
