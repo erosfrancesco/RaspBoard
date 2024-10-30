@@ -1,0 +1,62 @@
+@import url("@/App.css");
+
+.app-dashboard-widget {
+  position: absolute;
+}
+
+.app-dashboard-widgets-panel {
+  display: flex;
+  flex-direction: column;
+
+  position: absolute;
+  left: 1em;
+  bottom: 0;
+  width: 20em;
+
+  border-bottom: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.app-dashboard-widgets-panel-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+
+  margin: 0.5em;
+}
+
+.app-dashboard-widgets-panel-content {
+  overflow-y: scroll;
+  height: 10em;
+}
+
+.app-dashboard-widgets-panel-item {
+  background-color: var(--bg-primary);
+  cursor: default;
+  border-radius: 0.75em;
+  height: 1.5em;
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5em;
+  margin-left: 0.25em;
+  padding-left: 0.25em;
+}
+
+.app-dashboard-widgets-panel-footer {
+  height: 7em;
+
+  .app-input-wrapper {
+    height: 1em;
+  }
+
+  .app-row {
+    align-items: center;
+
+    .app-button {
+      margin-top: 1em;
+    }
+  }
+}
