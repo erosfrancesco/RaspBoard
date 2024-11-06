@@ -1,11 +1,11 @@
-import './index.css';
+import './index.scss';
 import { statuses, useGpioStore, writeModes } from './gpio.store';
 import socket, { events } from './events.js';
 import DashboardWidget from '../widget';
 import { useState } from 'react';
 import WidgetGPIOConfig from './config';
 import WidgetGPIOStatus from './status';
-import { TextNormal } from 'components/typography';
+import { AppTextLabel } from 'components/typography';
 import Input from 'components/input/input';
 
 
@@ -107,13 +107,13 @@ export function WidgetGPIO({ widgetKey, widgetName, ...others }) {
             {...others}>
             <div className='app-widget-gpio-content'>
                 <WidgetGPIOStatus status={status} />
-                <TextNormal>Mode: {mode}</TextNormal>
+                <AppTextLabel>Mode: {mode}</AppTextLabel>
                 {mode === writeModes[0] && <div className='app-row'>
                     <Input
                         label="Pin Value" type="number" min="0" max="1" step="1"
                         value={digitalValue} onEnter={onDigitalValueChange} disabled={!isReady}
                     />
-                    <TextNormal>Status: {digitalData}</TextNormal>
+                    <AppTextLabel>Status: {digitalData}</AppTextLabel>
                 </div>}
 
                 {mode === writeModes[1] && <div className='app-row'>
@@ -121,7 +121,7 @@ export function WidgetGPIO({ widgetKey, widgetName, ...others }) {
                         type="number" min="0" max="256" step="1"
                         value={pwmValue} onEnter={onPWMValueChange} disabled={!isReady}
                     />
-                    <TextNormal>Status: {pwmData}</TextNormal>
+                    <AppTextLabel>Status: {pwmData}</AppTextLabel>
                 </div>}
 
                 {mode === writeModes[2] && <div className='app-row'>
@@ -129,7 +129,7 @@ export function WidgetGPIO({ widgetKey, widgetName, ...others }) {
                         type="number" min={servoMin} max={servoMax} step={servoStep}
                         value={servoValue} onEnter={onServoValueChange} disabled={!isReady}
                     />
-                    <TextNormal>Status: {servoData}</TextNormal>
+                    <AppTextLabel>Status: {servoData}</AppTextLabel>
                 </div>}
             </div>
         </DashboardWidget>

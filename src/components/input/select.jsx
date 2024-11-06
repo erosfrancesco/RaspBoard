@@ -1,4 +1,4 @@
-import './input.css';
+import './input.scss';
 import { Label } from './input';
 
 export function Select({ children, label, onChange = () => { }, onSelected = () => { }, ...args } = {}) {

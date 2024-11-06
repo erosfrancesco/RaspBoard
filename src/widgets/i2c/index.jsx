@@ -1,4 +1,4 @@
-import './index.css';
+import './index.scss';
 import { useState } from 'react';
 import { useI2CStore } from './i2c.store';
 import socket, { events } from './events';

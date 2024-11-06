@@ -1,5 +1,5 @@
 import { useLayoutStore } from '@/layout.store';
-import './menu.css';
+import './menu.scss';
 
 /**
  * Hook that alerts clicks outside of the passed ref

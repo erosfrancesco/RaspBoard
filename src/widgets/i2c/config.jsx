@@ -1,6 +1,6 @@
 import Input from 'components/input/input';
-import { TextNormal } from 'components/typography';
-import './index.css';
+import { AppTextLabel } from 'components/typography';
+import './index.scss';
 
 import { useI2CStore } from './i2c.store';
 import { DeleteButton } from 'components/input/button';
@@ -145,7 +145,7 @@ export function WidgetI2CConfig() {
             />
         </div>
         <div>
-            <TextNormal>Address Data map</TextNormal>
+            <AppTextLabel>Address Data map</AppTextLabel>
 
             <div className='app-column app-widget-i2c-config-list'>
                 {Object.keys(dataSchema || []).map((_, i) =>
@@ -156,7 +156,7 @@ export function WidgetI2CConfig() {
             <Input label="Add new" onEnter={addNewDatum} />
         </div>
         <div>
-            <TextNormal>Write on startup</TextNormal>
+            <AppTextLabel>Write on startup</AppTextLabel>
 
             <div className='app-column app-widget-i2c-config-list'>
                 {deviceSetup.map((_, i) => <I2CStartupConfigItem key={i} i={i} />)}

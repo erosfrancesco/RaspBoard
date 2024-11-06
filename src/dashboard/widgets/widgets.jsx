@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import './index.css';
+import './index.scss';
 import { widgetMap, widgetDefault } from "@/widgets";
 import { useDashboardStore } from '../store';
 

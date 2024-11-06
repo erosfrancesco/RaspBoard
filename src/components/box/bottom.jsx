@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import './expansionPanel.css'
-import { TextNormal } from './typography';
+import './bottom.scss'
+import { AppSubtitle2 } from '../typography';
 
 function ExpansionPanelIcon({ show = true } = {}) {
     return <div className={'app-panel-title-icon ' + (show ? 'triangle-up' : 'triangle-down')}></div>
@@ -9,12 +9,12 @@ function ExpansionPanelIcon({ show = true } = {}) {
 
 function ExpansionPanelTitleContainer({ show = true, title = "", ...args } = {}) {
     return <div className='app-panel-title' {...args}>
-        <TextNormal>{title}</TextNormal>
+        <AppSubtitle2>{title}</AppSubtitle2>
         <ExpansionPanelIcon show={show} />
     </div>
 }
 
-export function ExpansionPanel({ className, children, show = true, hide = false, title, ...args } = {}) {
+export function Bottom({ className, children, show = true, hide = false, title, ...args } = {}) {
     const [hideContent, setHideContent] = useState(hide || !show);
     const classNames = "app-panel-wrapper" + (className ? " " + className : "");
     const childrenClassNames = "app-panel-content" + (hideContent ? " app-panel-hide" : "");
@@ -30,4 +30,4 @@ export function ExpansionPanel({ className, children, show = true, hide = false,
     </div>
 }
 
-export default ExpansionPanel;
+export default Bottom;

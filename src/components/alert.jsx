@@ -1,5 +1,5 @@
 import { useLayoutStore } from '@/layout.store';
-import './alert.css';
+import './alert.scss';
 import { DeleteButton } from './input/button';
 
 export function Alert() {

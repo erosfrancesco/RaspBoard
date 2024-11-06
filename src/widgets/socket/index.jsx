@@ -1,5 +1,5 @@
-import './index.css';
-import { TextNormal, TextNormalStrong, SectionTitle } from 'components/typography';
+import './index.scss';
+import { AppTextLabel, AppSubtitleCaption, AppSubtitle } from 'components/typography';
 import socket from '@/socket.store';
 import DashboardWidget from '../widget';
 import Button from 'components/input/button';
@@ -46,17 +46,17 @@ export function WidgetSocket({ widgetKey, widgetName, ...others } = {}) {
         widgetKey={widgetKey}
         widgetName={widgetName}
         widgetTitle={
-            <SectionTitle className="app-widget-socket-title">
+            <AppSubtitle className="app-widget-socket-title">
                 Connection
-                {active ? <TextNormalStrong>&#128512;</TextNormalStrong> : <TextNormalStrong>&#128531;</TextNormalStrong>}
-            </SectionTitle>
+                {active ? <AppSubtitleCaption>&#128512;</AppSubtitleCaption> : <AppSubtitleCaption>&#128531;</AppSubtitleCaption>}
+            </AppSubtitle>
         }
         {...others}>
         <div className='app-widget-socket'>
-            <TextNormal>{socketPath}</TextNormal>
-            <TextNormalStrong className={connected ? 'text-green' : 'text-red'}>
+            <AppTextLabel>{socketPath}</AppTextLabel>
+            <AppSubtitleCaption className={connected ? 'text-green' : 'text-red'}>
                 {connected ? 'Connected' : 'Disconnected'}
-            </TextNormalStrong>
+            </AppSubtitleCaption>
 
             <div className='app-widget-socket-actions'>
                 <Button disabled={active} onClick={open}>Open</Button>

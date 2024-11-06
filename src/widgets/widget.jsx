@@ -1,7 +1,7 @@
-import { SectionTitle } from 'components/typography';
+import { AppSubtitle } from 'components/typography';
 import { useLayoutStore } from '@/layout.store';
 import Button from 'components/input/button';
-import './widget.css';
+import './widget.scss';
 import { useEffect, useState } from 'react';
 import socket from '@/socket.store';
 
@@ -59,7 +59,7 @@ export function DashboardWidget({
                     openConfig={openConfig}
                 />
                 <div>
-                    {widgetTitle ? widgetTitle : <SectionTitle className='app-widget-title'>{widgetName}</SectionTitle>}
+                    {widgetTitle ? widgetTitle : <AppSubtitle className='app-widget-title'>{widgetName}</AppSubtitle>}
                     {children}
                 </div>
             </div>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { statuses } from './gpio.store';
-import { SectionTitle } from 'components/typography';
+import { AppSubtitle } from 'components/typography';
 
 function WidgetGPIOStatus({ status }) {
     const [color, setColor] = useState('orange');
@@ -20,7 +20,7 @@ function WidgetGPIOStatus({ status }) {
         // eslint-disable-next-line
     }, [status]);
 
-    return <SectionTitle style={{ color }}>{status}</SectionTitle>
+    return <AppSubtitle style={{ color }}>{status}</AppSubtitle>
 }
 
 export default WidgetGPIOStatus;

@@ -1,4 +1,4 @@
-import './index.css';
+import './index.scss';
 import Input from 'components/input/input';
 import { useShellStore } from './shell.store';
 

@@ -1,6 +1,6 @@
 import { useLayoutStore } from '@/layout.store'
-import './tabs.css'
-import { TextNormal } from './typography';
+import './tabs.scss'
+import { AppTextLabel } from './typography';
 
 export function Tabs() {
     const { tabContents, tabSelected, setTabSelected } = useLayoutStore();
@@ -13,7 +13,7 @@ export function Tabs() {
                 const onClick = () => setTabSelected(tabTitle);
 
                 return <div className={classNames} onClick={onClick} key={tabTitle}>
-                    <TextNormal>{tabTitle}</TextNormal>
+                    <AppTextLabel>{tabTitle}</AppTextLabel>
                 </div>
             })}
         </div>

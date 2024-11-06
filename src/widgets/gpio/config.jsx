@@ -1,8 +1,8 @@
-import './index.css';
+import './index.scss';
 import Input from 'components/input/input';
 import { useGpioStore, writeModes } from './gpio.store';
 import Select, { Option } from 'components/input/select';
-import { TextNormal } from 'components/typography';
+import { AppTextLabel } from 'components/typography';
 import { useEffect } from 'react';
 
 /**
@@ -52,7 +52,7 @@ export function WidgetGPIOConfig({ widgetKey }) {
         </div>
 
         {mode === writeModes[0] && <div>
-            <TextNormal>Digital Config</TextNormal>
+            <AppTextLabel>Digital Config</AppTextLabel>
             <div className='app-row'>
                 <Input min="0" max="1" step="1" type="number"
                     value={digitalValue} onEnter={onDigitalValueChange} label="Value"
@@ -60,7 +60,7 @@ export function WidgetGPIOConfig({ widgetKey }) {
             </div>
         </div>}
         {mode === writeModes[1] && <div>
-            <TextNormal>PWM Config</TextNormal>
+            <AppTextLabel>PWM Config</AppTextLabel>
             <div className='app-row'>
                 <Input min="1" max="256" step="1" type="number"
                     value={pwmValue} onEnter={onPwmValueChange} label="Value"
@@ -68,7 +68,7 @@ export function WidgetGPIOConfig({ widgetKey }) {
             </div>
         </div>}
         {mode === writeModes[2] && <div>
-            <TextNormal>Servo Config</TextNormal>
+            <AppTextLabel>Servo Config</AppTextLabel>
             <div className='app-row'>
                 <Input min="0" step="1" type="number"
                     value={servoMin} onEnter={onServoMinChange} label="Min"

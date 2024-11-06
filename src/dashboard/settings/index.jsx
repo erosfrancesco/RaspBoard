@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import './index.css';
+import './index.scss';
 
 import Input from 'components/input/input';
 import Button, { DeleteButton } from 'components/input/button';
 import { useDashboardStore } from '../store';
 import { widgetMap } from '@/widgets';
-import { TextNormal, SectionTitle } from 'components/typography';
+import { AppTextLabel, AppSubtitle } from 'components/typography';
 import Select, { Option } from 'components/input/select';
 
 export function DashboardConfig() {
@@ -19,7 +19,7 @@ export function DashboardConfig() {
     }
 
     return <div className='app-column app-dashboard-config'>
-        <SectionTitle>Dashboard Widgets</SectionTitle>
+        <AppSubtitle>Dashboard Widgets</AppSubtitle>
 
         <div className='app-column'>
             {Object.keys(widgets).map((name, i) => {
@@ -27,14 +27,14 @@ export function DashboardConfig() {
                     type
                 } = widgets[name] || {};
                 return <div key={i} className='app-row app-dashboard-config-item'>
-                    <TextNormal>{type} - {name}</TextNormal>
+                    <AppTextLabel>{type} - {name}</AppTextLabel>
                     <DeleteButton size="1.2" onClick={() => removeWidget(name)} />
                 </div>
             })}
         </div>
 
         <div>
-            <SectionTitle>Add Widget</SectionTitle>
+            <AppSubtitle>Add Widget</AppSubtitle>
 
             <div className='app-row' style={{ alignItems: 'flex-end' }}>
                 <Input label="New Widget Name" value={newWidgetName} onChange={setNewWidgetName} />

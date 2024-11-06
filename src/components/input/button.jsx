@@ -1,7 +1,7 @@
-import './button.css'
+import './button.scss'
 
 export function Button({ className, children, ...args } = {}) {
-    const classNames = "app app-input app-button" + (className ? " " + className : "")
+    const classNames = "btn btn-primary app app-input app-button" + (className ? " " + className : "")
 
     return (
         <button className={classNames} {...args}>{children}</button>

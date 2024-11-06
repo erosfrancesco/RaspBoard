@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import { InputLabel } from '../typography';
-import './input.css'
+import { AppTextLabel } from '../typography';
+import './input.scss'
 
 export function Label({ children, className, ...args }) {
     const classNames = 'app-label-wrapper' + (className ? ' ' + className : '');
 
     return <label className={classNames} {...args}>
-        <InputLabel>{children}</InputLabel>
+        <AppTextLabel>{children}</AppTextLabel>
     </label>
 }
 
@@ -35,7 +35,7 @@ export function Input({
         <div className={classNames}>
             <Label>{label}</Label>
             <div className="app app-row app-input-content">
-                {prefix && <InputLabel>{prefix}</InputLabel>}
+                {prefix && <AppTextLabel>{prefix}</AppTextLabel>}
                 <input
                     onKeyDown={(e) => {
                         if (e.key === 'Enter') {

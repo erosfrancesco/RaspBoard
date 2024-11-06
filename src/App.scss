@@ -1,4 +1,6 @@
-@import url("./themes/custom.css");
+@import url("./themes/custom.scss");
+/* Import all of Bootstrap's CSS */
+@import "~bootstrap/scss/bootstrap.scss";
 
 body {
   background: var(--bg-main);

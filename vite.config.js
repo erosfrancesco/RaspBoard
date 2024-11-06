@@ -15,6 +15,10 @@ export default defineConfig({
         find: 'components',
         replacement: path.resolve(__dirname, 'src/components')
       },
+      {
+        find: '~bootstrap',
+        replacement: path.resolve(__dirname, 'node_modules/bootstrap'),
+      }
     ],
   },
   server: {

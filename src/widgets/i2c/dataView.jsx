@@ -1,5 +1,5 @@
-import { TextNormal } from 'components/typography';
-import './index.css';
+import { AppTextLabel } from 'components/typography';
+import './index.scss';
 import { useI2CStore } from './i2c.store';
 
 
@@ -13,8 +13,8 @@ function I2CDatum({ name, value }) {
     };
 
     return <div className='app-widget-i2c-datum'>
-        <TextNormal>{name}:</TextNormal>
-        <TextNormal>{computeValue()}</TextNormal>
+        <AppTextLabel>{name}:</AppTextLabel>
+        <AppTextLabel>{computeValue()}</AppTextLabel>
     </div>
 }
 
