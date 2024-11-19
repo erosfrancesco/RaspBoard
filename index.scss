@@ -1,0 +1,157 @@
+@use "~bootstrap/scss/bootstrap" as *;
+
+@include color-mode(dark) {
+  /* BODY */
+  --bs-body-bg: #0b0c11;
+  /**/
+
+  /**/
+  .column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+  }
+  /**/
+
+  /* INPUT */
+  .form-control {
+    --bs-body-bg: #00000060;
+    border-color: #0c5d57;
+    box-shadow: inset 0 0 0.5em #0c5d57;
+    min-width: none;
+    max-width: none;
+  }
+
+  .form-control:focus {
+    border-color: #0c5d57;
+    box-shadow: 0 0 0.5em #0c5d57;
+  }
+
+  .form-inline {
+    display: flex;
+    gap: 0.5em;
+  }
+  /**/
+
+  /* BUTTON */
+  .btn-primary {
+    // box-shadow: inset 0 0 0.5em #d2ae67;
+
+    // NORMAL
+    --bs-btn-bg: #0c5d57;
+    --bs-btn-border-color: #0c3634;
+
+    // HOVER
+    --bs-btn-hover-bg: #0c5d57;
+    --bs-btn-hover-border-color: #d2ae67;
+
+    // ACTIVE
+    --bs-btn-active-bg: #078987;
+    --bs-btn-active-border-color: #d2ae67;
+
+    // DISABLED
+    --bs-btn-disabled-bg: #0c3634;
+    --bs-btn-disabled-border-color: #0c3634;
+  }
+  /**/
+
+  /* NAV */
+  .nav-link {
+    --bs-nav-link-color: #078987;
+    --bs-nav-link-hover-color: #0c5d57;
+    // --bs-nav-link-disabled-color: var(--bs-secondary-color);
+    --bs-nav-tabs-link-active-bg: #0c5d57;
+    --bs-nav-tabs-link-active-border-color: #d2ae67b0;
+  }
+  .nav-link.active {
+    border-bottom: solid #0c5d57;
+  }
+  .nav-tabs {
+    --bs-nav-tabs-border-color: #d2ae67b0;
+    --bs-nav-tabs-link-hover-border-color: #078987;
+  }
+  /**/
+
+  /* TABLE */
+  .table {
+    --bs-table-bg: transparent;
+    --bs-table-border-color: #0c5d57;
+  }
+  /**/
+
+  /* BACKGROUND */
+  .bg-wrapper {
+    background: radial-gradient(#0c5d57 0%, transparent 80%);
+  }
+
+  .bg-hexagon-wrapper {
+    background: #0c3634;
+  }
+
+  .bg-hexagon-shape {
+    fill: #0c3634;
+    stroke: #0c5d57;
+  }
+  /**/
+
+  /* PANEL */
+  .card.panel {
+    // box-shadow: 0 0em 0.1em 0.05em #d2ae67;
+    border: solid 0.01em #d2ae67b0;
+  }
+
+  .accordion-header.panel-title {
+    border-bottom: 0.01em solid #d2ae67b0;
+    background-color: color-mix(in srgb, #0c5d57, transparent 30%);
+  }
+
+  .card {
+    --bs-card-border-color: #d2ae67;
+    --bs-card-bg: #0c3634;
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar {
+    width: 0.7em;
+    background-color: transparent;
+  }
+
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 0.5em #0c5d57;
+    border-radius: 0.35em;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #0c5d57;
+    border-radius: 0.35em;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #0c3634;
+  }
+  /**/
+}
+
+/*
+:root {
+  --bg-main: #0b0c11;
+
+  --bg-primary: #0c5d57;
+  --bg-primary-strong: #0c3634;
+
+  --bg-danger: #90282a;
+
+  --bg-save: #30a72c;
+  --bg-load: #078987;
+  --bg-config: #ff6c37;
+
+  --text-main: #dce3e6;
+  --text-main-strong: #d2ae67;
+
+  --border-primary: #0c5d57 0.07em solid;
+  --border-glass: inset 0 0 0.1em #dce3e6;
+
+  --box-shadow: 0 0.1em 0.2em var(--bg-main);
+  --box-shadow-strong: 0 0.2em 0.4em var(--bg-main);
+}
+/**/

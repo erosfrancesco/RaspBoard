@@ -1,0 +1,47 @@
+/* PANEL */
+.panel {
+  border-radius: 0.4em;
+  backdrop-filter: blur(0.1em);
+  background-color: transparent;
+  border-width: 0.07em;
+}
+
+.panel-hide {
+  /* display: none; */
+  height: 0 !important;
+}
+
+.panel-content {
+  width: 100%;
+}
+/**/
+
+/* TITLE */
+.panel-title {
+  cursor: pointer;
+
+  width: 100%;
+  padding: 0.5em;
+  border-width: 0.07em;
+  border-top-right-radius: 0.4em;
+  border-top-left-radius: 0.4em;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.panel-title-icon {
+  width: 1em;
+  height: 1em;
+
+  background-color: white;
+  mask: url("./arrowDown.svg") no-repeat center;
+
+  transition: rotate 0.5s;
+}
+
+.panel-title-icon.show {
+  rotate: -180deg;
+}
