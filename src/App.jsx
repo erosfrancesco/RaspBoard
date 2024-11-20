@@ -1,6 +1,7 @@
 import Background from "./background";
 import Showcase from "./showcase";
 import BoardPanel from "./board";
+import WidgetPanel from './widgets';
 
 export default function App() {
     return <div>
@@ -9,5 +10,6 @@ export default function App() {
             <Showcase />
         </div>
         <BoardPanel />
+        <WidgetPanel show />
     </div>
 }

@@ -2,8 +2,8 @@ import { useState } from 'react';
 import './panel.scss'
 
 
-export function Panel({ className, children, show = true, hide = false, title, ...args } = {}) {
-    const [hideContent, setHideContent] = useState(hide || !show);
+export function Panel({ className, children, show, title, ...args } = {}) {
+    const [hideContent, setHideContent] = useState(!show);
 
     const toggleHide = (e) => {
         e.stopPropagation();

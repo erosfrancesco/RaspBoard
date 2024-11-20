@@ -6,7 +6,7 @@ import BoardPanelI2CSection from "./i2c";
 import BoardPanelOptionSection from "./options";
 
 
-export default function BoardPanel() {
+export default function BoardPanel({ ...args } = {}) {
     return <Panel
         title="Board"
         className="card"
@@ -18,7 +18,8 @@ export default function BoardPanel() {
             borderBottom: 'none',
             borderBottomLeftRadius: 0,
             borderBottomRightRadius: 0
-        }}>
+        }}
+        {...args}>
         <div style={{
             overflowY: 'scroll',
             height: '40vh',

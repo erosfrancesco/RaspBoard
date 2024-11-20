@@ -1,4 +1,10 @@
 import { create } from "zustand";
+import { loadConfigFromLocal, parseLocalConfig, saveConfigToLocal, stringifyConfig } from "./utils";
+
+const __widgetSettingsKey = '__Dashboard__Widgets'
+
+const { widgets = {} } = loadConfigFromLocal(__widgetSettingsKey) || {};
+const widgetsString = stringifyConfig(widgets);
 
 /*
 import WidgetBoard from "./board";
@@ -6,17 +12,21 @@ import WidgetShell from "./shell";
 import WidgetGPIOPWM from "./gpio";
 /**/
 
+const WidgetTest = () => <div><p>test</p></div>
+
 export const widgetMap = {
+    "Test": WidgetTest
     /*
     "Shell": WidgetShell,
     "Board": WidgetBoard,
     "Gpio": WidgetGPIOPWM
     /** */
 };
-export const widgetDefault = () => <div></div>;
+export const widgetDefault = WidgetTest;
 
 const initialState = {
-    widgets: {}
+    widgets: {},
+    widgetsString
 };
 
 
@@ -25,26 +35,33 @@ export const useDashboardStore = create((set, get) => ({
     ...initialState,
     reset: () => set(() => (initialState)),
 
+
+    // localstorage
+    save: () => {
+        const { widgets } = get();
+        saveConfigToLocal({ widgets }, __widgetSettingsKey);
+    },
+    load: () => {
+        const { widgets } = loadConfigFromLocal(__widgetSettingsKey);
+        set((state) => ({ ...state, widgets }));
+    },
+
+    // string
+    setWidgetsString: (widgetsString) => set((state) => ({ ...state, widgetsString })),
+    stringify: stringifyConfig,
+    parse: parseLocalConfig,
+
+    // METHODS
+    setWidgets: (widgets) => set((state) => {
+        const widgetsString = stringifyConfig(widgets);
+        return { ...state, widgets, widgetsString }
+    }),
+
     setPosition: (i, top, left) => {
         const { widgets } = get();
         widgets[i] = { ...widgets[i], top, left };
         set((state) => ({ ...state, widgets }));
     },
-
-    saveWidgets: () => {
-        const { widgets } = get();
-        const configuration = JSON.stringify({ widgets });
-        localStorage.setItem('Dashboard', configuration);
-    },
-
-    loadWidgets: () => set((state) => {
-        const { widgets = {} } = JSON.parse(localStorage.getItem('Dashboard')) || {};
-
-        return {
-            ...state,
-            widgets
-        }
-    }),
 
     addWidget: (name, type) => set((state) => {
         const { widgets = {} } = state;

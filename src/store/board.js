@@ -10,7 +10,7 @@ const i2cString = stringifyConfig(i2c);
 
 const initialState = {
     gpios, i2c, gpiosString, i2cString
-    // dataGroups: [['accelX', 'accelY', 'accelZ'], ['gyroX', 'gyroY', 'gyroZ']]
+    // dataGroups: [['accelX', 'accelY', 'accelZ'], ['gyroX', 'gyroY', 'gyroZ']] // TODO: - 
 };
 
 
