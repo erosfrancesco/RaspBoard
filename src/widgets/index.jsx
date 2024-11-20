@@ -1,10 +1,13 @@
 import Panel from "components/panel";
-import WidgetPanelWidgetSection from './widgets'
+import Tabs from "components/tabs";
+
+import WidgetPanelWidgetSection from './widgets';
+import WidgetPanelOptionSection from "./options";
 
 
 export default function WidgetPanel({ ...args } = {}) {
     return <Panel
-        title="Board"
+        title="Widgets"
         className="card"
         style={{
             position: 'absolute',
@@ -18,10 +21,16 @@ export default function WidgetPanel({ ...args } = {}) {
         {...args}>
         <div style={{
             overflowY: 'scroll',
-            height: '40vh',
+            height: '60vh',
             paddingRight: '0.5em'
         }}>
-            <WidgetPanelWidgetSection />
+            <Tabs
+                titles={['Widgets', 'Options']}
+                pages={[
+                    <WidgetPanelWidgetSection />,
+                    <WidgetPanelOptionSection />
+                ]}
+            />
         </div>
     </Panel>
 }

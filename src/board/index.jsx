@@ -14,7 +14,7 @@ export default function BoardPanel({ ...args } = {}) {
             position: 'absolute',
             bottom: 0,
             left: '1em',
-            width: '40vw',
+            width: '30vw',
             borderBottom: 'none',
             borderBottomLeftRadius: 0,
             borderBottomRightRadius: 0
@@ -22,7 +22,7 @@ export default function BoardPanel({ ...args } = {}) {
         {...args}>
         <div style={{
             overflowY: 'scroll',
-            height: '40vh',
+            height: '60vh',
             paddingRight: '0.5em'
         }}>
             <Tabs
