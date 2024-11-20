@@ -16,4 +16,4 @@ export const widgetMap = {
     "Gpio": WidgetGPIOPWM
     /** */
 };
-export const widgetDefault = WidgetTest;
+export const widgetDefault = "Test";
