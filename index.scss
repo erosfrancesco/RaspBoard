@@ -31,6 +31,20 @@
     display: flex;
     gap: 0.5em;
   }
+
+  option {
+    background: #0c5d57 !important;
+  }
+
+  /*
+  select option:checked {
+    color: white;
+    background: red !important;
+  }
+  select option:hover {
+    color: white;
+    background: brown !important;
+  }
   /**/
 
   /* BUTTON */

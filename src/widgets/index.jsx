@@ -1,4 +1,5 @@
 import Panel from "components/panel";
+import WidgetPanelWidgetSection from './widgets'
 
 
 export default function WidgetPanel({ ...args } = {}) {
@@ -9,7 +10,7 @@ export default function WidgetPanel({ ...args } = {}) {
             position: 'absolute',
             bottom: 0,
             right: '1em',
-            width: '20vw',
+            width: '30vw',
             borderBottom: 'none',
             borderBottomLeftRadius: 0,
             borderBottomRightRadius: 0
@@ -20,7 +21,7 @@ export default function WidgetPanel({ ...args } = {}) {
             height: '40vh',
             paddingRight: '0.5em'
         }}>
-            <p>Panel widget content</p>
+            <WidgetPanelWidgetSection />
         </div>
     </Panel>
 }

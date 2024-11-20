@@ -6,32 +6,14 @@ const __widgetSettingsKey = '__Dashboard__Widgets'
 const { widgets = {} } = loadConfigFromLocal(__widgetSettingsKey) || {};
 const widgetsString = stringifyConfig(widgets);
 
-/*
-import WidgetBoard from "./board";
-import WidgetShell from "./shell";
-import WidgetGPIOPWM from "./gpio";
-/**/
-
-const WidgetTest = () => <div><p>test</p></div>
-
-export const widgetMap = {
-    "Test": WidgetTest
-    /*
-    "Shell": WidgetShell,
-    "Board": WidgetBoard,
-    "Gpio": WidgetGPIOPWM
-    /** */
-};
-export const widgetDefault = WidgetTest;
-
 const initialState = {
-    widgets: {},
+    widgets: [],
     widgetsString
 };
 
 
 //
-export const useDashboardStore = create((set, get) => ({
+export const useWidgetStore = create((set, get) => ({
     ...initialState,
     reset: () => set(() => (initialState)),
 
@@ -63,6 +45,7 @@ export const useDashboardStore = create((set, get) => ({
         set((state) => ({ ...state, widgets }));
     },
 
+    /*
     addWidget: (name, type) => set((state) => {
         const { widgets = {} } = state;
         widgets[name] = { type }
@@ -82,4 +65,5 @@ export const useDashboardStore = create((set, get) => ({
             widgets
         }
     }),
+    /** */
 }));
