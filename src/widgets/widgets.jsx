@@ -4,6 +4,7 @@ import { widgetMap } from './widgetMap'
 
 export default function WidgetPanelWidgetSection() {
     const { widgets, setWidgets } = useWidgetStore();
+    console.log(widgets)
 
     const actionAdd = () => () => {
         setWidgets([...widgets, { widget: Object.keys(widgetMap)[0], top: 0, left: 0 }]);

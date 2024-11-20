@@ -3,11 +3,11 @@ import { loadConfigFromLocal, parseLocalConfig, saveConfigToLocal, stringifyConf
 
 const __widgetSettingsKey = '__Dashboard__Widgets'
 
-const { widgets = {} } = loadConfigFromLocal(__widgetSettingsKey) || {};
+const { widgets = [] } = loadConfigFromLocal(__widgetSettingsKey) || {};
 const widgetsString = stringifyConfig(widgets);
 
 const initialState = {
-    widgets: [],
+    widgets,
     widgetsString
 };
 

@@ -1,5 +1,5 @@
 import Accordion from "components/accordion";
-import { useBoardStore } from "store/board";
+import { useWidgetStore } from "store/widgets";
 
 
 const PanelConfigTitle = ({ title, onLoad, onSave }) => {
@@ -28,15 +28,15 @@ const PanelConfigTitle = ({ title, onLoad, onSave }) => {
 
 export default function WidgetPanelOptionSection() {
     const {
-        setGpios,
-        gpiosString, setGpiosString, parse,
-        save, load
-    } = useBoardStore();
+        setWidgets,
+        widgetsString, setWidgetsString,
+        parse, save, load
+    } = useWidgetStore();
 
     //
-    const onGpiosConfigSave = () => {
-        const config = parse(gpiosString);
-        setGpios(config);
+    const onWidgetsConfigSave = () => {
+        const config = parse(widgetsString);
+        setWidgets(config);
     }
 
 
@@ -54,14 +54,14 @@ export default function WidgetPanelOptionSection() {
             }}>Save to local</button>
         </div>
 
-        <Accordion title={<PanelConfigTitle title="Widgets" onLoad={() => { }} onSave={onGpiosConfigSave} />}>
+        <Accordion title={<PanelConfigTitle title="Widgets" onLoad={() => { }} onSave={onWidgetsConfigSave} />}>
             <textarea type="textarea" className="form-control"
                 style={{
                     width: '100%',
                     minHeight: '10em'
                 }}
-                onChange={(e) => setGpiosString(e.target.value)}
-                defaultValue={gpiosString}
+                onChange={(e) => setWidgetsString(e.target.value)}
+                defaultValue={widgetsString}
             />
         </Accordion>
     </div>
