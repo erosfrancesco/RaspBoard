@@ -1,16 +1,18 @@
 import { useWidgetStore } from "store/widgets";
-import { Select, Option, Input } from "components/input";
+
+import { widgetDefault, widgetMap } from './widgetMap'
 
 export default function WidgetPanelWidgetSection() {
     const { widgets, setWidgets } = useWidgetStore();
 
     const actionAdd = () => () => {
-        setWidgets([...widgets, {}]);
+        setWidgets([...widgets, { widget: Object.keys(widgetMap)[0] }]);
     }
     const actionDelete = (i) => () => {
         setWidgets(widgets.filter((_, index) => index !== i));
     }
     const updateItem = (i, key) => (e) => {
+        // console.log('hello wkey', widgets, e)
         const { value } = e.target;
         widgets[i][key] = value;
     }
@@ -34,19 +36,11 @@ export default function WidgetPanelWidgetSection() {
                     />
                 </td>
                 <td>
-                    <select className="form-control">
-                        <option>hello</option>
-                        <option>world</option>
-                    </select>
-
-                    {/*}
-                    <input className="form-control"
-                        type="number"
-                        placeholder="Widget"
+                    <select className="form-control"
                         defaultValue={item.widget}
-                        onChange={updateItem(i, 'widget')}
-                    />
-                    {/** */}
+                        onChange={updateItem(i, 'widget')}>
+                        {Object.keys(widgetMap).map((key) => <option value={key} key={key}>{key}</option>)}
+                    </select>
                 </td>
                 <td>
                     <button type="button" className="btn btn-danger" onClick={actionDelete(i)}>X</button>

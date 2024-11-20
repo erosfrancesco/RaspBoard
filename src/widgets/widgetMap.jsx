@@ -8,7 +8,8 @@ import WidgetGPIOPWM from "./gpio";
 const WidgetTest = () => <p>test</p>
 
 export const widgetMap = {
-    "Test": WidgetTest
+    "Test": WidgetTest,
+    "Test2": WidgetTest
     /*
     "Shell": WidgetShell,
     "Board": WidgetBoard,
