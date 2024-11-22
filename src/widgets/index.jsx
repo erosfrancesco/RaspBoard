@@ -1,37 +1,58 @@
-import Panel from "components/panel";
-import Tabs from "components/tabs";
-
-import WidgetPanelWidgetSection from './widgets';
-import WidgetPanelOptionSection from "./options";
+import { useWidgetStore } from "store/widgets";
+import { widgetDefault, widgetMap } from "./widgetMap";
 
 
-export default function WidgetPanel({ ...args } = {}) {
-    return <Panel
-        title="Widgets"
-        className="card"
-        style={{
-            position: 'absolute',
-            bottom: 0,
-            right: '1em',
-            width: '30vw',
-            borderBottom: 'none',
-            borderBottomLeftRadius: 0,
-            borderBottomRightRadius: 0
-        }}
-        {...args}>
-        <div style={{
-            overflowY: 'scroll',
-            height: '60vh',
-            paddingRight: '0.5em'
-        }}>
-            <Tabs
-                titles={['Widgets', 'Options']}
-                pages={[
-                    <WidgetPanelWidgetSection />,
-                    <WidgetPanelOptionSection />
-                ]}
-            />
+export function DashboardWidget({
+    className,
+    children,
+    label,
+    top, left,
+    ...others
+}) {
+    const wrapperClassName = '' + (className ? " " + className : "");
+
+    return (
+        <div className={wrapperClassName} style={{
+            "display": "flex",
+            "flexDirection": "column",
+            "position": "absolute",
+            top, left,
+
+            "padding": "0.5em",
+            "margin": "0.25em",
+            "width": 'fit-content',
+            "height": 'fit-content',
+
+            "boxShadow": "inset 0 0 0.1em white",
+            "borderRadius": "0.4em",
+            "backdropFilter": "blur(0.1em)",
+            "backgroundColor": "transparent"
+
+        }} {...others}>
+            <div className='row'>
+                <div>
+                    <h3 style={{
+                        "width": 'fit-content',
+                        "height": 'fit-content'
+                    }}>{label}</h3>
+                    {children}
+                </div>
+            </div>
         </div>
-    </Panel>
+    );
 }
 
+
+export default function DashboardWidgets() {
+    const { widgets } = useWidgetStore();
+
+    return <div>
+        {widgets.map(({ widget, ...widgetProps }, i) => {
+            const content = widgetMap[widget] || widgetDefault;
+            
+            return <DashboardWidget key={i} {...widgetProps}>
+                {content}
+            </DashboardWidget>
+        })}
+    </div>
+}

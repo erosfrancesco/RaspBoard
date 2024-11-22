@@ -4,12 +4,19 @@ import WidgetShell from "./shell";
 import WidgetGPIOPWM from "./gpio";
 /**/
 
+import WidgetGPIO from "./gpio";
+import WidgetShell from "./shell";
 
-const WidgetTest = () => <p>test</p>
+
+const WidgetTest = () => <p style={{
+    width: '5em',
+    height: '5em'
+}}>Widget Test</p>
 
 export const widgetMap = {
-    "Test": WidgetTest,
-    "Test2": WidgetTest
+    "GPIO": <WidgetGPIO />,
+    "Shell": <WidgetShell />,
+    "Test": <WidgetTest />
     /*
     "Shell": WidgetShell,
     "Board": WidgetBoard,

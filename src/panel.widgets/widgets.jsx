@@ -1,13 +1,17 @@
 import { useWidgetStore } from "store/widgets";
 
-import { widgetMap } from './widgetMap'
+import { widgetMap } from '../widgets/widgetMap'
 
 export default function WidgetPanelWidgetSection() {
     const { widgets, setWidgets } = useWidgetStore();
     console.log(widgets)
 
     const actionAdd = () => () => {
-        setWidgets([...widgets, { widget: Object.keys(widgetMap)[0], top: 0, left: 0 }]);
+        setWidgets([...widgets, {
+            label: '',
+            widget: Object.keys(widgetMap)[0],
+            top: 0, left: 0
+        }]);
     }
     const actionDelete = (i) => () => {
         setWidgets(widgets.filter((_, index) => index !== i));
