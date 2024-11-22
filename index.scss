@@ -1,4 +1,5 @@
 @use "~bootstrap/scss/bootstrap" as *;
+@use "bootstrap-icons/font/bootstrap-icons.css";
 
 @include color-mode(dark) {
   /* BODY */

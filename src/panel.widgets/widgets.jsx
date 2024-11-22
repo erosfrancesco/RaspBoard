@@ -53,7 +53,9 @@ export default function WidgetPanelWidgetSection() {
             )}
         </tbody>
         <caption>
-            <button type="button" className="btn btn-primary" style={{ width: '100%' }} onClick={actionAdd()}>+</button>
+            <button type="button" className="btn btn-primary" style={{ width: '100%' }} onClick={actionAdd()}>
+                <i className="bi bi-plus"></i>
+            </button>
         </caption>
     </table>
 }
