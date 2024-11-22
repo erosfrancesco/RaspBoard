@@ -15,6 +15,6 @@ export default function App() {
         </div>
         {/** */}
         <BoardPanel />
-        <WidgetPanel show />
+        <WidgetPanel />
     </div>
 }

@@ -1,7 +1,9 @@
 import { useState } from "react"
 
 export default function WidgetShell() {
+    // TODO: - where this config?
     const [rootFolder, setRootFolder] = useState('/');
+    //
     const [lastCommand, setLastCommand] = useState('');
     const [lastCommandOutput, setCommandOutput] = useState('cmd output\ncmd output2\ncmd output3\ncmd output4');
 
@@ -10,13 +12,23 @@ export default function WidgetShell() {
         setLastCommand(value);
     }
 
-    const checkSendCommand = (e) => {
+    const handleKeyUp = (e) => {
         if (e.key !== "Enter") {
             return;
         }
+        sendCommand()
+    }
 
+    /** */
+    const sendCommand = () => {
         console.log('Sending', lastCommand);
     }
+
+    // TODO: - Sub and listen?
+    const onOutputReceived = (output) => {
+        console.log('Received', output);
+    }
+    /** */
 
     /*
     const {
@@ -67,7 +79,7 @@ export default function WidgetShell() {
         gap: '0.1em'
     }}>
         <span>{rootFolder}:</span>
-        <input className="form-control" placeholder="Send command:" onChange={handleCommandChange} onKeyUp={checkSendCommand} value={lastCommand} />
+        <input className="form-control" placeholder="Send command:" onChange={handleCommandChange} onKeyUp={handleKeyUp} value={lastCommand} />
         <textarea className="form-control" style={{
             flexGrow: 1
         }} value={lastCommandOutput} readOnly />
