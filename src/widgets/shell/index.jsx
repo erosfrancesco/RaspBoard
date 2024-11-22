@@ -5,8 +5,17 @@ export default function WidgetShell() {
     const [lastCommand, setLastCommand] = useState('');
     const [lastCommandOutput, setCommandOutput] = useState('cmd output\ncmd output2\ncmd output3\ncmd output4');
 
-    const handleCommandSend = (command) => {
-        setLastCommand(command);
+    const handleCommandChange = (e) => {
+        const value = e.target.value;
+        setLastCommand(value);
+    }
+
+    const checkSendCommand = (e) => {
+        if (e.key !== "Enter") {
+            return;
+        }
+
+        console.log('Sending', lastCommand);
     }
 
     /*
@@ -58,9 +67,9 @@ export default function WidgetShell() {
         gap: '0.1em'
     }}>
         <span>{rootFolder}:</span>
-        <input className="form-control" placeholder="Send command:" onEnter={handleCommandSend} value={lastCommand} />
-        <textarea className="form-control" readOnly style={{
+        <input className="form-control" placeholder="Send command:" onChange={handleCommandChange} onKeyUp={checkSendCommand} value={lastCommand} />
+        <textarea className="form-control" style={{
             flexGrow: 1
-        }}>{lastCommandOutput}</textarea>
+        }} value={lastCommandOutput} readOnly />
     </div>
 }
