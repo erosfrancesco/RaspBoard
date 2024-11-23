@@ -53,7 +53,7 @@ export default function I2CSectionSetup() {
                     />
                 </td>
                 <td>
-                    <button type="button" className="btn btn-danger" onClick={actionDelete(i)}>X</button>
+                    <button type="button" className="btn btn-danger" onClick={actionDelete(i)}><i className="bi bi-x-lg" /></button>
                 </td>
             </tr>
             )}

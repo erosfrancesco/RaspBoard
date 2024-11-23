@@ -1,19 +1,23 @@
 import { useWidgetStore } from "store/widgets";
-import { widgetDefault, widgetMap } from "./widgetMap";
+import { widgetDefault, widgetMap } from "./widgetConfigs";
 import { useState } from "react";
+import DashboardWidgetConfigs from "./widgetConfigs/content";
 
 
 export function DashboardWidget({
-    className,
     children,
-    label,
+    label, widget,
     top, left,
     ...others
 }) {
-    const wrapperClassName = '' + (className ? " " + className : "");
+    const [showSettings, setShowSettings] = useState();
+
+    const handleConfigClick = () => {
+        setShowSettings(!showSettings)
+    }
 
     return (
-        <div className={wrapperClassName} style={{
+        <div style={{
             "display": "flex",
             "flexDirection": "column",
             "position": "absolute",
@@ -31,13 +35,19 @@ export function DashboardWidget({
 
         }} {...others}>
             <div className='row'>
-                <div>
-                    <h3 style={{
-                        "width": 'fit-content',
-                        "height": 'fit-content'
-                    }}>{label}</h3>
-                    {children}
+                <div style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center"
+                }}>
+                    <h3>{label}</h3>
+                    <h3 className="bi bi-gear-wide-connected btn" onClick={handleConfigClick} />
                 </div>
+                {showSettings
+                    ? <DashboardWidgetConfigs widget={widget} label={label} />
+                    : children
+                }
             </div>
         </div>
     );
@@ -71,10 +81,11 @@ export default function DashboardWidgets() {
 
     return <div>
         {widgets.map(({ widget, ...widgetProps }, i) => {
-            const content = widgetMap[widget] || widgetDefault;
+            const content = widgetMap[widget] || widgetMap[widgetDefault];
 
             return <DashboardWidget key={i}
                 draggable onDragStart={onDragStart} onDragEnd={onDragEnd(i)}
+                widget={widget || widgetDefault}
                 {...widgetProps}>
                 {content}
             </DashboardWidget>

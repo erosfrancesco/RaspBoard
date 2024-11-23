@@ -1,10 +1,9 @@
 import { useWidgetStore } from "store/widgets";
 
-import { widgetMap } from '../widgets/widgetMap'
+import { widgetMap } from '../widgets/widgetConfigs'
 
 export default function WidgetPanelWidgetSection() {
     const { widgets, setWidgets } = useWidgetStore();
-    console.log(widgets)
 
     const actionAdd = () => () => {
         setWidgets([...widgets, {
@@ -47,7 +46,9 @@ export default function WidgetPanelWidgetSection() {
                     </select>
                 </td>
                 <td>
-                    <button type="button" className="btn btn-danger" onClick={actionDelete(i)}>X</button>
+                    <button type="button" className="btn btn-danger" onClick={actionDelete(i)}>
+                        <i className="bi bi-x-lg" />
+                    </button>
                 </td>
             </tr>
             )}

@@ -36,34 +36,12 @@ export const useWidgetStore = create((set, get) => ({
     // METHODS
     setWidgets: (widgets) => set((state) => {
         const widgetsString = stringifyConfig(widgets);
-        return { ...state, widgets, widgetsString }
+        set((state) => ({ ...state, widgets, widgetsString }));
     }),
 
     setPosition: (i, top, left) => {
         const { widgets } = get();
         widgets[i] = { ...widgets[i], top, left };
         set((state) => ({ ...state, widgets }));
-    },
-
-    /*
-    addWidget: (name, type) => set((state) => {
-        const { widgets = {} } = state;
-        widgets[name] = { type }
-
-        return {
-            ...state,
-            widgets
-        }
-    }),
-
-    removeWidget: (name) => set((state) => {
-        const { widgets = {} } = state;
-        delete widgets[name];
-
-        return {
-            ...state,
-            widgets
-        }
-    }),
-    /** */
+    }
 }));
