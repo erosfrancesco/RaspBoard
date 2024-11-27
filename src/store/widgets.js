@@ -36,7 +36,7 @@ export const useWidgetStore = create((set, get) => ({
     // METHODS
     setWidgets: (widgets) => set((state) => {
         const widgetsString = stringifyConfig(widgets);
-        set((state) => ({ ...state, widgets, widgetsString }));
+        return { ...state, widgets, widgetsString }
     }),
 
     setPosition: (i, top, left) => {

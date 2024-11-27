@@ -1,6 +1,9 @@
 import { useState } from "react"
 
-export default function WidgetShell() {
+export default function WidgetShell({ ...configs } = {}) {
+
+    console.log('shell', configs);
+
     // TODO: - where this config?
     const [folder, setFolder] = useState('');
     //

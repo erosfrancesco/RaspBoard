@@ -2,7 +2,7 @@ import Accordion from "components/accordion";
 import { useWidgetStore } from "store/widgets";
 
 
-const PanelConfigTitle = ({ title, onLoad, onSave }) => {
+const PanelConfigTitle = ({ title, onPreview }) => {
     return <div style={{
         display: 'flex',
         justifyContent: 'space-between',
@@ -14,14 +14,11 @@ const PanelConfigTitle = ({ title, onLoad, onSave }) => {
             gap: '0.5em',
             display: 'flex',
         }}>
-            <button type="button" className="btn btn-secondary" onClick={(e) => {
-                e.stopPropagation();
-                onLoad();
-            }}>Load</button>
+
             <button type="button" className="btn btn-primary" onClick={(e) => {
                 e.stopPropagation();
-                onSave();
-            }}>Save</button>
+                onPreview();
+            }}>Preview</button>
         </div>
     </div>
 }
@@ -34,7 +31,7 @@ export default function WidgetPanelOptionSection() {
     } = useWidgetStore();
 
     //
-    const onWidgetsConfigSave = () => {
+    const onWidgetsConfigPreview = () => {
         const config = parse(widgetsString);
         setWidgets(config);
     }
@@ -54,7 +51,7 @@ export default function WidgetPanelOptionSection() {
             }}>Save to local</button>
         </div>
 
-        <Accordion title={<PanelConfigTitle title="Widgets" onLoad={() => { }} onSave={onWidgetsConfigSave} />}>
+        <Accordion title={<PanelConfigTitle title="Widgets" onPreview={onWidgetsConfigPreview} />}>
             <textarea type="textarea" className="form-control"
                 style={{
                     width: '100%',
