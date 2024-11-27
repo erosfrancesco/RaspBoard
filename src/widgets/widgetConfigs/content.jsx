@@ -1,34 +1,36 @@
-import { widgetDefault, configMap } from "./index";
+import { configMap } from "./index";
 import { useWidgetStore } from "store/widgets";
 import { useEffect, useState } from "react";
 
-export default function DashboardWidgetConfigs({ widget = widgetDefault, label = "" } = {}) {
-    const { widgets } = useWidgetStore();
-    const configs = configMap[widget] || [];
+export default function DashboardWidgetConfigs({ widget } = {}) {
+    const { label, widgetKey, index } = widget;
+    const { widgets, setWidgets } = useWidgetStore();
+    const configs = configMap[widgetKey] || [];
     const [values, setValues] = useState({});
 
     useEffect(() => {
-        const { label: placeholder, left, top, widget: a, ...initialConfigs } = widgets.find((item) => item.label === label && item.widget === widget) || {};
-        configs.map(({ defaultValue, label }) => { initialConfigs[label] = defaultValue; });
+        // default values
+        const { label: placeholder, left, top, widget: a, ...initialConfigs } = widgets.find((item) => item.label === label && item.widget === widgetKey) || {};
+        configs.map(({ defaultValue, label }) => { initialConfigs[label] = initialConfigs[label] || defaultValue; });
 
         setValues(initialConfigs);
+        saveValues();
     }, []);
 
     const saveValues = () => {
-        console.log('saving', values, 'for', label)
+        const updated = { ...widgets[index], ...values };
+        widgets[index] = updated;
+        setWidgets(widgets);
     }
 
 
     return <div className="column">
         {configs.map((config, i) => {
             const { label: placeholder, defaultValue, ...inputProps } = config;
-            console.log('k', values)
-
 
             const onChange = (e) => {
                 values[placeholder] = e.target.value;
                 setValues(values);
-                console.log('values', values)
             }
 
             const checkEnterPressed = (e) => {
@@ -42,7 +44,7 @@ export default function DashboardWidgetConfigs({ widget = widgetDefault, label =
                 placeholder={placeholder}
                 onChange={onChange}
                 onKeyUp={checkEnterPressed}
-                value={values[placeholder] || ""}
+                defaultValue={values[placeholder] || ""}
                 {...inputProps}
             />
         })}

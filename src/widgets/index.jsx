@@ -1,15 +1,15 @@
 import { useWidgetStore } from "store/widgets";
 import { widgetDefault, widgetMap } from "./widgetConfigs";
-import { useState } from "react";
+import React, { useState } from "react";
 import DashboardWidgetConfigs from "./widgetConfigs/content";
 
 
 export function DashboardWidget({
     children,
-    label, widget,
-    top, left,
+    widget,
     ...others
 }) {
+    const { top, left, label } = widget;
     const [showSettings, setShowSettings] = useState();
 
     const handleConfigClick = () => {
@@ -45,8 +45,8 @@ export function DashboardWidget({
                     <h3 className="bi bi-gear-wide-connected btn" onClick={handleConfigClick} />
                 </div>
                 {showSettings
-                    ? <DashboardWidgetConfigs widget={widget} label={label} />
-                    : children
+                    ? <DashboardWidgetConfigs widget={widget} />
+                    : React.cloneElement(children, { widget })
                 }
             </div>
         </div>
@@ -80,13 +80,13 @@ export default function DashboardWidgets() {
     }
 
     return <div>
-        {widgets.map(({ widget, ...widgetProps }, i) => {
-            const content = widgetMap[widget] || widgetMap[widgetDefault];
+        {widgets.map(({ widget: widgetKey, ...widgetProps }, i) => {
+            const content = widgetMap[widgetKey] || widgetMap[widgetDefault];
+            const widget = { widgetKey: widgetKey || widgetDefault, ...widgetProps, index: i };
 
             return <DashboardWidget key={i}
                 draggable onDragStart={onDragStart} onDragEnd={onDragEnd(i)}
-                widget={widget || widgetDefault}
-                {...widgetProps}>
+                widget={widget}>
                 {content}
             </DashboardWidget>
         })}

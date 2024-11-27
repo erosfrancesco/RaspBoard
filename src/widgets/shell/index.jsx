@@ -1,11 +1,7 @@
 import { useState } from "react"
 
-export default function WidgetShell({ ...configs } = {}) {
-
-    console.log('shell', configs);
-
-    // TODO: - where this config?
-    const [folder, setFolder] = useState('');
+export default function WidgetShell({ widget: configs } = {}) {
+    const [folder] = useState(configs.Folder || "");
     //
     const [lastCommand, setLastCommand] = useState('');
     const [lastCommandOutput, setCommandOutput] = useState('cmd output\ncmd output2\ncmd output3\ncmd output4');
@@ -40,7 +36,7 @@ export default function WidgetShell({ ...configs } = {}) {
         flexDirection: 'column',
         gap: '0.1em'
     }}>
-        <span>{folder}:</span>
+        <span>: {folder}</span>
         <input className="form-control" placeholder="Send command:" onChange={handleCommandChange} onKeyUp={handleKeyUp} value={lastCommand} />
         <textarea className="form-control" style={{
             flexGrow: 1
